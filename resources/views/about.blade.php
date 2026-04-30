@@ -1,115 +1,111 @@
 <x-app-layout>
-    <div class="bg-white">
-        <!-- Hero Section -->
-        <div class="relative bg-gray-900 overflow-hidden">
-            <div class="absolute inset-0">
-                <img class="w-full h-full object-cover opacity-30" src="https://images.unsplash.com/photo-1518384401463-d3876163c195?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Cosplay Background">
-                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-            </div>
-            <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
-                <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">About ECM Rent Coss</h1>
-                <p class="mt-6 text-xl text-gray-300 max-w-3xl">We bring your favorite characters to life. High-quality costumes, hygienic rental service, and a passionate community.</p>
-            </div>
-        </div>
+    <div class="min-h-screen bg-pink-100 font-sans text-gray-900 overflow-x-hidden">
 
-        <!-- Mission Section -->
-        <div class="py-16 bg-gray-50 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
-                    <div>
-                        <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Our Story</h2>
-                        <p class="mt-4 text-lg text-gray-500">
-                            Founded in 2023, ECM Rent Coss started with a simple mission: making high-quality cosplay accessible to everyone. We noticed that buying costumes can be expensive and maintaining them can be a hassle.
+        <!-- CONTENT AREA (Persis Gambar) -->
+        <div class="max-w-7xl mx-auto py-12 px-6 sm:px-8 lg:px-12">
+
+
+            <!-- About & Vision Section with Character (Anya Di Tengah, Besar, Setengah Badan) -->
+            <!-- MENUHIN BINGKAI: mt dilebihkan untuk ruang kepala mencuat, overflow-visible -->
+            <div class="relative bg-pink-200 mt-40 rounded-3xl pt-16 pb-0 px-12 flex items-center justify-between overflow-visible shadow-xl h-80 mb-20 border-4 border-white">
+                
+                <!-- About Yuika Rentcos Text (Kiri, relative z-10) -->
+                <div class="flex-1 text-left relative z-10 pr-24 pb-12">
+                    <h2 class="text-5xl font-extrabold text-black leading-tight">About <span class="text-pink-600">Yuika Rentcos</span></h2>
+                    <p class="mt-4 text-white text-lg opacity-95">Yuika Rentcos is a premium costume rental service born from the vibrant world of creativity and fandom. Established in 2024, we specialize in providing high-quality cosplay gear for enthusiasts who want to bring their favorite characters to life.</p>
+                </div>
+
+                <!-- Foto Karakter (Anya) - SETENGAH BADAN, TENGAH, BESAR, KELUAR ATAS -->
+                <!-- PERUBAHAN UTAMA: 
+                     - top-[-60%] (diangkat lebih tinggi agar bagian bawah terpotong bingkai).
+                     - h-[160%] (diperbesar agar tetap terlihat besar walau terpotong).
+                     - object-center (memastikan bagian wajah/tubuh atas tetap terlihat di tengah pemotongan).
+                -->
+                <img src="{{ asset('storage/conditions/aboutanya.png') }}" 
+                     alt="about anya" 
+                     class="absolute top-[-60%] left-1/2 -translate-x-1/2 h-[160%] w-auto object-cover object-center z-20">
+
+                <!-- Our Vision Text (Kanan, relative z-10) -->
+                <div class="flex-1 text-right relative z-10 pl-24 pb-12">
+                    <h2 class="text-5xl font-extrabold text-black leading-tight pr-6">Our <span class="text-pink-600">Vision</span></h2>
+                    <p class="mt-4 text-black text-lg opacity-95">To become a leading hub for the cosplay community where creativity knows no bounds. We aim to empower every individual to step into the spotlight and express themselves with confidence.</p>
+                </div>
+            </div>
+
+            <!-- Our Story Section (Tetap Sama) -->
+            <div class="mb-20">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                    <div class="text-left pr-6">
+                        <h2 class="text-4xl font-extrabold text-pink-600 sm:text-5xl">Our Story</h2>
+                        <p class="mt-6 text-xl text-gray-700 leading-relaxed">
+                            The story of Yuika Rentcos began when Friena Sellisya Saputri, then a freshman university student, decided to transform her deep-rooted passion for cosplay into a meaningful business. What started as a personal hobby evolved into a mission to make cosplay more accessible, affordable, and professional for everyone. As a student entrepreneur and a cosplayer herself, Friena understands the dedication it takes to portray a character. He founded Yuika Rentcos to bridge the gap between high-end costume quality and the budget-conscious needs of the local community.
                         </p>
-                        <p class="mt-4 text-lg text-gray-500">
-                            Today, we offer a curated collection of anime, game, and movie costumes. We pride ourselves on the cleanliness of our outfits and the ease of our rental process. Whether for a convention, photoshoot, or party, we have you covered.
+                    </div>
+                    <!-- Foto Studio/Cosplay (Dipepetkan ke kanan bingkai) -->
+                    <div class="mt-12 lg:mt-0 relative overflow-hidden flex items-end h-96">
+                         <img src="{{ asset('storage/conditions/AYAKA.jpg') }}" 
+                              alt="Our Studio" 
+                              class="relative rounded-3xl shadow-xl w-full h-full object-cover z-10 group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Us Section (Tetap Sama) -->
+            <div class="py-16 mb-20 bg-pink-50 rounded-3xl shadow-inner px-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-black sm:text-5xl sm:tracking-tight lg:text-6xl">Why <span class="text-pink-100">Choose Us?</span></h2>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Curated Collections -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg group hover:shadow-2xl transition border border-pink-100 overflow-hidden relative">
+                        <div class="flex items-center justify-center p-4 bg-pink-500 rounded-md shadow-lg mb-6 w-16 h-16 mx-auto">
+                            <i class="fas fa-heart text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-pink-600 tracking-tight text-center mb-4">Curated Collections</h3>
+                        <p class="text-lg text-gray-700 text-center leading-relaxed">
+                            Every costume is handpicked and maintained with the highest standards of cleanliness and detail.
                         </p>
                     </div>
-                    <div class="mt-8 lg:mt-0 relative">
-                        <div class="absolute inset-0 flex items-center justify-center transform -translate-x-4 translate-y-4">
-                             <div class="w-full h-full bg-pink-200 rounded-3xl opacity-50"></div>
+
+                    <!-- By Cosplayers, For Cosplayers (Icon User) -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg group hover:shadow-2xl transition border border-pink-100 overflow-hidden relative">
+                        <div class="flex items-center justify-center p-4 bg-pink-500 rounded-md shadow-lg mb-6 w-16 h-16 mx-auto">
+                            <i class="fas fa-users text-white text-3xl"></i>
                         </div>
-                        <img class="relative rounded-3xl shadow-xl w-full object-cover" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Our Studio">
+                        <h3 class="text-2xl font-bold text-pink-600 tracking-tight text-center mb-4">By Cosplayers, For Cosplayers</h3>
+                        <p class="text-lg text-gray-700 text-center leading-relaxed">
+                            Since we are part of the community, we know exactly what you need—from the right wig styling to the essential accessories.
+                        </p>
+                    </div>
+
+                    <!-- Student-Driven Spirit -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg group hover:shadow-2xl transition border border-pink-100 overflow-hidden relative">
+                        <div class="flex items-center justify-center p-4 bg-pink-500 rounded-md shadow-lg mb-6 w-16 h-16 mx-auto">
+                            <i class="fas fa-sparkles text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-pink-600 tracking-tight text-center mb-4">Student-Driven Spirit</h3>
+                        <p class="text-lg text-gray-700 text-center leading-relaxed">
+                            We represent the energy and innovation of the younger generation, constantly updating our catalog with the latest trending characters from anime, manga, and games.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Values Section -->
-        <div class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-base font-semibold text-pink-600 tracking-wide uppercase">Core Values</h2>
-                    <p class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">Why we do it</p>
-                </div>
-                <div class="mt-12">
-                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                        <div class="pt-6">
-                            <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
-                                <div class="-mt-6">
-                                    <div>
-                                        <span class="inline-flex items-center justify-center p-3 bg-pink-500 rounded-md shadow-lg">
-                                            <i class="fas fa-heart text-white text-xl"></i>
-                                        </span>
-                                    </div>
-                                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Passion First</h3>
-                                    <p class="mt-5 text-base text-gray-500">
-                                        We are cosplayers serving cosplayers. We understand the details that matter because we love this culture as much as you do.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pt-6">
-                            <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
-                                <div class="-mt-6">
-                                    <div>
-                                        <span class="inline-flex items-center justify-center p-3 bg-pink-500 rounded-md shadow-lg">
-                                            <i class="fas fa-sparkles text-white text-xl"></i>
-                                        </span>
-                                    </div>
-                                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Quality & Hygiene</h3>
-                                    <p class="mt-5 text-base text-gray-500">
-                                        Every costume is professionally cleaned and inspected after every use. You receive it ready to wear and smelling fresh.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pt-6">
-                            <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
-                                <div class="-mt-6">
-                                    <div>
-                                        <span class="inline-flex items-center justify-center p-3 bg-pink-500 rounded-md shadow-lg">
-                                            <i class="fas fa-users text-white text-xl"></i>
-                                        </span>
-                                    </div>
-                                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Community</h3>
-                                    <p class="mt-5 text-base text-gray-500">
-                                        We support the local community through events, workshops, and providing a platform for cosplayers to shine.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- FOOTER MEDIA SOCIAL (Tetap Sama) -->
+            <footer class="bg-white px-6 py-6 border-t border-pink-200 mt-auto flex justify-center gap-12 text-sm text-pink-600">
+            <div class="flex items-center gap-2">
+                <i class="fab fa-instagram text-xl"></i> @YUIKA.RENTCOS
             </div>
-        </div>
-
-        <!-- CTA Section -->
-        <div class="bg-pink-600">
-            <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                    <span class="block">Ready to transform?</span>
-                    <span class="block">Explore our catalog today.</span>
-                </h2>
-                <p class="mt-4 text-lg leading-6 text-pink-100">
-                    Find the perfect character for your next event without breaking the bank.
-                </p>
-                <a href="{{ route('user.catalog.index') }}" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-pink-600 bg-white hover:bg-gray-50 sm:w-auto">
-                    Browse Costumes
-                </a>
+            <div class="flex items-center gap-2">
+                <i class="fab fa-tiktok text-xl"></i> YUMICOS
             </div>
-        </div>
-    </div>
+            </footer>
+
+        </div> <!-- End of Content Area -->
+    </div> <!-- End of Page Layout Div -->
 </x-app-layout>
+
+<style>
+    /* Global scrollbar hiding is not included, assuming x-app-layout handles it if needed */
+</style>

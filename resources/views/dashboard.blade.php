@@ -1,238 +1,251 @@
 <x-app-layout>
-    <div class="pb-20 sm:py-12 bg-gray-50 min-h-screen">
-        <!-- Header Section (Mobile) -->
-        <div class="bg-white p-4 sm:hidden sticky top-0 z-40 shadow-sm">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center space-x-3">
-                    @auth
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0D8ABC&color=fff" class="h-10 w-10 rounded-full border-2 border-pink-100">
-                        <div>
-                            <p class="text-xs text-gray-500">Hello, Cosplayer!</p>
-                            <h3 class="font-bold text-gray-900 leading-none truncate w-32">{{ Auth::user()->name }}</h3>
-                        </div>
-                    @else
-                        <!-- Guest View -->
-                        <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-400">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-gray-500">Welcome to ECM!</p>
-                            <a href="{{ route('login') }}" class="font-bold text-pink-600 leading-none text-sm hover:underline">
-                                Login / Register
-                            </a>
-                        </div>
-                    @endauth
-                </div>
-                <div class="flex space-x-2">
-                    <button class="p-2 rounded-full bg-gray-100 text-gray-600 relative">
-                        <i class="far fa-bell"></i>
-                        @auth
-                        <span class="absolute top-1 right-2 h-2 w-2 rounded-full bg-red-500 block border-2 border-white"></span>
-                        @endauth
-                    </button>
-                    <a href="{{ route('user.cart.index') }}" class="p-2 rounded-full bg-gray-100 text-gray-600">
-                        <i class="fas fa-shopping-bag"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="relative">
-                <input type="text" placeholder="Cari Kostum..." class="w-full bg-gray-100 border-none rounded-2xl py-3 pl-10 pr-10 text-sm focus:ring-2 focus:ring-pink-300 transition-all">
-                <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
-                <button class="absolute right-2 top-2 p-1.5 bg-pink-500 text-white rounded-xl shadow-md">
-                    <i class="fas fa-sliders-h text-xs"></i>
-                </button>
-            </div>
-        </div>
+  <div class="min-h-screen bg-pink-100 font-sans text-gray-900 overflow-x-hidden">
+   
+   
+<div class="relative bg-pink-200 mt-24 mx-6 rounded-3xl pt-12 pb-0 px-12 flex items-center justify-between overflow-visible shadow-xl h-64">
+  
+ 
+  <img src="{{ asset('storage/conditions/Hitori_Goto-removebg-preview.png') }}" 
+       alt="Hitori Goto" 
+       class="absolute left-10 bottom-0 h-[130%] w-auto object-cover object-bottom z-20">
 
-        <!-- Desktop Header (Keep simple) -->
-        <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Dashboard') }}
-            </h2>
-        </x-slot>
+  <!-- Konten Teks Tengah: relative z-10 agar di atas bingkai dan di bawah foto mencuat, mx-32 agar tidak tertutup foto -->
+  <div class="flex-1 text-center relative z-10 mx-32">
+    <h1 class="text-5xl font-extrabold text-white leading-tight">WELCOME, USERNAME</h1>
+    <p class="text-white text-lg mt-2 opacity-90">GET 50% OFF YOUR FIRST RENTAL LIMITED TIME OFFER.</p>
+    <button class="mt-6 bg-white text-pink-600 px-8 py-3 rounded-full font-bold text-sm hover:bg-pink-50 transition transform hover:-translate-y-1 shadow-md">
+      CLAIM NOW
+    </button>
+  </div>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 mt-4 sm:mt-0">
-            
-            <!-- Promo Banner -->
-            <div class="relative rounded-3xl overflow-hidden bg-gray-800 h-48 sm:h-64 shadow-xl mb-8 group">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition duration-700">
-                <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-transparent to-transparent"></div>
-                <div class="absolute inset-0 p-6 flex flex-col justify-center items-start">
-                    <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded mb-2 uppercase tracking-wide">Promo</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-1 leading-tight">Welcome <br>Discount</h2>
-                    <p class="text-gray-300 text-sm mb-4 max-w-xs">Get 50% off your first rental limited time offer.</p>
-                    <button class="bg-white text-gray-900 px-6 py-2 rounded-full font-bold text-sm hover:bg-pink-50 transition transform hover:-translate-y-1 shadow-lg">
-                        Claim Now
-                    </button>
-                </div>
-            </div>
+  <!-- FOTO KANAN DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+  <!-- Foto Kanan (Anya Forger - Spy x Family): absolute, right-0 agar mepet ke kanan bingkai, bottom-0 agar menempel bawah, tinggi h-[130%] agar mencuat ke atas, object-cover object-bottom agar proporsional -->
+  <!-- Perubahan utama: right-10 diubah menjadi right-0 -->
+  <img src="{{ asset('storage/conditions/Spy_x_family-removebg-preview.png') }}" 
+       alt="Spy x Family" 
+       class="absolute right-0 bottom-0 h-[130%] w-auto object-cover object-bottom z-20">
+</div>
 
-            <!-- Features / Why Choose Us -->
-            <div class="grid grid-cols-3 gap-4 mb-8">
-                <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                    <div class="w-10 h-10 mx-auto bg-pink-100 rounded-full flex items-center justify-center text-pink-600 mb-2">
-                        <i class="fas fa-tshirt"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-900 text-xs sm:text-sm">Premium Quality</h4>
-                </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                    <div class="w-10 h-10 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mb-2">
-                        <i class="fas fa-soap"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-900 text-xs sm:text-sm">Hygienicized</h4>
-                </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                    <div class="w-10 h-10 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                        <i class="fas fa-truck-fast"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-900 text-xs sm:text-sm">Fast Delivery</h4>
-                </div>
-            </div>
-
-            <!-- Categories -->
-            <div class="mb-8">
-                <div class="flex justify-between items-end mb-4">
-                    <h3 class="font-bold text-lg text-gray-900">Categories</h3>
-                    <a href="{{ route('user.catalog.index') }}" class="text-pink-500 text-sm font-semibold">See all</a>
-                </div>
-                <div class="flex space-x-3 overflow-x-auto pb-4 no-scrollbar">
-                    <button class="flex-shrink-0 px-6 py-2.5 bg-pink-500 text-white rounded-full text-sm font-medium shadow-md">
-                        <i class="fas fa-sparkles mr-1"></i> All
-                    </button>
-                    <button class="flex-shrink-0 px-6 py-2.5 bg-white text-gray-600 border border-gray-100 rounded-full text-sm font-medium shadow-sm whitespace-nowrap">
-                        ⚡ Genshin
-                    </button>
-                     <button class="flex-shrink-0 px-6 py-2.5 bg-white text-gray-600 border border-gray-100 rounded-full text-sm font-medium shadow-sm whitespace-nowrap">
-                        ❤️ Spy x Family
-                    </button>
-                     <button class="flex-shrink-0 px-6 py-2.5 bg-white text-gray-600 border border-gray-100 rounded-full text-sm font-medium shadow-sm whitespace-nowrap">
-                        🚀 Star Rail
-                    </button>
-                </div>
-            </div>
-
-            <!-- New Arrivals (Horizontal Scroll) -->
-            <div class="mb-8">
-                <h3 class="font-bold text-lg text-gray-900 mb-4">New Arrivals 🔥</h3>
-                <div class="flex space-x-4 overflow-x-auto pb-4 no-scrollbar snap-x">
-                    @forelse($newArrivals as $asset)
-                    <div class="snap-center shrink-0 w-40 bg-white rounded-xl p-2 shadow-sm hover:shadow-md transition group relative">
-                        <a href="{{ route('user.rentals.create', ['asset_id' => $asset->id]) }}" class="absolute inset-0 z-10"></a>
-                        <div class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden bg-gray-200 mb-2">
-                             @if($asset->latestCondition && $asset->latestCondition->image)
-                                <img src="{{ Storage::url($asset->latestCondition->image) }}" class="object-cover w-full h-full group-hover:scale-105 transition duration-500">
-                             @else
-                                <div class="flex items-center justify-center h-full text-gray-300">
-                                    <i class="fas fa-image"></i>
-                                </div>
-                             @endif
-                        </div>
-                        <h4 class="font-bold text-gray-800 text-sm truncate">{{ $asset->name }}</h4>
-                        <p class="text-xs text-gray-500 mb-1">{{ $asset->category->name ?? 'Costume' }}</p>
-                        <span class="text-pink-600 font-bold text-xs">Rp {{ number_format($asset->price_per_day, 0, ',', '.') }}</span>
-                    </div>
-                    @empty
-                    <div class="col-span-full p-4 text-center text-gray-500 text-sm w-full">
-                        Belum ada kostum baru.
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-            <!-- Popular Costumes -->
-            <div class="mb-8">
-                <h3 class="font-bold text-lg text-gray-900 mb-4">Popular Costumes</h3>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    @forelse($popularAssets as $asset)
-                    <div class="bg-white rounded-2xl p-3 shadow-sm hover:shadow-md transition relative group">
-                        <a href="{{ route('user.rentals.create', ['asset_id' => $asset->id]) }}" class="absolute inset-0 z-10"></a>
-                        <div class="relative mb-3">
-                            <div class="aspect-w-3 aspect-h-4 bg-gray-200 rounded-xl overflow-hidden relative">
-                                 @if($asset->latestCondition && $asset->latestCondition->image)
-                                    <img src="{{ Storage::url($asset->latestCondition->image) }}" class="object-cover w-full h-full group-hover:scale-105 transition duration-500">
-                                 @else
-                                    <div class="flex items-center justify-center h-full text-gray-300">
-                                        <i class="fas fa-image fa-2x"></i>
-                                    </div>
-                                 @endif
-                            </div>
-                            @if($asset->stock_qty > 0)
-                                <span class="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md z-20">READY</span>
-                            @else
-                                <span class="absolute top-2 left-2 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md z-20">RENTED</span>
-                            @endif
-                            
-                            <button class="absolute top-2 right-2 h-7 w-7 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-pink-500 transition shadow-sm z-20 relative">
-                                <i class="far fa-heart text-xs"></i>
-                            </button>
-                        </div>
-                        <h4 class="font-bold text-gray-900 truncate">{{ $asset->name }}</h4>
-                        <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
-                            <span>{{ $asset->category->name ?? 'Anime' }}</span>
-                             <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star mr-1"></i> 5.0
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-pink-600 font-bold block text-sm">Rp {{ number_format($asset->price_per_day/1000, 0) }}rb</span>
-                                <span class="text-gray-400 text-[10px]">/Day</span>
-                            </div>
-                            <button class="h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-900 hover:bg-pink-500 hover:text-white transition z-20 relative">
-                                <i class="fas fa-shopping-bag text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                    @empty
-                    <div class="col-span-full py-8 text-center text-gray-500">
-                        Belum ada kostum populer.
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-             <!-- Community / Testimonials -->
-             <div class="mb-8">
-                <h3 class="font-bold text-lg text-gray-900 mb-4">Community Love 💬</h3>
-                <div class="bg-white rounded-3xl p-6 shadow-sm">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2 overflow-hidden">
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
-                        </div>
-                        <p class="text-sm text-gray-500">Joined by 100+ Cosplayers</p>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-gray-50 p-4 rounded-xl">
-                            <p class="text-gray-700 italic text-sm">"Kostumnya wangi banget dan bersih! Suka banget sewa di sini."</p>
-                             <div class="flex items-center mt-2">
-                                <span class="text-xs font-bold text-gray-900">- Sarah, Jakarta</span>
-                                <div class="ml-auto text-yellow-400 text-xs">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full mt-4 py-3 border border-pink-200 text-pink-600 rounded-xl font-bold text-sm hover:bg-pink-50 transition">
-                        Read More Stories
-                    </button>
-                </div>
-            </div>
-        </div>
+    <!-- Info Section (Tetap Sama) -->
+    <div class="grid grid-cols-3 gap-8 mx-6 mt-12 mb-16">
+      <div class="text-center">
+        <h3 class="text-2xl font-bold text-pink-600 mb-3">READ RULES</h3>
+        <p class="text-gray-700 text-sm leading-relaxed px-4">
+          Please read the terms and conditions carefully before renting (see instagram or before checkout). Follow the restrictions. Please ask for permission to do certain things related to the costume. Violations will result in the agreed-upon sanctions.
+        </p>
+      </div>
+      <div class="text-center border-x-2 border-pink-200">
+        <h3 class="text-2xl font-bold text-pink-600 mb-3">ASK AVAILABLE</h3>
+        <p class="text-gray-700 text-sm leading-relaxed px-4">
+          Please inquire about availability on specific dates or check the costume details page. Complete the required documentation to secure your rental. Complete documentation and requirements will ensure prompt approval.
+        </p>
+      </div>
+      <div class="text-center">
+        <h3 class="text-2xl font-bold text-pink-600 mb-3">HAPPY COSPLAY</h3>
+        <p class="text-gray-700 text-sm leading-relaxed px-4">
+          If all requirements have been approved, proceed with payment via the available e-wallet. Shipping costs are covered by the renter (COD). Rentals are calculated from Friday to Saturday, costest, event week, and return Monday. Happy cosplay!
+        </p>
+      </div>
     </div>
+
+    <!-- Most Rented Section -->
+    <div class="max-w-[1400px] mx-auto mb-20 relative px-12">
+      <div class="flex items-center gap-4 mb-10 px-6">
+        <div class="w-2 h-10 bg-pink-600 rounded"></div>
+        <h2 class="text-4xl font-extrabold text-pink-600">MOST RENTED</h2>
+      </div>
+
+      <!-- Carousel Container -->
+      <div class="flex items-center gap-10 overflow-x-auto p-10 no-scrollbar snap-x snap-mandatory rounded-xl bg-pink-50 shadow-inner">
+       
+        <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+        <!-- Foto Kostum 1 (Kiri) -->
+        <!-- MENUHIN BINGKAI: Hapus p-6, flex-col, items-center. Tambah overflow-hidden, relative, aspect. -->
+        <div class="snap-center shrink-0 w-[28%] bg-white rounded-2xl shadow-lg transition-all duration-300 transform scale-95 opacity-80 group hover:scale-100 hover:opacity-100 overflow-hidden relative aspect-[3/4]">
+          <!-- FOTO FULL: absolute inset-0, object-cover -->
+          <img src="{{ asset('storage/conditions/Spy x family.jpg') }}" alt="Anya Forger" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+          <!-- Teks & Tombol di atas foto -->
+          <div class="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col items-center">
+            <h4 class="text-xl font-bold text-white self-start">ANYA FORGER</h4>
+            <p class="text-gray-200 font-medium text-xs self-start">SPY X FAMILY</p>
+            <button class="mt-5 w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold text-xs hover:bg-red-700 transition shadow-md">DETAIL</button>
+          </div>
+        </div>
+
+        <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+        <!-- Foto Kostum 2 (Tengah, Terpopuler) -->
+        <!-- MENUHIN BINGKAI: Hapus p-8, flex-col, items-center. Tambah overflow-hidden, relative, aspect. border-pink-400 tetap ada. -->
+        <div class="snap-center shrink-0 w-[36%] bg-white rounded-3xl shadow-2xl border-4 border-pink-400 transition-all duration-500 transform scale-105 group relative overflow-hidden flex items-center aspect-[3/4.5]">
+          <!-- Efek Glow Pink Tipis (z-10 agar di atas foto) -->
+          <div class="absolute -inset-2 bg-pink-100 opacity-20 group-hover:opacity-30 transition rounded-3xl z-10"></div>
+          
+          <!-- FOTO FULL: absolute inset-0, object-cover -->
+          <img src="{{ asset('storage/conditions/firefly.jpg') }}" alt="Firefly" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
+
+          <!-- Teks & Tombol di atas foto -->
+          <div class="relative z-20 w-full p-8 mt-auto flex flex-col items-center">
+            <h4 class="text-2xl font-bold text-white self-start">FIREFLY</h4>
+            <p class="text-gray-100 font-medium text-base mb-1 self-start">HONKAI STAR RAIL</p>
+            <button class="mt-5 w-full bg-red-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-red-700 transition shadow-lg">DETAIL</button>
+          </div>
+        </div>
+
+        <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+        <!-- Foto Kostum 3 (Kanan) -->
+        <!-- MENUHIN BINGKAI: Hapus p-6, flex-col, items-center. Tambah overflow-hidden, relative, aspect. -->
+        <div class="snap-center shrink-0 w-[28%] bg-white rounded-2xl shadow-lg transition-all duration-300 transform scale-95 opacity-80 group hover:scale-100 hover:opacity-100 overflow-hidden relative aspect-[3/4]">
+          <!-- FOTO FULL: absolute inset-0, object-cover -->
+          <img src="{{ asset('storage/conditions/Navia.jpg') }}" alt="Navia" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+          <!-- Teks & Tombol di atas foto -->
+          <div class="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col items-center">
+            <h4 class="text-xl font-bold text-white self-start">NAVIA</h4>
+            <p class="text-gray-200 font-medium text-xs self-start">GENSHIN IMPACT</p>
+            <button class="mt-5 w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold text-xs hover:bg-red-700 transition shadow-md">DETAIL</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Carousel Buttons (Tetap Sama) -->
+      <button class="absolute left-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/70 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-pink-600 text-xl hover:bg-white transition z-20">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="absolute right-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/70 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-pink-600 text-xl hover:bg-white transition z-20">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- New Arrivals Section -->
+    <div class="max-w-[1400px] mx-auto mb-20 relative px-12">
+      <div class="flex items-center gap-4 mb-10 px-6">
+        <div class="w-2 h-10 bg-pink-600 rounded"></div>
+        <h2 class="text-4xl font-extrabold text-pink-600">NEW ARRIVALS</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+        <!-- Foto Kostum Baru 1 (Keqing) -->
+        <!-- MENUHIN BINGKAI: Hapus p-5, border. Tambah overflow-hidden, relative, aspect. -->
+        <div class="bg-white rounded-2xl shadow-lg group hover:shadow-2xl transition overflow-hidden relative aspect-[3/4]">
+          <!-- FOTO FULL: absolute inset-0, object-cover. Hapus rounded, mb-4 -->
+          <img src="{{ asset('storage/conditions/keqing.jpg') }}" alt="Keqing" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+          <!-- Teks & Tombol di atas foto -->
+          <div class="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col items-center">
+            <h4 class="text-lg font-bold text-white self-start">KEQING</h4>
+            <p class="text-gray-200 font-medium text-xs self-start">GENSHIN IMPACT</p>
+            <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-red-700 transition">DETAIL</button>
+          </div>
+        </div>
+
+        <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+        <!-- Foto Kostum Baru 2 (Frieren) -->
+        <!-- MENUHIN BINGKAI: Hapus p-5, border. Tambah overflow-hidden, relative, aspect. -->
+        <div class="bg-white rounded-2xl shadow-lg group hover:shadow-2xl transition overflow-hidden relative aspect-[3/4]">
+          <!-- FOTO FULL: absolute inset-0, object-cover. Hapus rounded, mb-4 -->
+          <img src="{{ asset('storage/conditions/frieren.jpg') }}" alt="Frieren" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+          <!-- Teks & Tombol di atas foto -->
+          <div class="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col items-center">
+            <h4 class="text-lg font-bold text-white self-start">FRIEREN</h4>
+            <p class="text-gray-200 font-medium text-xs self-start">BEYOND THE JOURNEY'END</p>
+            <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-red-700 transition">DETAIL</button>
+          </div>
+        </div>
+
+        <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+        <!-- Foto Kostum Baru 3 (Elaina) -->
+        <!-- MENUHIN BINGKAI: Hapus p-5, border. Tambah overflow-hidden, relative, aspect. -->
+        <div class="bg-white rounded-2xl shadow-lg group hover:shadow-2xl transition overflow-hidden relative aspect-[3/4]">
+          <!-- FOTO FULL: absolute inset-0, object-cover. Hapus rounded, mb-4 -->
+          <img src="{{ asset('storage/conditions/elaina.jpg') }}" alt="Elaina" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+          <!-- Teks & Tombol di atas foto -->
+          <div class="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col items-center">
+            <h4 class="text-lg font-bold text-white self-start">ELAINA</h4>
+            <p class="text-gray-200 font-medium text-xs self-start">WANDERING WITCH</p>
+            <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-red-700 transition">DETAIL</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimony Section (Tetap Sama) -->
+    <div class="max-w-[1400px] mx-auto mb-20 relative px-12">
+      <div class="flex items-center gap-4 mb-10 px-6">
+        <div class="w-2 h-10 bg-pink-600 rounded"></div>
+        <h2 class="text-4xl font-extrabold text-pink-600">TESTIMONY</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8">
+        <!-- Testimony Card 1 -->
+        <div class="bg-white rounded-2xl p-6 shadow-md flex gap-4 items-center border border-pink-100">
+          <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+          <img src="{{ asset('storage/conditions/elaina.jpg') }}" alt="Elaina User" class="w-20 h-20 rounded-full border-4 border-pink-200 object-cover flex-shrink-0">
+          <div>
+            <h5 class="text-lg font-bold text-pink-600">ELAINA</h5>
+            <div class="flex items-center text-yellow-400 mb-2">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="text-sm text-gray-700 leading-relaxed italic">"Kostumnya wangi dan cakep, pokonya rekomen disini"</p>
+          </div>
+        </div>
+
+        <!-- Testimony Card 2 -->
+        <div class="bg-white rounded-2xl p-6 shadow-md flex gap-4 items-center border border-pink-100">
+          <!-- FOTO DIPERBAIKI: Gunakan {{ asset('storage/...') }} -->
+          <img src="{{ asset('storage/conditions/elaina.jpg') }}" alt="Elaina User" class="w-20 h-20 rounded-full border-4 border-pink-200 object-cover flex-shrink-0">
+          <div>
+            <h5 class="text-lg font-bold text-pink-600">ELAINA</h5>
+            <div class="flex items-center text-yellow-400 mb-2">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="text-sm text-gray-700 leading-relaxed italic">"Kostumnya wangi dan cakep, pokonya rekomen disini"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer (Tetap Sama) -->
+    <footer class="bg-white px-6 py-6 border-t border-pink-200 mt-auto flex justify-center gap-12 text-sm text-pink-600">
+      <div class="flex items-center gap-2">
+        <i class="fab fa-instagram text-xl"></i> @YUIKA.RENTCOS
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="fab fa-tiktok text-xl"></i> YUMICOS
+      </div>
+    </footer>
+
+  </div>
 </x-app-layout>
 
 <style>
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
+  /* Hide scrollbar for smooth carousel scrolling */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 </style>
