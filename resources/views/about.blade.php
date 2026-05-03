@@ -7,26 +7,29 @@
 
             <!-- About & Vision Section with Character (Anya Di Tengah, Besar, Setengah Badan) -->
             <!-- MENUHIN BINGKAI: mt dilebihkan untuk ruang kepala mencuat, overflow-visible -->
-            <div class="relative bg-pink-200 mt-40 rounded-3xl pt-16 pb-0 px-12 flex items-center justify-between overflow-visible shadow-xl h-80 mb-20 border-4 border-white">
+            <!-- PERUBAHAN: Gedein dikit layout kotaknya dengan h-96 (dari h-80) dan py-20 (dari pt-16 pb-0) -->
+            <div class="relative bg-pink-200 mt-40 rounded-3xl py-20 px-12 flex items-center justify-between overflow-visible shadow-xl h-96 mb-20 border-4 border-white">
                 
                 <!-- About Yuika Rentcos Text (Kiri, relative z-10) -->
-                <div class="flex-1 text-left relative z-10 pr-24 pb-12">
+                <!-- PERUBAHAN: pr-32 (dari pr-24) untuk memberi jarak lebih ke gambar -->
+                <div class="flex-1 text-left relative z-10 pr-32 pb-12">
                     <h2 class="text-5xl font-extrabold text-black leading-tight">About <span class="text-pink-600">Yuika Rentcos</span></h2>
                     <p class="mt-4 text-white text-lg opacity-95">Yuika Rentcos is a premium costume rental service born from the vibrant world of creativity and fandom. Established in 2024, we specialize in providing high-quality cosplay gear for enthusiasts who want to bring their favorite characters to life.</p>
                 </div>
 
                 <!-- Foto Karakter (Anya) - SETENGAH BADAN, TENGAH, BESAR, KELUAR ATAS -->
-                <!-- PERUBAHAN UTAMA: 
-                     - top-[-60%] (diangkat lebih tinggi agar bagian bawah terpotong bingkai).
-                     - h-[160%] (diperbesar agar tetap terlihat besar walau terpotong).
-                     - object-center (memastikan bagian wajah/tubuh atas tetap terlihat di tengah pemotongan).
+                <!-- PERUBAHAN UTAMA: 
+                     - top-[-50%] diangkat lebih tinggi agar pas dengan kotak yang lebih besar dan kepala tetap mencuat.
+                     - h-[150%] diperbesar ukurannya sesuai proporsi kotak baru.
+                     - object-center memastikan bagian wajah/tubuh atas tetap terlihat di tengah pemotongan.
                 -->
                 <img src="{{ asset('storage/conditions/aboutanya.png') }}" 
                      alt="about anya" 
-                     class="absolute top-[-60%] left-1/2 -translate-x-1/2 h-[160%] w-auto object-cover object-center z-20">
+                     class="absolute top-[-50%] left-1/2 -translate-x-1/2 h-[150%] w-auto object-cover object-center z-20">
 
                 <!-- Our Vision Text (Kanan, relative z-10) -->
-                <div class="flex-1 text-right relative z-10 pl-24 pb-12">
+                <!-- PERUBAHAN: pl-32 (dari pl-24) untuk memberi jarak lebih ke gambar -->
+                <div class="flex-1 text-right relative z-10 pl-32 pb-12">
                     <h2 class="text-5xl font-extrabold text-black leading-tight pr-6">Our <span class="text-pink-600">Vision</span></h2>
                     <p class="mt-4 text-black text-lg opacity-95">To become a leading hub for the cosplay community where creativity knows no bounds. We aim to empower every individual to step into the spotlight and express themselves with confidence.</p>
                 </div>
@@ -53,7 +56,7 @@
             <!-- Why Choose Us Section (Tetap Sama) -->
             <div class="py-16 mb-20 bg-pink-50 rounded-3xl shadow-inner px-12">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl font-extrabold text-black sm:text-5xl sm:tracking-tight lg:text-6xl">Why <span class="text-pink-100">Choose Us?</span></h2>
+                    <h2 class="text-4xl font-extrabold text-black sm:text-5xl sm:tracking-tight lg:text-6xl">Why <span class="text-pink-600">Choose Us?</span></h2>
                 </div>
                 
                 <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
@@ -92,15 +95,15 @@
                 </div>
             </div>
 
-            <!-- FOOTER MEDIA SOCIAL (Tetap Sama) -->
-            <footer class="bg-white px-6 py-6 border-t border-pink-200 mt-auto flex justify-center gap-12 text-sm text-pink-600">
-            <div class="flex items-center gap-2">
-                <i class="fab fa-instagram text-xl"></i> @YUIKA.RENTCOS
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fab fa-tiktok text-xl"></i> YUMICOS
-            </div>
-            </footer>
+    <!-- Footer (Tetap Sama) -->
+    <footer class="bg-white px-6 py-6 border-t border-pink-200 mt-auto flex justify-center gap-12 text-sm text-pink-600">
+      <div class="flex items-center gap-2">
+        <i class="fab fa-instagram text-xl"></i> @YUIKA.RENTCOS
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="fab fa-tiktok text-xl"></i> YUMICOS
+      </div>
+    </footer>
 
         </div> <!-- End of Content Area -->
     </div> <!-- End of Page Layout Div -->
