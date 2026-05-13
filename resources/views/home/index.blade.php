@@ -1,190 +1,204 @@
-@extends('layouts.public')
+<div class="relative bg-pink-200 mt-24 mx-6 rounded-3xl pt-12 pb-0 px-12 flex items-center justify-between overflow-visible shadow-xl h-64">
+  <img src="{{ asset('storage/conditions/Hitori_Goto-removebg-preview.png') }}" 
+       alt="Hitori Goto" 
+       class="absolute left-10 bottom-0 h-[130%] w-auto object-cover object-bottom z-20">
 
-@section('content')
-<!-- Hero Section -->
-<div class="relative bg-gray-900 pt-16 min-h-screen flex items-center justify-center overflow-hidden">
-    <!-- Gradient Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-pink-900 opacity-90 z-0"></div>
-    
-    <!-- Hero Image Background (Optional, using gradient priority) -->
-    <div class="absolute inset-0 z-0">
-        {{-- Hero Image can go here if provided, keeping it clean for now --}}
-    </div>
+  <!-- Konten Teks Tengah: relative z-10 agar di atas bingkai dan di bawah foto mencuat, mx-32 agar tidak tertutup foto -->
+  <div class="flex-1 text-center relative z-10 mx-32">
+    <h1 class="text-5xl font-extrabold text-white leading-tight">WELCOME, {{ auth()->check() ? strtoupper(auth()->user()->name) : 'GUEST' }}</h1>
+    <p class="text-white text-lg mt-2 opacity-90">GET 50% OFF YOUR FIRST RENTAL LIMITED TIME OFFER.</p>
+    <button class="mt-6 bg-white text-pink-600 px-8 py-3 rounded-full font-bold text-sm hover:bg-pink-50 transition transform hover:-translate-y-1 shadow-md">
+      CLAIM NOW
+    </button>
+  </div>
 
-    <!-- Content -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-8 drop-shadow-lg">
-            Sewa <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500">Kostum Impianmu</span> <br>
-            Wujudkan Fantasimu
-        </h1>
-        <p class="mt-4 text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Platform penyewaan kostum cosplay #1 di Indonesia. Koleksi lengkap dari Anime, Game, hingga Film. Kualitas premium, bersih, dan siap pakai.
-        </p>
-        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{{ route('user.catalog.index') }}" class="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-bold rounded-full text-white bg-pink-600 hover:bg-pink-700 shadow-lg hover:shadow-pink-500/50 transform hover:-translate-y-1 transition-all duration-300">
-                Lihat Katalog
-                <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </a>
-            <a href="#about" class="inline-flex items-center justify-center px-10 py-4 border-2 border-gray-500 text-lg font-bold rounded-full text-gray-300 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300">
-                Tentang Kami
-            </a>
-        </div>
-    </div>
-    
-    <!-- Floating Shapes (Decoration) -->
-    <div class="absolute top-1/4 left-10 w-24 h-24 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-    <div class="absolute top-1/3 right-10 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+  <!-- Foto Kanan -->
+  <img src="{{ asset('storage/conditions/Spy_x_family-removebg-preview.png') }}" 
+       alt="Spy x Family" 
+       class="absolute right-0 bottom-0 h-[130%] w-auto object-cover object-bottom z-20">
 </div>
 
-<!-- About Us -->
-<div id="about" class="bg-white py-24 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                <div class="relative rounded-2xl bg-gray-900 aspect-w-4 aspect-h-3 overflow-hidden shadow-2xl transform transition duration-500 hover:scale-[1.01]">
-                      {{-- Image Placeholder --}}
-                      <div class="h-full w-full flex items-center justify-center bg-gray-800 text-gray-500">
-                          <i class="fas fa-users fa-5x"></i>
-                      </div>
-                </div>
-            </div>
-            <div class="mt-12 lg:mt-0">
-                <h2 class="text-base text-pink-600 font-semibold tracking-wide uppercase">Tentang Kami</h2>
-                <h3 class="mt-2 text-4xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-                    Lebih dari Sekadar Kostum
-                </h3>
-                <p class="mt-6 text-xl text-gray-500 leading-relaxed">
-                    ECM Rent Coss hadir untuk memenuhi kebutuhan para cosplayer di Indonesia. Kami tidak hanya menyewakan baju, tapi memberikan **pengalaman**. Setiap detail kostum dirawat dengan hati-hati untuk memastikan Anda tampil sempurna.
-                </p>
-                <div class="mt-8 grid grid-cols-2 gap-4">
-                    <div class="border-l-4 border-pink-500 pl-4">
-                        <span class="block text-2xl font-bold text-gray-900">500+</span>
-                        <span class="block text-gray-500">Koleksi Kostum</span>
-                    </div>
-                    <div class="border-l-4 border-purple-500 pl-4">
-                        <span class="block text-2xl font-bold text-gray-900">10k+</span>
-                        <span class="block text-gray-500">Penyewa Puas</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="grid grid-cols-3 gap-8 mx-6 mt-12 mb-16">
+  <div class="text-center">
+    <h3 class="text-2xl font-bold text-pink-600 mb-3">READ RULES</h3>
+    <p class="text-gray-700 text-sm leading-relaxed px-4">
+      Please read the terms and conditions carefully before renting (see instagram or before checkout). Follow the restrictions. Please ask for permission to do certain things related to the costume. Violations will result in the agreed-upon sanctions.
+    </p>
+  </div>
+  <div class="text-center border-x-2 border-pink-200">
+    <h3 class="text-2xl font-bold text-pink-600 mb-3">ASK AVAILABLE</h3>
+    <p class="text-gray-700 text-sm leading-relaxed px-4">
+      Please inquire about availability on specific dates or check the costume details page. Complete the required documentation to secure your rental. Complete documentation and requirements will ensure prompt approval.
+    </p>
+  </div>
+  <div class="text-center">
+    <h3 class="text-2xl font-bold text-pink-600 mb-3">HAPPY COSPLAY</h3>
+    <p class="text-gray-700 text-sm leading-relaxed px-4">
+      If all requirements have been approved, proceed with payment via the available e-wallet. Shipping costs are covered by the renter (COD). Rentals are calculated from Friday to Saturday, costest, event week, and return Monday. Happy cosplay!
+    </p>
+  </div>
 </div>
 
-<!-- Features (Cards with Lift Effect) -->
-<div class="bg-gray-50 py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto">
-            <h2 class="text-base text-purple-600 font-semibold tracking-wide uppercase">Kenapa Kami?</h2>
-            <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                Standar Baru Rental Kostum
-            </p>
-        </div>
-        <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-3">
-             <!-- Feature 1 -->
-            <div class="bg-white rounded-2xl shadow-sm p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
-                <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                    ✨
-                </div>
-                <h3 class="text-xl font-bold text-gray-900">Kualitas Premium</h3>
-                <p class="mt-4 text-gray-500 leading-relaxed">
-                    Bahan kostum nyaman dipakai (cotton, satin, leather), detail akurat sesuai karakter aslinya.
-                </p>
-            </div>
+<div class="max-w-[1400px] mx-auto mb-20 relative px-12">
+  <div class="flex items-center gap-4 mb-10 px-6">
+    <div class="w-2 h-10 bg-pink-600 rounded"></div>
+    <h2 class="text-4xl font-extrabold text-pink-600">MOST RENTED</h2>
+  </div>
 
-             <!-- Feature 2 -->
-             <div class="bg-white rounded-2xl shadow-sm p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
-                <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                    💰
-                </div>
-                <h3 class="text-xl font-bold text-gray-900">Harga Jujur</h3>
-                <p class="mt-4 text-gray-500 leading-relaxed">
-                     Harga sewa transparan tanpa biaya tersembunyi. Dapatkan diskon untuk sewa jangka panjang.
-                </p>
-            </div>
+  <!-- Carousel Container -->
+  <div class="flex items-center gap-10 overflow-x-auto p-10 no-scrollbar snap-x snap-mandatory rounded-xl bg-pink-50 shadow-inner">
+   
+    <!-- Foto Kostum 1 (Kiri) -->
+    <div class="snap-center shrink-0 w-[28%] bg-white rounded-2xl shadow-lg transition-all duration-300 transform scale-95 opacity-80 group hover:scale-100 hover:opacity-100 overflow-hidden relative aspect-[3/4]">
+      <img src="{{ asset('storage/conditions/Spy x family.jpg') }}" alt="Anya Forger" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
 
-             <!-- Feature 3 -->
-             <div class="bg-white rounded-2xl shadow-sm p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
-                <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-6">
-                    🧼
-                </div>
-                <h3 class="text-xl font-bold text-gray-900">Hygiene First</h3>
-                <p class="mt-4 text-gray-500 leading-relaxed">
-                    Setiap kostum melalui proses dry cleaning professional + desinfektan UV sebelum dikirim.
-                </p>
-            </div>
-        </div>
+      <!-- Teks & Tombol di atas foto -->
+      <div class="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col items-center">
+        <h4 class="text-xl font-bold text-white self-start">ANYA FORGER</h4>
+        <p class="text-gray-200 font-medium text-xs self-start">SPY X FAMILY</p>
+        <button class="mt-5 w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold text-xs hover:bg-red-700 transition shadow-md">DETAIL</button>
+      </div>
     </div>
+
+    <!-- Foto Kostum 2 (Tengah, Terpopuler) -->
+    <div class="snap-center shrink-0 w-[36%] bg-white rounded-3xl shadow-2xl border-4 border-pink-400 transition-all duration-500 transform scale-105 group relative overflow-hidden flex items-center aspect-[3/4.5]">
+      <!-- Efek Glow Pink Tipis (z-10 agar di atas foto) -->
+      <div class="absolute -inset-2 bg-pink-100 opacity-20 group-hover:opacity-30 transition rounded-3xl z-10"></div>
+      
+      <img src="{{ asset('storage/conditions/firefly.jpg') }}" alt="Firefly" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
+
+      <!-- Teks & Tombol di atas foto -->
+      <div class="relative z-20 w-full p-8 mt-auto flex flex-col items-center">
+        <h4 class="text-2xl font-bold text-white self-start">FIREFLY</h4>
+        <p class="text-gray-100 font-medium text-base mb-1 self-start">HONKAI STAR RAIL</p>
+        <button class="mt-5 w-full bg-red-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-red-700 transition shadow-lg">DETAIL</button>
+      </div>
+    </div>
+
+    <!-- Foto Kostum 3 (Kanan) -->
+    <div class="snap-center shrink-0 w-[28%] bg-white rounded-2xl shadow-lg transition-all duration-300 transform scale-95 opacity-80 group hover:scale-100 hover:opacity-100 overflow-hidden relative aspect-[3/4]">
+      <img src="{{ asset('storage/conditions/Navia.jpg') }}" alt="Navia" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+      <!-- Teks & Tombol di atas foto -->
+      <div class="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col items-center">
+        <h4 class="text-xl font-bold text-white self-start">NAVIA</h4>
+        <p class="text-gray-200 font-medium text-xs self-start">GENSHIN IMPACT</p>
+        <button class="mt-5 w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold text-xs hover:bg-red-700 transition shadow-md">DETAIL</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Carousel Buttons -->
+  <button class="absolute left-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/70 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-pink-600 text-xl hover:bg-white transition z-20">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button class="absolute right-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/70 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-pink-600 text-xl hover:bg-white transition z-20">
+    <i class="fas fa-chevron-right"></i>
+  </button>
 </div>
 
-<!-- Promo Banner (Modern Gradient) -->
-<div class="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-pink-600 to-purple-700 overflow-hidden">
-    <div class="absolute inset-0">
-         <div class="absolute inset-0 bg-pink-600 mix-blend-multiply opacity-20"></div>
-         <div class="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob"></div>
+<div class="max-w-[1400px] mx-auto mb-20 relative px-12">
+  <div class="flex items-center gap-4 mb-10 px-6">
+    <div class="w-2 h-10 bg-pink-600 rounded"></div>
+    <h2 class="text-4xl font-extrabold text-pink-600">NEW ARRIVALS</h2>
+  </div>
+
+  <div class="grid grid-cols-3 gap-6">
+    <!-- Foto Kostum Baru 1 (Keqing) -->
+    <div class="bg-white rounded-2xl shadow-lg group hover:shadow-2xl transition overflow-hidden relative aspect-[3/4]">
+      <img src="{{ asset('storage/conditions/keqing.jpg') }}" alt="Keqing" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+      <!-- Teks & Tombol di atas foto -->
+      <div class="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col items-center">
+        <h4 class="text-lg font-bold text-white self-start">KEQING</h4>
+        <p class="text-gray-200 font-medium text-xs self-start">GENSHIN IMPACT</p>
+        <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-red-700 transition">DETAIL</button>
+      </div>
     </div>
-    <div class="relative max-w-7xl mx-auto text-center">
-        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-            <span class="block">Siap untuk Cosplay Pertamamu?</span>
-            <span class="block text-pink-200 mt-2">Dapatkan potongan 10% khusus pengguna baru.</span>
-        </h2>
-        <div class="mt-8 flex justify-center">
-            <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-full text-pink-700 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 shadow-lg hover:shadow-xl transition-all duration-300">
-                Daftar & Klaim Diskon
-            </a>
-        </div>
+
+    <!-- Foto Kostum Baru 2 (Frieren) -->
+    <div class="bg-white rounded-2xl shadow-lg group hover:shadow-2xl transition overflow-hidden relative aspect-[3/4]">
+      <img src="{{ asset('storage/conditions/frieren.jpg') }}" alt="Frieren" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+      <!-- Teks & Tombol di atas foto -->
+      <div class="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col items-center">
+        <h4 class="text-lg font-bold text-white self-start">FRIEREN</h4>
+        <p class="text-gray-200 font-medium text-xs self-start">BEYOND THE JOURNEY'END</p>
+        <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-red-700 transition">DETAIL</button>
+      </div>
     </div>
+
+    <!-- Foto Kostum Baru 3 (Elaina) -->
+    <div class="bg-white rounded-2xl shadow-lg group hover:shadow-2xl transition overflow-hidden relative aspect-[3/4]">
+      <img src="{{ asset('storage/conditions/elaina.jpg') }}" alt="Elaina" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-300">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+      <!-- Teks & Tombol di atas foto -->
+      <div class="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col items-center">
+        <h4 class="text-lg font-bold text-white self-start">ELAINA</h4>
+        <p class="text-gray-200 font-medium text-xs self-start">WANDERING WITCH</p>
+        <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-red-700 transition">DETAIL</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- Testimonials (Modern Grid) -->
-<div class="bg-white py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-16">Community Love 💖</h2>
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-             <!-- Testimonial 1 -->
-            <div class="bg-gray-50 rounded-2xl p-8 relative">
-                 <div class="absolute -top-5 left-8 w-10 h-10 bg-pink-500 text-white flex items-center justify-center rounded-full text-xl shadow-md">❝</div>
-                 <p class="text-gray-600 italic mt-4 mb-6">
-                     "Gila sih, kostum Raiden Shogun nya detail banget! Bahannya juga gak bikin gerah pas event seharian. Admin fast respon parah!"
-                 </p>
-                 <div class="flex items-center">
-                     <div class="h-10 w-10 bg-gray-300 rounded-full"></div>
-                     <div class="ml-3">
-                         <div class="text-sm font-bold text-gray-900">Andi Saputra</div>
-                         <div class="text-sm text-gray-500">Cosplayer, Jakarta</div>
-                     </div>
-                 </div>
-            </div>
-             <!-- Testimonial 2 -->
-             <div class="bg-gray-50 rounded-2xl p-8 relative">
-                <div class="absolute -top-5 left-8 w-10 h-10 bg-purple-500 text-white flex items-center justify-center rounded-full text-xl shadow-md">❝</div>
-                <p class="text-gray-600 italic mt-4 mb-6">
-                    "Packing aman banget, pake box tebel. Kostum wangi laundry. Fix bakal langganan terus disini buat next event."
-                </p>
-                <div class="flex items-center">
-                    <div class="h-10 w-10 bg-gray-300 rounded-full"></div>
-                    <div class="ml-3">
-                        <div class="text-sm font-bold text-gray-900">Budi Santoso</div>
-                        <div class="text-sm text-gray-500">Member, Bandung</div>
-                    </div>
-                </div>
-           </div>
-            <!-- Testimonial 3 -->
-            <div class="bg-gray-50 rounded-2xl p-8 relative">
-                <div class="absolute -top-5 left-8 w-10 h-10 bg-blue-500 text-white flex items-center justify-center rounded-full text-xl shadow-md">❝</div>
-                <p class="text-gray-600 italic mt-4 mb-6">
-                    "Sewa H-1 event dan masih kebagian! Penyelamat banget ECM Rent Coss. Koleksi Chainsaw Man nya lengkap abis."
-                </p>
-                <div class="flex items-center">
-                    <div class="h-10 w-10 bg-gray-300 rounded-full"></div>
-                    <div class="ml-3">
-                        <div class="text-sm font-bold text-gray-900">Citra Kirana</div>
-                        <div class="text-sm text-gray-500">Student, Surabaya</div>
-                    </div>
-                </div>
-           </div>
+<div class="max-w-[1400px] mx-auto mb-20 relative px-12">
+  <div class="flex items-center gap-4 mb-10 px-6">
+    <div class="w-2 h-10 bg-pink-600 rounded"></div>
+    <h2 class="text-4xl font-extrabold text-pink-600">TESTIMONY</h2>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8">
+    <!-- Testimony Card 1 -->
+    <div class="bg-white rounded-2xl p-6 shadow-md flex gap-4 items-center border border-pink-100">
+      <img src="{{ asset('storage/conditions/elaina.jpg') }}" alt="Elaina User" class="w-20 h-20 rounded-full border-4 border-pink-200 object-cover flex-shrink-0">
+      <div>
+        <h5 class="text-lg font-bold text-pink-600">ELAINA</h5>
+        <div class="flex items-center text-yellow-400 mb-2">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
         </div>
+        <p class="text-sm text-gray-700 leading-relaxed italic">"Kostumnya wangi dan cakep, pokonya rekomen disini"</p>
+      </div>
     </div>
+
+    <!-- Testimony Card 2 -->
+    <div class="bg-white rounded-2xl p-6 shadow-md flex gap-4 items-center border border-pink-100">
+      <img src="{{ asset('storage/conditions/elaina.jpg') }}" alt="Elaina User" class="w-20 h-20 rounded-full border-4 border-pink-200 object-cover flex-shrink-0">
+      <div>
+        <h5 class="text-lg font-bold text-pink-600">ELAINA</h5>
+        <div class="flex items-center text-yellow-400 mb-2">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="text-sm text-gray-700 leading-relaxed italic">"Kostumnya wangi dan cakep, pokonya rekomen disini"</p>
+      </div>
+    </div>
+  </div>
 </div>
-@endsection
+
+<footer class="bg-white px-6 py-6 border-t border-pink-200 mt-auto flex justify-center gap-12 text-sm text-pink-600">
+  <div class="flex items-center gap-2">
+    <i class="fab fa-instagram text-xl"></i> @YUIKA.RENTCOS
+  </div>
+  <div class="flex items-center gap-2">
+    <i class="fab fa-tiktok text-xl"></i> YUMICOS
+  </div>
+</footer>
