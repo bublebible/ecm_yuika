@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     // User Routes
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog.index');
+        Route::get('/catalog/{asset}', [App\Http\Controllers\User\CatalogController::class, 'show'])->name('catalog.show');
         Route::get('/blog', [App\Http\Controllers\User\BlogController::class, 'index'])->name('blog.index');
         Route::get('/blog/{post:slug}', [App\Http\Controllers\User\BlogController::class, 'show'])->name('blog.show');
         Route::get('/history', [App\Http\Controllers\User\HistoryController::class, 'index'])->name('history.index');

@@ -68,9 +68,9 @@
                         <p class="text-gray-200 font-bold text-xl uppercase mb-6">{{ $asset->category->name ?? 'Series' }}</p>
                         
                         <!-- Tombol Detail Merah -->
-                        <button class="w-full bg-red-600 text-white py-4 rounded-xl text-xl font-black uppercase hover:bg-red-700 transition tracking-tighter shadow-lg">
+                        <a href="{{ route('user.catalog.show', $asset->id) }}" class="block text-center w-full bg-red-600 text-white py-4 rounded-xl text-xl font-black uppercase hover:bg-red-700 transition tracking-tighter shadow-lg">
                             DETAIL
-                        </button>
+                        </a>
                     </div>
                 </div>
                 @endforeach

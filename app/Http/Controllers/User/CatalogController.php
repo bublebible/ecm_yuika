@@ -16,4 +16,10 @@ class CatalogController extends Controller
         $categories = Category::withCount('assets')->get();
         return view('user.catalog.index', compact('assets', 'categories'));
     }
+
+    public function show(Asset $asset)
+    {
+        $asset->load(['latestCondition', 'category', 'conditions']);
+        return view('user.catalog.show', compact('asset'));
+    }
 }
