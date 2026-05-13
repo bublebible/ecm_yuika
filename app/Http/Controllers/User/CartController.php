@@ -25,8 +25,14 @@ class CartController extends Controller
         $cart = Session::get('cart', []);
 
         if(isset($cart[$id])) {
+            if($cart[$id]['quantity'] + 1 > $asset->stock_qty) {
+                return redirect()->back()->with('error', 'Cannot add more items than available in stock ('. $asset->stock_qty . ' available).');
+            }
             $cart[$id]['quantity']++;
         } else {
+            if(1 > $asset->stock_qty) {
+                return redirect()->back()->with('error', 'This item is currently out of stock.');
+            }
             $cart[$id] = [
                 "name" => $asset->name,
                 "quantity" => 1,
@@ -43,6 +49,12 @@ class CartController extends Controller
     public function update(Request $request)
     {
         if($request->id && $request->quantity){
+            $asset = Asset::find($request->id);
+            if($asset && $request->quantity > $asset->stock_qty) {
+                session()->flash('error', 'Cannot update quantity beyond available stock ('. $asset->stock_qty . ' available).');
+                return;
+            }
+            
             $cart = Session::get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
             Session::put('cart', $cart);
