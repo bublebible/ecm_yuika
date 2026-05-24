@@ -9,9 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+
                     @if(session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                             <span class="block sm:inline">{{ session('success') }}</span>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block sm:inline">{{ session('error') }}</span>
                         </div>
                     @endif
 
@@ -19,24 +26,12 @@
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        ID
-                                    </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Asset
-                                    </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Tanggal
-                                    </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Total
-                                    </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Aksi
-                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kostum</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tanggal</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +42,7 @@
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                             @foreach($rental->items as $item)
-                                                <div>{{ $item->asset->name }} (x{{ $item->qty }})</div>
+                                                <div>{{ $item->asset->name ?? '-' }} (x{{ $item->qty }})</div>
                                             @endforeach
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -57,24 +52,67 @@
                                             Rp {{ number_format($rental->total_price, 0, ',', '.') }}
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <span class="relative inline-block px-3 py-1 font-semibold leading-tight
-                                                @if($rental->status == 'pending') text-yellow-900 @elseif($rental->status == 'approved') text-green-900 @else text-gray-900 @endif">
-                                                <span aria-hidden class="absolute inset-0 opacity-50 rounded-full
-                                                    @if($rental->status == 'pending') bg-yellow-200 @elseif($rental->status == 'approved') bg-green-200 @else bg-gray-200 @endif"></span>
-                                                <span class="relative">{{ ucfirst($rental->status) }}</span>
+                                            @php
+                                                $statusColor = match($rental->status) {
+                                                    'pending'   => ['text-yellow-900', 'bg-yellow-200'],
+                                                    'approved'  => ['text-blue-900', 'bg-blue-200'],
+                                                    'active'    => ['text-green-900', 'bg-green-200'],
+                                                    'returned'  => ['text-orange-900', 'bg-orange-200'],
+                                                    'completed' => ['text-emerald-900', 'bg-emerald-200'],
+                                                    'cancelled' => ['text-red-900', 'bg-red-200'],
+                                                    default     => ['text-gray-900', 'bg-gray-200'],
+                                                };
+                                                $statusLabel = match($rental->status) {
+                                                    'pending'   => 'Menunggu',
+                                                    'approved'  => 'Disetujui',
+                                                    'active'    => 'Aktif',
+                                                    'returned'  => 'Dikembalikan',
+                                                    'completed' => 'Selesai ✓',
+                                                    'cancelled' => 'Dibatalkan',
+                                                    default     => ucfirst($rental->status),
+                                                };
+                                            @endphp
+                                            <span class="relative inline-block px-3 py-1 font-semibold leading-tight {{ $statusColor[0] }}">
+                                                <span aria-hidden class="absolute inset-0 opacity-50 rounded-full {{ $statusColor[1] }}"></span>
+                                                <span class="relative">{{ $statusLabel }}</span>
                                             </span>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            @if($rental->status == 'pending')
-                                                <a href="{{ route('user.rentals.edit', $rental) }}" class="text-blue-600 hover:text-blue-900">Upload KTP</a>
-                                            @elseif($rental->status == 'approved' || $rental->status == 'active')
-                                                 <a href="{{ route('user.rentals.edit', $rental) }}" class="text-blue-600 hover:text-blue-900">Download Kontrak</a>
-                                            @endif
+                                            <div class="flex flex-wrap gap-2">
+                                                @if($rental->status === 'pending')
+                                                    <a href="{{ route('user.rentals.edit', $rental) }}"
+                                                       class="text-blue-600 hover:text-blue-900 text-xs font-medium">
+                                                        <i class="fas fa-id-card mr-1"></i>Upload KTP
+                                                    </a>
+                                                @elseif(in_array($rental->status, ['approved', 'active']))
+                                                    <a href="{{ route('user.rentals.edit', $rental) }}"
+                                                       class="text-blue-600 hover:text-blue-900 text-xs font-medium">
+                                                        <i class="fas fa-file-contract mr-1"></i>Kontrak
+                                                    </a>
+                                                @elseif($rental->status === 'completed')
+                                                    @if(!$rental->testimonial)
+                                                        {{-- Belum ada testimoni → tampilkan tombol --}}
+                                                        <button
+                                                            type="button"
+                                                            onclick="openTestimonialModal({{ $rental->id }})"
+                                                            class="inline-flex items-center gap-1 text-xs font-semibold text-pink-600 border border-pink-300 rounded-lg px-2.5 py-1 hover:bg-pink-50 transition">
+                                                            <i class="fas fa-star"></i> Beri Testimoni
+                                                        </button>
+                                                    @else
+                                                        <span class="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
+                                                            <i class="fas fa-check-circle"></i> Sudah direview
+                                                        </span>
+                                                    @endif
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center py-4">Belum ada penyewaan.</td>
+                                        <td colspan="6" class="text-center py-8 text-gray-400 italic">
+                                            <i class="fas fa-box-open text-3xl mb-2 block"></i>
+                                            Belum ada penyewaan.
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -84,4 +122,102 @@
             </div>
         </div>
     </div>
+
+    {{-- ===== TESTIMONIAL MODAL ===== --}}
+    <div id="testimonialModal"
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden"
+         onclick="if(event.target===this) closeTestimonialModal()">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 relative animate-[slideUp_0.3s_ease_both]">
+            {{-- Close --}}
+            <button onclick="closeTestimonialModal()"
+                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl transition">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-star text-white text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Bagaimana pengalamanmu?</h3>
+                <p class="text-sm text-gray-500 mt-1">Bantu cosplayer lain dengan testimonimu 🎉</p>
+            </div>
+
+            <form id="testimonialForm" method="POST" action="{{ route('testimonials.store') }}">
+                @csrf
+                <input type="hidden" name="rental_id" id="testimonialRentalId">
+
+                {{-- Star Rating --}}
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Rating</label>
+                    <div class="flex gap-2" id="starRating">
+                        @for($i = 1; $i <= 5; $i++)
+                            <button type="button"
+                                    data-star="{{ $i }}"
+                                    onclick="setRating({{ $i }})"
+                                    class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition-colors cursor-pointer leading-none">
+                                ★
+                            </button>
+                        @endfor
+                    </div>
+                    <input type="hidden" name="rating" id="ratingInput" value="5">
+                </div>
+
+                {{-- Comment --}}
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2" for="testimonialComment">
+                        Komentar
+                    </label>
+                    <textarea
+                        id="testimonialComment"
+                        name="comment"
+                        rows="4"
+                        placeholder="Ceritakan pengalamanmu menyewa kostum di sini..."
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
+                        required
+                        minlength="5"
+                        maxlength="1000"
+                    ></textarea>
+                    <p class="text-xs text-gray-400 mt-1">Min. 5 karakter</p>
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-xl text-sm hover:from-pink-600 hover:to-purple-700 transition shadow-lg">
+                    <i class="fas fa-paper-plane mr-1"></i> Kirim Testimoni
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+
+    <script>
+        let currentRating = 5;
+
+        function openTestimonialModal(rentalId) {
+            document.getElementById('testimonialRentalId').value = rentalId;
+            document.getElementById('testimonialModal').classList.remove('hidden');
+            setRating(5); // default 5 stars
+        }
+
+        function closeTestimonialModal() {
+            document.getElementById('testimonialModal').classList.add('hidden');
+        }
+
+        function setRating(value) {
+            currentRating = value;
+            document.getElementById('ratingInput').value = value;
+            document.querySelectorAll('.star-btn').forEach(btn => {
+                const star = parseInt(btn.dataset.star);
+                btn.style.color = star <= value ? '#facc15' : '#d1d5db';
+            });
+        }
+
+        // Initialize stars
+        document.addEventListener('DOMContentLoaded', () => setRating(5));
+    </script>
 </x-app-layout>

@@ -73,7 +73,7 @@
             @auth
                 <a href="{{ route('profile.edit') }}" class="flex flex-col items-center justify-center text-gray-500 hover:text-pink-600 {{ request()->routeIs('profile.*') ? 'text-pink-600' : '' }}">
                      <div class="h-6 w-6 rounded-full bg-gray-200 overflow-hidden mb-1">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random" alt="Profile" class="h-full w-full object-cover">
+                        <img src="{{ Auth::user()->avatarUrl() }}" alt="Profile" class="h-full w-full object-cover">
                      </div>
                     <span class="text-[10px] font-medium">Profile</span>
                 </a>

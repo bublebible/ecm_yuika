@@ -20,12 +20,15 @@
                 </p>
                 
                 <!-- Search Bar Putih Bulat -->
-                <div class="mt-8 relative max-w-md shadow-2xl">
-                    <input type="text" class="w-full pl-6 pr-12 py-4 rounded-full border-none focus:ring-2 focus:ring-pink-400 text-gray-600 placeholder-gray-400" placeholder="Search character...">
-                    <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                <form action="{{ route('user.catalog.index') }}" method="GET" class="mt-8 relative max-w-md shadow-2xl">
+                    @if(request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                    @endif
+                    <input type="text" name="search" value="{{ request('search') }}" class="w-full pl-6 pr-12 py-4 rounded-full border-none focus:ring-2 focus:ring-pink-400 text-gray-600 placeholder-gray-400" placeholder="Search character...">
+                    <button type="submit" class="absolute inset-y-0 right-0 pr-5 flex items-center">
                         <i class="fas fa-search text-pink-500"></i>
-                    </div>
-                </div>
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -34,10 +37,14 @@
             <h2 class="text-4xl font-extrabold text-pink-600 text-center mb-12 tracking-wide">BROWSE BY CATEGORY</h2>
             
             <div class="flex flex-wrap justify-center gap-6 mb-20">
-                @foreach(['ANIME', 'GAME', 'SUPERHERO', 'DRESS', 'ADD'] as $catName)
-                <button class="px-12 py-4 bg-pink-500 text-white rounded-full text-2xl font-black shadow-lg hover:bg-pink-600 transition-all transform hover:scale-105">
-                    {{ $catName }}
-                </button>
+                <!-- All category button -->
+                <a href="{{ route('user.catalog.index', request()->only('search')) }}" class="px-12 py-4 rounded-full text-2xl font-black shadow-lg transition-all transform hover:scale-105 {{ !request('category') ? 'bg-pink-600 text-white' : 'bg-pink-500 text-white hover:bg-pink-600' }} flex items-center justify-center">
+                    ALL
+                </a>
+                @foreach($categories as $category)
+                <a href="{{ route('user.catalog.index', array_merge(request()->only('search'), ['category' => $category->id])) }}" class="px-12 py-4 rounded-full text-2xl font-black shadow-lg transition-all transform hover:scale-105 {{ request('category') == $category->id ? 'bg-pink-600 text-white' : 'bg-pink-500 text-white hover:bg-pink-600' }} flex items-center justify-center">
+                    {{ strtoupper($category->name) }}
+                </a>
                 @endforeach
             </div>
 
@@ -57,7 +64,14 @@
                 <!-- Kartu Menggunakan absolute inset-0 untuk foto agar penuh -->
                 <div class="bg-white rounded-3xl shadow-xl group hover:shadow-2xl transition-all duration-300 overflow-hidden relative aspect-[3/4] border-4 border-white">
                     <!-- Foto Kostum Full -->
-                    <img src="{{ Storage::url($asset->latestCondition->image ?? 'default.jpg') }}" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-500">
+                    <img src="{{ Storage::url($asset->latestCondition->image ?? 'default.jpg') }}" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-500 {{ $asset->stock_qty <= 0 ? 'grayscale opacity-75' : '' }}">
+                    
+                    @if($asset->stock_qty <= 0)
+                    <!-- Badge Out of Stock -->
+                    <span class="absolute top-4 right-4 bg-red-600 text-white text-xs font-black px-3 py-1.5 rounded-full z-20 shadow-md uppercase tracking-wider">
+                        Out of Stock
+                    </span>
+                    @endif
                     
                     <!-- Overlay Gradien Gelap (Gaya Dashboard) agar teks putih terbaca -->
                     <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>

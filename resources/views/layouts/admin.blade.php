@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ config('app.name', 'Laravel') }} | Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -11,6 +12,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- AdminLTE -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -101,6 +104,15 @@
               <p>Content Manage</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.messages.index') }}" class="nav-link {{ request()->routeIs('admin.messages.index') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-comments"></i>
+              <p>
+                Messages
+                <span class="badge badge-pink right" id="admin-unread-badge" style="background-color: #e64a85; color: white; display: none;">0</span>
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -146,13 +158,28 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <!-- ChartJS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  function updateSidebarUnreadCount() {
+    $.get("{{ route('admin.messages.unread') }}", function(data) {
+      const badge = $('#admin-unread-badge');
+      if (data && data.count > 0) {
+        badge.text(data.count).show();
+      } else {
+        badge.hide();
+      }
+    });
+  }
+  $(document).ready(function() {
+    updateSidebarUnreadCount();
+    // Poll unread messages count every 5 seconds
+    setInterval(updateSidebarUnreadCount, 5000);
+  });
+</script>
 </body>
 </html>

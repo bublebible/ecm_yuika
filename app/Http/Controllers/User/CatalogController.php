@@ -10,9 +10,21 @@ use App\Models\Category;
 
 class CatalogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $assets = Asset::with(['latestCondition', 'category'])->get();
+        $query = Asset::with(['latestCondition', 'category']);
+
+        // Check if category filter is active
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+
+        // Check if search keyword is active
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $assets = $query->get();
         $categories = Category::withCount('assets')->get();
         return view('user.catalog.index', compact('assets', 'categories'));
     }

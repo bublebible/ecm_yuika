@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
@@ -13,6 +14,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Testimonials
+    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
 
     // User Routes
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
@@ -33,9 +37,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/checkout', [App\Http\Controllers\User\CartController::class, 'checkout'])->name('cart.checkout');
 
         // Messages
-        Route::get('/messages', function () {
-            return view('user.messages.index');
-        })->name('messages.index');
+        Route::get('/messages', [App\Http\Controllers\MessageController::class, 'userIndex'])->name('messages.index');
+        Route::get('/messages/fetch', [App\Http\Controllers\MessageController::class, 'userFetch'])->name('messages.fetch');
+        Route::post('/messages/send', [App\Http\Controllers\MessageController::class, 'userSend'])->name('messages.send');
+        Route::post('/messages/chatbot', [App\Http\Controllers\MessageController::class, 'userChatbot'])->name('messages.chatbot');
+        Route::post('/messages/typing', [App\Http\Controllers\MessageController::class, 'userTyping'])->name('messages.typing');
     });
 
     // Admin Routes
@@ -62,6 +68,14 @@ Route::middleware('auth')->group(function () {
         
         // Categories
         Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+
+        // Admin Messages
+        Route::get('/messages', [App\Http\Controllers\MessageController::class, 'adminIndex'])->name('messages.index');
+        Route::get('/messages/fetch/{user}', [App\Http\Controllers\MessageController::class, 'adminFetch'])->name('messages.fetch');
+        Route::post('/messages/send', [App\Http\Controllers\MessageController::class, 'adminSend'])->name('messages.send');
+        Route::get('/messages/unread', [App\Http\Controllers\MessageController::class, 'adminUnreadCount'])->name('messages.unread');
+        Route::post('/messages/typing', [App\Http\Controllers\MessageController::class, 'adminTyping'])->name('messages.typing');
+        Route::post('/messages/clear', [App\Http\Controllers\MessageController::class, 'clearChat'])->name('messages.clear');
     });
 });
 

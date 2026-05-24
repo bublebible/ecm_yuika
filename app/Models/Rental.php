@@ -36,4 +36,9 @@ class Rental extends Model
     {
         return $this->hasMany(Document::class);
     }
+
+    public function testimonial()
+    {
+        return $this->hasOne(Testimonial::class);
+    }
 }

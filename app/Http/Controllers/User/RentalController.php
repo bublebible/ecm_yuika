@@ -14,7 +14,7 @@ class RentalController extends Controller
 {
     public function index()
     {
-        $rentals = Rental::with(['items.asset', 'documents'])
+        $rentals = Rental::with(['items.asset', 'documents', 'testimonial'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
@@ -64,6 +64,9 @@ class RentalController extends Controller
             'asset_id' => $asset->id,
             'qty' => $request->qty,
         ]);
+
+        // Decrement stock
+        $asset->decrement('stock_qty', $request->qty);
 
         return redirect()->route('user.rentals.index')->with('success', 'Permintaan sewa berhasil dibuat. Silakan upload identitas.');
     }

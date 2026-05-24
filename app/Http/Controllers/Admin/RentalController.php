@@ -52,7 +52,14 @@ class RentalController extends Controller
         // Complete & Archive
         if ($request->has('complete_rental')) {
             $rental->update(['status' => 'completed']);
-            // Archive logic can be implicit by status = completed
+            
+            // Restore stock of the rented assets
+            foreach ($rental->items as $item) {
+                if ($item->asset) {
+                    $item->asset->increment('stock_qty', $item->qty);
+                }
+            }
+
             return back()->with('success', 'Penyewaan selesai dan diarsipkan.');
         }
 

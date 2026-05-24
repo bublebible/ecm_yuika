@@ -76,49 +76,71 @@ class CartController extends Controller
     
     public function checkout(Request $request)
     {
+        $request->validate([
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date'   => 'required|date|after_or_equal:start_date',
+        ]);
+
         $cart = Session::get('cart');
-        
-        if(!$cart || count($cart) == 0) {
-            return redirect()->route('user.cart.index')->with('error', 'Cart is empty');
+
+        if (!$cart || count($cart) == 0) {
+            return redirect()->route('user.cart.index')->with('error', 'Keranjang kosong.');
         }
 
-        // Logic to create rental from cart
-        // For simplicity, we create one rental per item or group them. 
-        // Current DB structure might favor one rental per transaction.
-        
+        // Calculate duration
+        $startDate = \Carbon\Carbon::parse($request->start_date);
+        $endDate   = \Carbon\Carbon::parse($request->end_date);
+        $days      = $startDate->diffInDays($endDate) + 1; // inclusive
+
+        // Validate stock availability for all items first
+        foreach ($cart as $id => $details) {
+            $asset = Asset::find($id);
+            if (!$asset) {
+                return redirect()->route('user.cart.index')->with('error', 'Item tidak ditemukan.');
+            }
+            if ($asset->stock_qty < $details['quantity']) {
+                return redirect()->route('user.cart.index')->with('error',
+                    'Stok ' . $asset->name . ' tidak mencukupi (' . $asset->stock_qty . ' tersedia).'
+                );
+            }
+        }
+
         DB::beginTransaction();
         try {
-            $rental = new Rental();
-            $rental->user_id = Auth::id();
-            // Default dates for now (User should pick in cart, but let's assume +3 days)
-            $rental->start_date = now(); 
-            $rental->end_date = now()->addDays(3);
-            $rental->status = 'pending';
-            
             $totalPrice = 0;
-            foreach($cart as $id => $details) {
-                $totalPrice += $details['price'] * $details['quantity'] * 3; // 3 days default
+            foreach ($cart as $id => $details) {
+                $totalPrice += $details['price'] * $details['quantity'] * $days;
             }
-            $rental->total_price = $totalPrice;
-            $rental->save();
 
-            foreach($cart as $id => $details) {
+            $rental = Rental::create([
+                'user_id'     => Auth::id(),
+                'status'      => 'pending',
+                'start_date'  => $startDate,
+                'end_date'    => $endDate,
+                'total_price' => $totalPrice,
+            ]);
+
+            foreach ($cart as $id => $details) {
+                $asset = Asset::find($id);
+                $asset->decrement('stock_qty', $details['quantity']);
+
                 RentalItem::create([
-                    'rental_id' => $rental->id,
-                    'asset_id' => $id,
-                    'qty' => $details['quantity'],
+                    'rental_id'    => $rental->id,
+                    'asset_id'     => $id,
+                    'qty'          => $details['quantity'],
                     'price_per_day' => $details['price'],
-                    'days' => 3 
+                    'days'         => $days,
                 ]);
             }
 
             DB::commit();
             Session::forget('cart');
-            return redirect()->route('user.rentals.index')->with('success', 'Order placed successfully!');
-            
+            return redirect()->route('user.rentals.index')
+                ->with('success', 'Pesanan berhasil dibuat! Silakan upload KTP untuk konfirmasi.');
+
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error processing checkout: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal checkout: ' . $e->getMessage());
         }
     }
 }

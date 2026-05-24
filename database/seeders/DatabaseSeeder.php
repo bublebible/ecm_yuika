@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'admin@ecm.com'],
             [
-                'name' => 'Admin Owner',
+                'name'     => 'Admin Owner',
                 'password' => bcrypt('password'),
-                'usertype' => 'admin', // Ensure this column matches your User model/migration
+                'role'     => 'admin',
             ]
         );
 
@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             AssetSeeder::class,
             PostSeeder::class,
+            TestimonialSeeder::class,
         ]);
     }
 }
