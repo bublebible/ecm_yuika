@@ -18,6 +18,7 @@ class TestimonialController extends Controller
             'rental_id' => 'required|exists:rentals,id',
             'rating'    => 'required|integer|min:1|max:5',
             'comment'   => 'required|string|min:5|max:1000',
+            'image'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $rental = Rental::findOrFail($request->rental_id);
@@ -37,11 +38,17 @@ class TestimonialController extends Controller
             return back()->with('error', 'Kamu sudah memberikan testimoni untuk sewa ini.');
         }
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('testimonials', 'public');
+        }
+
         Testimonial::create([
             'user_id'     => Auth::id(),
             'rental_id'   => $rental->id,
             'rating'      => $request->rating,
             'comment'     => $request->comment,
+            'image'       => $imagePath,
             'is_approved' => true,
         ]);
 

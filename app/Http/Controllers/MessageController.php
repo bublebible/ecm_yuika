@@ -84,6 +84,23 @@ class MessageController extends Controller
             'is_read' => false,
         ]);
 
+        // Auto-reply logic if admin is offline
+        if (!Cache::has("admin-online")) {
+            $rateLimitKey = "auto-reply-sent-to-{$userId}";
+            if (!Cache::has($rateLimitKey)) {
+                // Send auto-reply message from admin to user
+                Message::create([
+                    'sender_id' => $admin->id,
+                    'receiver_id' => $userId,
+                    'message' => 'Halo kak! Maaf ya admin sedang offline saat ini. Silakan tinggalkan pertanyaan atau pesan kakak terlebih dahulu, nanti segera setelah admin aktif kembali akan langsung kami balas ya. Terima kasih kak! 😊✨',
+                    'is_read' => false,
+                ]);
+
+                // Limit auto-reply to once every 15 minutes per user
+                Cache::put($rateLimitKey, true, now()->addMinutes(15));
+            }
+        }
+
         return response()->json($message);
     }
 
@@ -114,6 +131,9 @@ class MessageController extends Controller
     public function adminIndex(Request $request)
     {
         $adminId = Auth::id();
+        // Update admin online cache status
+        Cache::put("admin-online", true, now()->addSeconds(35));
+
         $users = User::where('role', '!=', 'admin')->get()->map(function($user) use ($adminId) {
             $lastMessage = Message::where(function($q) use ($user, $adminId) {
                 $q->where('sender_id', $user->id)->where('receiver_id', $adminId);
@@ -140,6 +160,8 @@ class MessageController extends Controller
     public function adminFetch($userId)
     {
         $adminId = Auth::id();
+        // Update admin online cache status
+        Cache::put("admin-online", true, now()->addSeconds(35));
 
         // Auto-purge old messages (older than 24 hours)
         Message::where('created_at', '<', now()->subHours(24))->delete();
@@ -173,6 +195,8 @@ class MessageController extends Controller
         ]);
 
         $adminId = Auth::id();
+        // Update admin online cache status
+        Cache::put("admin-online", true, now()->addSeconds(35));
         
         $message = Message::create([
             'sender_id' => $adminId,
@@ -290,6 +314,9 @@ class MessageController extends Controller
         ]);
 
         $adminId = Auth::id();
+        // Update admin online cache status
+        Cache::put("admin-online", true, now()->addSeconds(35));
+
         Cache::put("typing-from-{$adminId}-to-{$request->receiver_id}", true, now()->addSeconds(4));
 
         return response()->json(['status' => 'success']);

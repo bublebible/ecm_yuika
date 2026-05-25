@@ -287,7 +287,7 @@
                 <p class="text-sm text-gray-500 mt-1">Bantu cosplayer lain dengan ulasanmu 🎉</p>
             </div>
 
-            <form method="POST" action="{{ route('testimonials.store') }}">
+            <form method="POST" action="{{ route('testimonials.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="rental_id" id="testimonialRentalId">
 
@@ -317,6 +317,30 @@
                     ></textarea>
                 </div>
 
+                {{-- Image Upload --}}
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Foto Review (Opsional)</label>
+                    <div class="flex items-center justify-center w-full">
+                        <label class="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div class="flex flex-col items-center justify-center pt-2 pb-3">
+                                <i class="fas fa-camera text-gray-400 text-lg mb-1"></i>
+                                <p class="text-[11px] text-gray-500"><span class="font-semibold">Klik untuk unggah</span> foto kostum</p>
+                                <p class="text-[9px] text-gray-400">PNG, JPG, JPEG (Max. 2MB)</p>
+                            </div>
+                            <input type="file" name="image" accept="image/*" class="hidden" onchange="previewImage(event)">
+                        </label>
+                    </div>
+                    <div id="imagePreviewContainer" class="mt-3 hidden">
+                        <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wide mb-1">Pratinjau Foto:</p>
+                        <div class="relative inline-block">
+                            <img id="imagePreview" src="#" alt="Pratinjau" class="h-16 w-auto rounded-lg object-cover border border-gray-200">
+                            <button type="button" onclick="removeImagePreview()" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] hover:bg-red-600 transition shadow">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit"
                         class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-xl text-sm hover:from-pink-600 hover:to-purple-700 transition shadow-lg">
                     <i class="fas fa-paper-plane mr-1"></i> Kirim Ulasan
@@ -339,6 +363,22 @@
             document.querySelectorAll('.star-btn').forEach(btn => {
                 btn.style.color = parseInt(btn.dataset.star) <= value ? '#facc15' : '#d1d5db';
             });
+        }
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                document.getElementById('imagePreviewContainer').classList.remove('hidden');
+            };
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+        function removeImagePreview() {
+            const fileInput = document.querySelector('input[name="image"]');
+            if (fileInput) fileInput.value = '';
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
         }
         document.addEventListener('DOMContentLoaded', () => setRating(5));
     </script>

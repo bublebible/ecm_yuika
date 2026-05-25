@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Testimonial extends Model
 {
@@ -14,12 +15,24 @@ class Testimonial extends Model
         'rental_id',
         'rating',
         'comment',
+        'image',
         'is_approved',
     ];
 
     protected $casts = [
         'is_approved' => 'boolean',
     ];
+
+    /**
+     * Get URL for the review's uploaded image.
+     */
+    public function imageUrl(): ?string
+    {
+        if ($this->image && Storage::disk('public')->exists($this->image)) {
+            return Storage::url($this->image);
+        }
+        return null;
+    }
 
     public function user()
     {

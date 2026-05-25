@@ -179,6 +179,17 @@
           <p class="text-sm text-gray-700 leading-relaxed italic">
             "{{ $testimonial->comment }}"
           </p>
+          {{-- Review Image --}}
+          @if($testimonial->image)
+            <div class="mt-3">
+              <img
+                src="{{ $testimonial->imageUrl() }}"
+                alt="Foto Review"
+                class="max-h-24 w-auto rounded-xl object-cover border border-pink-100 hover:scale-[1.03] transition-transform cursor-pointer shadow-sm"
+                onclick="openImageLightbox('{{ $testimonial->imageUrl() }}')"
+              >
+            </div>
+          @endif
           {{-- Date --}}
           <p class="text-xs text-gray-400 mt-2">
             {{ $testimonial->created_at->diffForHumans() }}
@@ -366,4 +377,25 @@
     // Run initially to set class lists correctly
     updateCarousel();
   });
+
+  function openImageLightbox(url) {
+    const lightbox = document.getElementById('reviewLightbox');
+    const img = document.getElementById('lightboxImage');
+    img.src = url;
+    lightbox.classList.remove('hidden');
+  }
+  function closeReviewLightbox() {
+    const lightbox = document.getElementById('reviewLightbox');
+    lightbox.classList.add('hidden');
+  }
 </script>
+
+{{-- Lightbox Modal --}}
+<div id="reviewLightbox" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden" onclick="closeReviewLightbox()">
+  <div class="relative max-w-4xl max-h-[85vh] mx-4" onclick="event.stopPropagation()">
+    <button onclick="closeReviewLightbox()" class="absolute -top-12 right-0 text-white hover:text-pink-300 text-3xl transition">
+      <i class="fas fa-times"></i>
+    </button>
+    <img id="lightboxImage" src="" alt="Foto Review Enlarge" class="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl">
+  </div>
+</div>
