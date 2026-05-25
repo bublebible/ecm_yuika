@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
@@ -18,6 +19,12 @@ Route::middleware('auth')->group(function () {
     // Testimonials
     Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
 
+    // Payment
+    Route::post('/rentals/{rental}/pay', [PaymentController::class, 'createSnap'])->name('payment.snap');
+    Route::post('/rentals/{rental}/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+    Route::get('/payment/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+    Route::post('/rentals/{rental}/pay-success-local', [PaymentController::class, 'successLocal'])->name('payment.success_local');
+
     // User Routes
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog.index');
@@ -26,7 +33,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/blog/{post:slug}', [App\Http\Controllers\User\BlogController::class, 'show'])->name('blog.show');
         Route::get('/history', [App\Http\Controllers\User\HistoryController::class, 'index'])->name('history.index');
         Route::patch('/rentals/{rental}/return', [App\Http\Controllers\User\RentalController::class, 'returnItem'])->name('rentals.return');
-        Route::resource('rentals', App\Http\Controllers\User\RentalController::class)->only(['index', 'create', 'store', 'update', 'edit']);
+        // rentals.index redirects to history — same page now
+        Route::get('/rentals', fn() => redirect()->route('user.history.index'))->name('rentals.index');
+        Route::resource('rentals', App\Http\Controllers\User\RentalController::class)->only(['create', 'store', 'update', 'edit']);
         Route::get('/rentals/{rental}/contract', [App\Http\Controllers\User\RentalController::class, 'downloadContract'])->name('rentals.contract');
 
         // Cart
@@ -39,6 +48,7 @@ Route::middleware('auth')->group(function () {
         // Messages
         Route::get('/messages', [App\Http\Controllers\MessageController::class, 'userIndex'])->name('messages.index');
         Route::get('/messages/fetch', [App\Http\Controllers\MessageController::class, 'userFetch'])->name('messages.fetch');
+        Route::get('/messages/unread', [App\Http\Controllers\MessageController::class, 'userUnreadCount'])->name('messages.unread');
         Route::post('/messages/send', [App\Http\Controllers\MessageController::class, 'userSend'])->name('messages.send');
         Route::post('/messages/chatbot', [App\Http\Controllers\MessageController::class, 'userChatbot'])->name('messages.chatbot');
         Route::post('/messages/typing', [App\Http\Controllers\MessageController::class, 'userTyping'])->name('messages.typing');
@@ -83,5 +93,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+// Midtrans Webhook — no auth, Midtrans server calls this directly
+Route::post('/payment/notification', [PaymentController::class, 'notification'])
+    ->name('payment.notification')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 require __DIR__.'/auth.php';

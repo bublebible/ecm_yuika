@@ -12,18 +12,18 @@ class HistoryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
-        // Active: Pending, Approved, Active
+
+        // Active: Pending, Approved, Active — masih berjalan
         $activeRentals = Rental::where('user_id', $user->id)
             ->whereIn('status', ['pending', 'approved', 'active'])
-            ->with(['items.asset.latestCondition', 'items.asset.category'])
+            ->with(['items.asset.latestCondition', 'items.asset.category', 'documents', 'testimonial'])
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Past: Returned, Completed, Cancelled
+        // Past: Returned, Completed, Cancelled — sudah selesai
         $pastRentals = Rental::where('user_id', $user->id)
             ->whereIn('status', ['returned', 'completed', 'cancelled'])
-            ->with(['items.asset.latestCondition', 'items.asset.category'])
+            ->with(['items.asset.latestCondition', 'items.asset.category', 'documents', 'testimonial'])
             ->orderBy('created_at', 'desc')
             ->get();
 

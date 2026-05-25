@@ -88,6 +88,27 @@ class MessageController extends Controller
     }
 
     /**
+     * Get unread message count for the current user (from admin)
+     */
+    public function userUnreadCount()
+    {
+        $userId = Auth::id();
+        $admin  = User::where('role', 'admin')->first();
+
+        if (!$admin) {
+            return response()->json(['count' => 0]);
+        }
+
+        $count = Message::where('sender_id', $admin->id)
+            ->where('receiver_id', $userId)
+            ->where('is_read', false)
+            ->count();
+
+        return response()->json(['count' => $count]);
+    }
+
+
+    /**
      * Admin Chat Page
      */
     public function adminIndex(Request $request)

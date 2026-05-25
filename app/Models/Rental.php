@@ -15,11 +15,16 @@ class Rental extends Model
         'start_date',
         'end_date',
         'total_price',
+        'midtrans_order_id',
+        'snap_token',
+        'payment_status',
+        'paid_at',
     ];
 
     protected $casts = [
         'start_date' => 'date',
-        'end_date' => 'date',
+        'end_date'   => 'date',
+        'paid_at'    => 'datetime',
     ];
 
     public function user()

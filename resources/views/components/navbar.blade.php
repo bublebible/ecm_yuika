@@ -31,24 +31,28 @@
                 </div>
             </div>
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-4">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-3">
                 @auth
-                    <!-- Desktop Cart Icon -->
-                    <a href="{{ route('user.cart.index') }}" class="text-gray-500 hover:text-pink-600 transition relative group mr-2" title="Cart">
+                    <!-- Desktop Cart Icon with badge -->
+                    @php $cartCount = count(Session::get('cart', [])); @endphp
+                    <a href="{{ route('user.cart.index') }}" class="relative text-gray-500 hover:text-pink-600 transition p-2" title="Keranjang">
                         <i class="fas fa-shopping-bag text-xl"></i>
-                        <!-- <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] font-bold px-1 py-0.5 rounded-full">2</span> -->
+                        @if($cartCount > 0)
+                            <span class="absolute -top-0.5 -right-0.5 h-5 min-w-[20px] px-1 flex items-center justify-center rounded-full bg-pink-500 text-white text-[10px] font-extrabold ring-2 ring-white">
+                                {{ $cartCount > 9 ? '9+' : $cartCount }}
+                            </span>
+                        @endif
                     </a>
 
                     <div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
                         <div @click="open = ! open">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md transition ease-in-out duration-150 text-gray-500 bg-white hover:text-gray-700">
-                                <div>{{ Auth::user()->name }}</div>
-
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
+                            <button class="inline-flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-full text-sm font-semibold transition hover:border-pink-300 hover:bg-pink-50 text-gray-700">
+                                <img src="{{ Auth::user()->avatarUrl() }}" alt="avatar"
+                                     class="w-7 h-7 rounded-full object-cover ring-2 ring-pink-200">
+                                <span class="max-w-[100px] truncate">{{ Auth::user()->name }}</span>
+                                <svg class="fill-current h-3.5 w-3.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
                             </button>
                         </div>
 
@@ -59,26 +63,38 @@
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="transform opacity-100 scale-100"
                              x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute right-0 z-50 mt-2 w-48 rounded-md shadow-lg origin-top-right bg-white ring-1 ring-black ring-opacity-5 py-1"
+                             class="absolute right-0 z-50 mt-2 w-52 rounded-xl shadow-lg origin-top-right bg-white ring-1 ring-black/5 py-1.5 divide-y divide-gray-100"
                              style="display: none;">
-                             
-                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-                                Dashboard
-                            </a>
-                            <a href="{{ route('user.history.index') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-                                Order History
-                            </a>
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-                                Profile
-                            </a>
 
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-                                    Log Out
+                            {{-- User info --}}
+                            <div class="px-4 py-2.5">
+                                <p class="text-xs font-semibold text-gray-800 truncate">{{ Auth::user()->name }}</p>
+                                <p class="text-xs text-gray-400 truncate">{{ Auth::user()->email }}</p>
+                            </div>
+
+                            {{-- Nav items --}}
+                            <div class="py-1">
+                                <a href="{{ route('user.history.index') }}"
+                                   class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-700 transition">
+                                    <i class="fas fa-box w-4 text-center text-gray-400"></i> Pesanan Saya
                                 </a>
-                            </form>
+                                <a href="{{ route('profile.edit') }}"
+                                   class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-700 transition">
+                                    <i class="fas fa-user-circle w-4 text-center text-gray-400"></i> Profil
+                                </a>
+                            </div>
+
+                            {{-- Logout --}}
+                            <div class="py-1">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); this.closest('form').submit();"
+                                       class="flex items-center gap-2.5 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
+                                        <i class="fas fa-sign-out-alt w-4 text-center"></i> Keluar
+                                    </a>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @else
