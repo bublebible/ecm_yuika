@@ -85,9 +85,16 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.assets.edit', $asset) }}" class="btn btn-info btn-sm">
+                                    <a href="{{ route('admin.assets.edit', $asset) }}" class="btn btn-info btn-sm mr-1">
                                         <i class="fas fa-edit"></i> Edit & Riwayat
                                     </a>
+                                    <form action="{{ route('admin.assets.destroy', $asset) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kostum ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

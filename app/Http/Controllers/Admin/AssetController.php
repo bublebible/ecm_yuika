@@ -110,4 +110,10 @@ class AssetController extends Controller
         
         return back();
     }
+
+    public function destroy(Asset $asset)
+    {
+        $asset->delete();
+        return redirect()->route('admin.assets.index')->with('success', 'Kostum berhasil dihapus.');
+    }
 }

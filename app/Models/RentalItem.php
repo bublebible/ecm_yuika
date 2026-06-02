@@ -22,6 +22,6 @@ class RentalItem extends Model
 
     public function asset()
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Asset::class)->withTrashed();
     }
 }
