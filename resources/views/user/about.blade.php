@@ -8,7 +8,7 @@
                 <div class="p-8">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">We Bring Characters to Life</h2>
                     <p class="text-gray-600 leading-relaxed mb-6">
-                        ECM Rent Coss is Indonesia's premier cosplay rental platform. Established in 2023, we aim to make high-quality cosplay accessible to everyone. We believe that everyone deserves to experience the magic of becoming their favorite character.
+                        Yuika Rentcoss is Indonesia's premier cosplay rental platform. Established in 2023, we aim to make high-quality cosplay accessible to everyone. We believe that everyone deserves to experience the magic of becoming their favorite character.
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">

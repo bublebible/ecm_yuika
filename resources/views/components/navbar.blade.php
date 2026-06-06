@@ -6,8 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ url('/') }}" class="text-3xl font-extrabold tracking-tight">
-                        <span class="text-pink-600 transition-colors duration-300">ECM</span>
-                        <span class="text-gray-900 transition-colors duration-300">Rent</span>
+                        <span class="text-pink-600 transition-colors duration-300">Yuika</span>
+                        <span class="text-gray-900 transition-colors duration-300">Rentcoss</span>
                     </a>
                 </div>
                 <!-- Navigation Links -->

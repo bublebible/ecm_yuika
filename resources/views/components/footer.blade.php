@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Logo & About -->
             <div class="col-span-1">
-                <span class="text-2xl font-bold text-pink-500">ECM Rent Coss</span>
+                <span class="text-2xl font-bold text-pink-500">Yuika Rentcoss</span>
                 <p class="mt-4 text-gray-300 text-sm">
                     Platform penyewaan kostum cosplay terlengkap dan terpercaya. Wujudkan karakter impianmu dengan mudah dan aman.
                 </p>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="ml-3">
                             <p class="text-base text-gray-300">
-                                support@ecmrentcoss.com
+                                support@yuikarentcoss.com
                             </p>
                         </div>
                     </li>
@@ -94,7 +94,7 @@
         </div>
         <div class="mt-8 border-t border-gray-700 pt-8">
             <p class="text-base text-gray-400 xl:text-center">
-                &copy; {{ date('Y') }} ECM Rent Coss. All rights reserved.
+                &copy; {{ date('Y') }} Yuika Rentcoss. All rights reserved.
             </p>
         </div>
     </div>
