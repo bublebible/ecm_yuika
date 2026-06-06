@@ -96,4 +96,23 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_user_can_upload_ktp(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $user = User::factory()->create(['ktp_status' => 'unverified']);
+        $file = \Illuminate\Http\UploadedFile::fake()->image('ktp.jpg');
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/profile/ktp', [
+                'ktp_image' => $file,
+            ]);
+
+        $response->assertRedirect('/profile');
+        $user->refresh();
+        $this->assertSame('pending', $user->ktp_status);
+        $this->assertNotNull($user->ktp_image);
+        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($user->ktp_image);
+    }
 }

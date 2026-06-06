@@ -19,7 +19,7 @@ class RentalFlowTest extends TestCase
     {
         // 1. Setup Data
         $admin = User::factory()->create(['role' => 'admin', 'email' => 'admin@test.com']);
-        $user = User::factory()->create(['role' => 'customer', 'email' => 'user@test.com']);
+        $user = User::factory()->create(['role' => 'customer', 'email' => 'user@test.com', 'ktp_status' => 'verified']);
         
         $asset = Asset::create([
             'name' => 'Costume A',

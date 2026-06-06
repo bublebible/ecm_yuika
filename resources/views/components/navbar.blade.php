@@ -32,18 +32,18 @@
             </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-3">
-                @auth
-                    <!-- Desktop Cart Icon with badge -->
-                    @php $cartCount = count(Session::get('cart', [])); @endphp
-                    <a href="{{ route('user.cart.index') }}" class="relative text-gray-500 hover:text-pink-600 transition p-2" title="Keranjang">
-                        <i class="fas fa-shopping-bag text-xl"></i>
-                        @if($cartCount > 0)
-                            <span class="absolute -top-0.5 -right-0.5 h-5 min-w-[20px] px-1 flex items-center justify-center rounded-full bg-pink-500 text-white text-[10px] font-extrabold ring-2 ring-white">
-                                {{ $cartCount > 9 ? '9+' : $cartCount }}
-                            </span>
-                        @endif
-                    </a>
+                <!-- Desktop Cart Icon with badge -->
+                @php $cartCount = count(Session::get('cart', [])); @endphp
+                <a href="{{ route('user.cart.index') }}" class="relative text-gray-500 hover:text-pink-600 transition p-2 mr-2" title="Keranjang">
+                    <i class="fas fa-shopping-bag text-xl"></i>
+                    @if($cartCount > 0)
+                        <span class="absolute -top-0.5 -right-0.5 h-5 min-w-[20px] px-1 flex items-center justify-center rounded-full bg-pink-500 text-white text-[10px] font-extrabold ring-2 ring-white">
+                            {{ $cartCount > 9 ? '9+' : $cartCount }}
+                        </span>
+                    @endif
+                </a>
 
+                @auth
                     <div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
                         <div @click="open = ! open">
                             <button class="inline-flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-full text-sm font-semibold transition hover:border-pink-300 hover:bg-pink-50 text-gray-700">

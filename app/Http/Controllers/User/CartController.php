@@ -76,6 +76,10 @@ class CartController extends Controller
     
     public function checkout(Request $request)
     {
+        if (!Auth::user() || !Auth::user()->isKtpVerified()) {
+            return redirect()->route('user.cart.index')->with('error', 'Anda harus memverifikasi KTP terlebih dahulu di halaman profil sebelum melakukan pemesanan.');
+        }
+
         $request->validate([
             'start_date' => 'required|date|after_or_equal:today',
             'end_date'   => 'required|date|after_or_equal:start_date',

@@ -74,4 +74,31 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Upload user KTP for verification.
+     */
+    public function uploadKtp(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'ktp_image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+
+        // Delete old KTP image if exists
+        if ($user->ktp_image && Storage::disk('public')->exists($user->ktp_image)) {
+            Storage::disk('public')->delete($user->ktp_image);
+        }
+
+        $path = $request->file('ktp_image')->store('ktp_documents', 'public');
+
+        $user->update([
+            'ktp_image' => $path,
+            'ktp_status' => 'pending',
+            'ktp_rejection_reason' => null,
+        ]);
+
+        return Redirect::route('profile.edit')->with('status', 'ktp-uploaded');
+    }
 }

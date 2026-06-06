@@ -23,6 +23,10 @@ class RentalController extends Controller
 
     public function create(Request $request)
     {
+        if (!Auth::user() || !Auth::user()->isKtpVerified()) {
+            return redirect()->route('user.catalog.index')->with('error', 'Anda harus memverifikasi KTP terlebih dahulu di halaman profil sebelum melakukan pemesanan.');
+        }
+
         $asset = null;
         if ($request->has('asset_id')) {
             $asset = Asset::find($request->asset_id);
@@ -32,6 +36,10 @@ class RentalController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user() || !Auth::user()->isKtpVerified()) {
+            return redirect()->route('user.catalog.index')->with('error', 'Anda harus memverifikasi KTP terlebih dahulu di halaman profil sebelum melakukan pemesanan.');
+        }
+
         $request->validate([
             'asset_id' => 'required|exists:assets,id',
             'start_date' => 'required|date|after_or_equal:today',

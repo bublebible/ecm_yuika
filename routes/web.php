@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/ktp', [ProfileController::class, 'uploadKtp'])->name('profile.upload_ktp');
 
     // Testimonials
     Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
@@ -27,10 +28,6 @@ Route::middleware('auth')->group(function () {
 
     // User Routes
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-        Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog.index');
-        Route::get('/catalog/{asset}', [App\Http\Controllers\User\CatalogController::class, 'show'])->name('catalog.show');
-        Route::get('/blog', [App\Http\Controllers\User\BlogController::class, 'index'])->name('blog.index');
-        Route::get('/blog/{post:slug}', [App\Http\Controllers\User\BlogController::class, 'show'])->name('blog.show');
         Route::get('/history', [App\Http\Controllers\User\HistoryController::class, 'index'])->name('history.index');
         Route::patch('/rentals/{rental}/return', [App\Http\Controllers\User\RentalController::class, 'returnItem'])->name('rentals.return');
         // rentals.index redirects to history — same page now
@@ -38,11 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('rentals', App\Http\Controllers\User\RentalController::class)->only(['create', 'store', 'update', 'edit']);
         Route::get('/rentals/{rental}/contract', [App\Http\Controllers\User\RentalController::class, 'downloadContract'])->name('rentals.contract');
 
-        // Cart
-        Route::get('/cart', [App\Http\Controllers\User\CartController::class, 'index'])->name('cart.index');
-        Route::get('/add-to-cart/{id}', [App\Http\Controllers\User\CartController::class, 'addToCart'])->name('cart.add');
-        Route::patch('/update-cart', [App\Http\Controllers\User\CartController::class, 'update'])->name('cart.update');
-        Route::delete('/remove-from-cart', [App\Http\Controllers\User\CartController::class, 'remove'])->name('cart.remove');
+        // Cart Checkout
         Route::post('/checkout', [App\Http\Controllers\User\CartController::class, 'checkout'])->name('cart.checkout');
 
         // Messages
@@ -63,6 +56,11 @@ Route::middleware('auth')->group(function () {
     }], function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         
+        // KTP Verification
+        Route::get('/ktp', [App\Http\Controllers\Admin\KtpVerificationController::class, 'index'])->name('ktp.index');
+        Route::post('/ktp/{user}/verify', [App\Http\Controllers\Admin\KtpVerificationController::class, 'verify'])->name('ktp.verify');
+        Route::post('/ktp/{user}/reject', [App\Http\Controllers\Admin\KtpVerificationController::class, 'reject'])->name('ktp.reject');
+
         // Inventory (Assets)
         Route::resource('assets', App\Http\Controllers\Admin\AssetController::class);
         
@@ -87,6 +85,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/messages/typing', [App\Http\Controllers\MessageController::class, 'adminTyping'])->name('messages.typing');
         Route::post('/messages/clear', [App\Http\Controllers\MessageController::class, 'clearChat'])->name('messages.clear');
     });
+});
+
+// Public User Routes
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog.index');
+    Route::get('/catalog/{asset}', [App\Http\Controllers\User\CatalogController::class, 'show'])->name('catalog.show');
+    Route::get('/blog', [App\Http\Controllers\User\BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{post:slug}', [App\Http\Controllers\User\BlogController::class, 'show'])->name('blog.show');
+
+    // Cart (Public viewing, adding, updating, removing)
+    Route::get('/cart', [App\Http\Controllers\User\CartController::class, 'index'])->name('cart.index');
+    Route::get('/add-to-cart/{id}', [App\Http\Controllers\User\CartController::class, 'addToCart'])->name('cart.add');
+    Route::patch('/update-cart', [App\Http\Controllers\User\CartController::class, 'update'])->name('cart.update');
+    Route::delete('/remove-from-cart', [App\Http\Controllers\User\CartController::class, 'remove'])->name('cart.remove');
 });
 
 // Public Routes

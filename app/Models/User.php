@@ -25,11 +25,19 @@ class User extends Authenticatable
         'phone',
         'address',
         'avatar',
+        'ktp_image',
+        'ktp_status',
+        'ktp_rejection_reason',
     ];
 
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public function isKtpVerified()
+    {
+        return $this->ktp_status === 'verified';
     }
 
     /**

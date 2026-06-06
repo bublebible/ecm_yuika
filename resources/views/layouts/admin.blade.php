@@ -53,7 +53,7 @@
   <aside class="main-sidebar sidebar-light-pink elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <span class="brand-text font-weight-bold text-pink">ECM Admin</span>
+      <span class="brand-text font-weight-bold text-pink">Yuika Rentcoss Admin</span>
     </a>
 
     <!-- Sidebar -->
@@ -72,6 +72,20 @@
             <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.ktp.index') }}" class="nav-link {{ request()->routeIs('admin.ktp.*') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-id-card"></i>
+              <p>
+                Verifikasi KTP
+                @php
+                  $pendingKtpCount = \App\Models\User::where('ktp_status', 'pending')->count();
+                @endphp
+                @if($pendingKtpCount > 0)
+                  <span class="badge badge-pink right" style="background-color: #e64a85; color: white;">{{ $pendingKtpCount }}</span>
+                @endif
+              </p>
             </a>
           </li>
           <li class="nav-item">
@@ -147,7 +161,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 1.0.0
     </div>
-    <strong>Copyright &copy; {{ date('Y') }} ECM Rental.</strong> All rights reserved.
+    <strong>Copyright &copy; {{ date('Y') }} Yuika Rentcoss.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->

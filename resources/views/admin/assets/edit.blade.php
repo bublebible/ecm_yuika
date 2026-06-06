@@ -113,10 +113,19 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Foto Bukti (Opsional)</label>
-                            <div class="input-group">
+                            <div class="input-group mb-2">
                                 <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input" id="exampleInputFile">
+                                    <input type="file" name="image" class="custom-file-input" id="exampleInputFile" onchange="previewImageEdit(event)">
                                     <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
+                                </div>
+                            </div>
+                            <div id="imagePreviewContainerEdit" style="display: none;">
+                                <div class="mt-2 text-muted small mb-1">Pratinjau Foto Baru:</div>
+                                <div class="position-relative d-inline-block">
+                                    <img id="imagePreviewEdit" src="#" alt="Pratinjau" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
+                                    <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreviewEdit()" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -126,4 +135,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function previewImageEdit(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('imagePreviewEdit');
+                output.src = reader.result;
+                document.getElementById('imagePreviewContainerEdit').style.display = 'block';
+            };
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+                // Update label name with selected file name
+                const fileName = event.target.files[0].name;
+                $(event.target).siblings('.custom-file-label').html(fileName);
+            }
+        }
+
+        function removeImagePreviewEdit() {
+            const fileInput = document.getElementById('exampleInputFile');
+            if (fileInput) {
+                fileInput.value = '';
+                $(fileInput).siblings('.custom-file-label').html('Pilih file');
+            }
+            document.getElementById('imagePreviewContainerEdit').style.display = 'none';
+        }
+    </script>
 @endsection

@@ -58,64 +58,114 @@
                 <form action="{{ route('user.cart.checkout') }}" method="POST" id="checkoutForm">
                     @csrf
 
-                    <div class="mt-6 bg-white p-6 rounded-xl shadow-sm space-y-4">
-                        <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
-                            <i class="fas fa-calendar-alt text-pink-500"></i>
-                            Pilih Tanggal Sewa
-                        </h3>
+                    @auth
+                        @if(Auth::user()->isKtpVerified())
+                            <div class="mt-6 bg-white p-6 rounded-xl shadow-sm space-y-4">
+                                <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                                    <i class="fas fa-calendar-alt text-pink-500"></i>
+                                    Pilih Tanggal Sewa
+                                </h3>
 
-                        {{-- Date inputs --}}
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
-                                    Mulai Sewa
-                                </label>
-                                <input
-                                    type="date"
-                                    name="start_date"
-                                    id="startDate"
-                                    class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
-                                    min="{{ date('Y-m-d') }}"
-                                    required
-                                    onchange="calculateTotal()"
-                                >
-                                @error('start_date')
-                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                                @enderror
+                                {{-- Date inputs --}}
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                                            Mulai Sewa
+                                        </label>
+                                        <input
+                                            type="date"
+                                            name="start_date"
+                                            id="startDate"
+                                            class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
+                                            min="{{ date('Y-m-d') }}"
+                                            required
+                                            onchange="calculateTotal()"
+                                        >
+                                        @error('start_date')
+                                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                                            Selesai Sewa
+                                        </label>
+                                        <input
+                                            type="date"
+                                            name="end_date"
+                                            id="endDate"
+                                            class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
+                                            min="{{ date('Y-m-d') }}"
+                                            required
+                                            onchange="calculateTotal()"
+                                        >
+                                        @error('end_date')
+                                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- Duration indicator --}}
+                                <div id="durationBadge" class="hidden">
+                                    <div class="flex items-center gap-2 bg-pink-50 border border-pink-200 rounded-xl px-4 py-3">
+                                        <i class="fas fa-clock text-pink-500"></i>
+                                        <span class="text-sm font-semibold text-pink-700" id="durationText">—</span>
+                                    </div>
+                                </div>
+
+                                {{-- Date error --}}
+                                <p id="dateError" class="hidden text-xs text-red-500 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    Tanggal selesai harus setelah tanggal mulai.
+                                </p>
                             </div>
+                        @elseif(Auth::user()->ktp_status === 'pending')
+                            <div class="mt-6 bg-blue-50 border border-blue-200 text-blue-800 p-5 rounded-2xl text-sm flex items-start gap-3 shadow-sm">
+                                <i class="fas fa-clock text-blue-600 mt-0.5 text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-base">Verifikasi KTP Sedang Diproses</p>
+                                    <p class="mt-1 text-xs text-blue-700">KTP Anda sedang dalam proses verifikasi oleh admin. Anda dapat melakukan pemesanan setelah status KTP diverifikasi.</p>
+                                </div>
+                            </div>
+                        @elseif(Auth::user()->ktp_status === 'rejected')
+                            <div class="mt-6 bg-rose-50 border border-rose-200 text-rose-800 p-5 rounded-2xl text-sm flex items-start gap-3 shadow-sm">
+                                <i class="fas fa-times-circle text-rose-600 mt-0.5 text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-base">Verifikasi KTP Ditolak</p>
+                                    <p class="mt-1 text-xs text-rose-700 mb-2">Pengajuan verifikasi KTP Anda ditolak oleh admin.</p>
+                                    @if(Auth::user()->ktp_rejection_reason)
+                                        <div class="bg-white/60 p-2.5 rounded-xl border border-rose-200/50 mb-3 text-xs text-rose-900">
+                                            <strong>Alasan:</strong> {{ Auth::user()->ktp_rejection_reason }}
+                                        </div>
+                                    @endif
+                                    <a href="{{ route('profile.edit') }}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold transition shadow-sm">
+                                        <i class="fas fa-redo"></i> Unggah Ulang KTP
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            <div class="mt-6 bg-amber-50 border border-amber-200 text-amber-800 p-5 rounded-2xl text-sm flex items-start gap-3 shadow-sm">
+                                <i class="fas fa-exclamation-triangle text-amber-600 mt-0.5 text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-base">Verifikasi KTP Diperlukan</p>
+                                    <p class="mt-1 text-xs text-amber-700 mb-3">Untuk menyewa kostum, Anda harus memverifikasi identitas dengan mengunggah foto KTP/KTM terlebih dahulu.</p>
+                                    <a href="{{ route('profile.edit') }}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition shadow-sm">
+                                        <i class="fas fa-id-card"></i> Verifikasi Sekarang
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+                    @else
+                        <div class="mt-6 bg-pink-50 border border-pink-200 text-pink-800 p-5 rounded-2xl text-sm flex items-start gap-3 shadow-sm">
+                            <i class="fas fa-info-circle text-pink-600 mt-0.5 text-lg"></i>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
-                                    Selesai Sewa
-                                </label>
-                                <input
-                                    type="date"
-                                    name="end_date"
-                                    id="endDate"
-                                    class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
-                                    min="{{ date('Y-m-d') }}"
-                                    required
-                                    onchange="calculateTotal()"
-                                >
-                                @error('end_date')
-                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                                @enderror
+                                <p class="font-bold text-base">Silakan Masuk Terlebih Dahulu</p>
+                                <p class="mt-1 text-xs text-pink-700 mb-3">Anda perlu masuk (login) ke akun Anda untuk memilih tanggal sewa dan melakukan checkout.</p>
+                                <a href="{{ route('login') }}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-xs font-bold transition shadow-sm">
+                                    <i class="fas fa-sign-in-alt"></i> Masuk / Daftar
+                                </a>
                             </div>
                         </div>
-
-                        {{-- Duration indicator --}}
-                        <div id="durationBadge" class="hidden">
-                            <div class="flex items-center gap-2 bg-pink-50 border border-pink-200 rounded-xl px-4 py-3">
-                                <i class="fas fa-clock text-pink-500"></i>
-                                <span class="text-sm font-semibold text-pink-700" id="durationText">—</span>
-                            </div>
-                        </div>
-
-                        {{-- Date error --}}
-                        <p id="dateError" class="hidden text-xs text-red-500 flex items-center gap-1">
-                            <i class="fas fa-exclamation-circle"></i>
-                            Tanggal selesai harus setelah tanggal mulai.
-                        </p>
-                    </div>
+                    @endauth
 
                     {{-- ===== ORDER SUMMARY ===== --}}
                     <div class="mt-4 bg-white p-6 rounded-xl shadow-sm">
@@ -148,18 +198,42 @@
                         <div class="flex justify-between">
                             <span class="text-base font-bold">Total</span>
                             <span class="text-base font-bold text-pink-600" id="totalPrice">
-                                Pilih tanggal terlebih dahulu
+                                @if(Auth::check() && Auth::user()->isKtpVerified())
+                                    Pilih tanggal terlebih dahulu
+                                @else
+                                    —
+                                @endif
                             </span>
                         </div>
 
-                        <button
-                            type="submit"
-                            id="checkoutBtn"
-                            disabled
-                            class="w-full mt-5 py-4 bg-pink-600 text-white font-bold rounded-xl shadow hover:bg-pink-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
-                            <i class="fas fa-shopping-bag mr-2"></i>
-                            Checkout Sekarang
-                        </button>
+                        @auth
+                            @if(Auth::user()->isKtpVerified())
+                                <button
+                                    type="submit"
+                                    id="checkoutBtn"
+                                    disabled
+                                    class="w-full mt-5 py-4 bg-pink-600 text-white font-bold rounded-xl shadow hover:bg-pink-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                    <i class="fas fa-shopping-bag mr-2"></i>
+                                    Checkout Sekarang
+                                </button>
+                            @elseif(Auth::user()->ktp_status === 'pending')
+                                <button type="button" disabled class="w-full mt-5 py-4 bg-gray-400 text-white font-bold rounded-xl cursor-not-allowed opacity-60">
+                                    <i class="fas fa-hourglass-half mr-2"></i>
+                                    Menunggu Verifikasi KTP
+                                </button>
+                            @else
+                                <a href="{{ route('profile.edit') }}" class="block w-full mt-5 py-4 bg-pink-600 hover:bg-pink-700 text-white text-center font-bold rounded-xl shadow transition">
+                                    <i class="fas fa-id-card mr-2"></i>
+                                    Verifikasi KTP untuk Memesan
+                                </a>
+                            @endif
+                        @else
+                            <a href="{{ route('login') }}" class="block w-full mt-5 py-4 bg-pink-600 hover:bg-pink-700 text-white text-center font-bold rounded-xl shadow transition">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Masuk untuk Memesan
+                            </a>
+                        @endauth
+                        
                         <p class="text-center text-xs text-gray-400 mt-2">
                             Pesanan akan menunggu konfirmasi admin
                         </p>
@@ -189,6 +263,8 @@
         function calculateTotal() {
             const startInput = document.getElementById('startDate');
             const endInput   = document.getElementById('endDate');
+            if (!startInput || !endInput) return;
+
             const startVal   = startInput.value;
             const endVal     = endInput.value;
 
