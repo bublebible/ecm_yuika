@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('asset_conditions', function (Blueprint $table) {
+            $table->string('wig_image')->nullable()->after('image');
+            $table->string('acc_image')->nullable()->after('wig_image');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('asset_conditions', function (Blueprint $table) {
+            $table->dropColumn(['wig_image', 'acc_image']);
+        });
+    }
+};

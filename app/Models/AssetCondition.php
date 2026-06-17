@@ -15,6 +15,8 @@ class AssetCondition extends Model
         'status',
         'notes',
         'image',
+        'wig_image',
+        'acc_image',
         'created_by_user_id',
     ];
 

@@ -42,6 +42,8 @@ class AssetController extends Controller
             'condition_status' => 'required|string', // Good, Damaged
             'condition_notes' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
+            'wig_image' => 'nullable|image|max:2048',
+            'acc_image' => 'nullable|image|max:2048',
         ]);
 
         $asset = Asset::create($request->only('name', 'code', 'category_id', 'description', 'price_per_day', 'stock_qty'));
@@ -55,6 +57,14 @@ class AssetController extends Controller
 
         if ($request->hasFile('image')) {
             $conditionData['image'] = $request->file('image')->store('conditions', 'public');
+        }
+
+        if ($request->hasFile('wig_image')) {
+            $conditionData['wig_image'] = $request->file('wig_image')->store('conditions', 'public');
+        }
+
+        if ($request->hasFile('acc_image')) {
+            $conditionData['acc_image'] = $request->file('acc_image')->store('conditions', 'public');
         }
 
         $asset->conditions()->create($conditionData);
@@ -88,6 +98,9 @@ class AssetController extends Controller
             $request->validate([
                 'status' => 'required|string',
                 'notes' => 'nullable|string',
+                'image' => 'nullable|image|max:2048',
+                'wig_image' => 'nullable|image|max:2048',
+                'acc_image' => 'nullable|image|max:2048',
             ]);
 
             $latestVersion = $asset->conditions()->max('version') ?? 0;
@@ -101,6 +114,14 @@ class AssetController extends Controller
 
             if ($request->hasFile('image')) {
                 $conditionData['image'] = $request->file('image')->store('conditions', 'public');
+            }
+
+            if ($request->hasFile('wig_image')) {
+                $conditionData['wig_image'] = $request->file('wig_image')->store('conditions', 'public');
+            }
+
+            if ($request->hasFile('acc_image')) {
+                $conditionData['acc_image'] = $request->file('acc_image')->store('conditions', 'public');
             }
 
             $asset->conditions()->create($conditionData);

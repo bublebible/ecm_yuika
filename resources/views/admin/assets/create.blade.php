@@ -65,7 +65,7 @@
                                     <label for="image">Foto Kostum</label>
                                     <div class="input-group mb-2">
                                         <div class="custom-file">
-                                            <input type="file" name="image" class="custom-file-input" id="image" onchange="previewImage(event)">
+                                            <input type="file" name="image" class="custom-file-input" id="image" onchange="previewImage(event, 'imagePreview', 'imagePreviewContainer')">
                                             <label class="custom-file-label" for="image">Pilih file</label>
                                         </div>
                                     </div>
@@ -73,7 +73,43 @@
                                         <div class="mt-2 text-muted small mb-1">Pratinjau Foto Kostum:</div>
                                         <div class="position-relative d-inline-block">
                                             <img id="imagePreview" src="#" alt="Pratinjau" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
-                                            <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreview()" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                            <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreview('image', 'imagePreviewContainer')" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wig_image">Foto Wig</label>
+                                    <div class="input-group mb-2">
+                                        <div class="custom-file">
+                                            <input type="file" name="wig_image" class="custom-file-input" id="wig_image" onchange="previewImage(event, 'wigImagePreview', 'wigImagePreviewContainer')">
+                                            <label class="custom-file-label" for="wig_image">Pilih file</label>
+                                        </div>
+                                    </div>
+                                    <div id="wigImagePreviewContainer" style="display: none;">
+                                        <div class="mt-2 text-muted small mb-1">Pratinjau Foto Wig:</div>
+                                        <div class="position-relative d-inline-block">
+                                            <img id="wigImagePreview" src="#" alt="Pratinjau Wig" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
+                                            <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreview('wig_image', 'wigImagePreviewContainer')" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="acc_image">Foto Aksesoris (ACC)</label>
+                                    <div class="input-group mb-2">
+                                        <div class="custom-file">
+                                            <input type="file" name="acc_image" class="custom-file-input" id="acc_image" onchange="previewImage(event, 'accImagePreview', 'accImagePreviewContainer')">
+                                            <label class="custom-file-label" for="acc_image">Pilih file</label>
+                                        </div>
+                                    </div>
+                                    <div id="accImagePreviewContainer" style="display: none;">
+                                        <div class="mt-2 text-muted small mb-1">Pratinjau Foto Aksesoris:</div>
+                                        <div class="position-relative d-inline-block">
+                                            <img id="accImagePreview" src="#" alt="Pratinjau Aksesoris" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
+                                            <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreview('acc_image', 'accImagePreviewContainer')" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
@@ -83,7 +119,7 @@
                         </div>
                     </div>
                     <!-- /.card-body -->
-
+ 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Simpan Kostum</button>
                         <a href="{{ route('admin.assets.index') }}" class="btn btn-default float-right">Batal</a>
@@ -92,14 +128,14 @@
             </div>
         </div>
     </div>
-
+ 
     <script>
-        function previewImage(event) {
+        function previewImage(event, previewId, containerId) {
             const reader = new FileReader();
             reader.onload = function() {
-                const output = document.getElementById('imagePreview');
+                const output = document.getElementById(previewId);
                 output.src = reader.result;
-                document.getElementById('imagePreviewContainer').style.display = 'block';
+                document.getElementById(containerId).style.display = 'block';
             };
             if (event.target.files[0]) {
                 reader.readAsDataURL(event.target.files[0]);
@@ -108,14 +144,14 @@
                 $(event.target).siblings('.custom-file-label').html(fileName);
             }
         }
-
-        function removeImagePreview() {
-            const fileInput = document.getElementById('image');
+ 
+        function removeImagePreview(inputId, containerId) {
+            const fileInput = document.getElementById(inputId);
             if (fileInput) {
                 fileInput.value = '';
                 $(fileInput).siblings('.custom-file-label').html('Pilih file');
             }
-            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById(containerId).style.display = 'none';
         }
     </script>
 @endsection

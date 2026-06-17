@@ -69,13 +69,34 @@
 
                                     <div class="timeline-body">
                                         @if($condition->notes) 
-                                            <p class="mb-1">"{{ $condition->notes }}"</p> 
+                                            <p class="mb-2">"{{ $condition->notes }}"</p> 
                                         @endif
-                                        @if($condition->image)
-                                            <a href="{{ Storage::url($condition->image) }}" target="_blank">
-                                                <img src="{{ Storage::url($condition->image) }}" alt="..." class="margin" style="max-height: 100px; border-radius: 4px;">
-                                            </a>
-                                        @endif
+                                        <div class="d-flex flex-wrap">
+                                            @if($condition->image)
+                                                <div class="mr-3 mb-2 text-center">
+                                                    <a href="{{ Storage::url($condition->image) }}" target="_blank" class="d-block">
+                                                        <img src="{{ Storage::url($condition->image) }}" alt="Kostum" class="img-thumbnail" style="max-height: 100px; border-radius: 4px;">
+                                                    </a>
+                                                    <span class="text-xs text-muted">Kostum</span>
+                                                </div>
+                                            @endif
+                                            @if($condition->wig_image)
+                                                <div class="mr-3 mb-2 text-center">
+                                                    <a href="{{ Storage::url($condition->wig_image) }}" target="_blank" class="d-block">
+                                                        <img src="{{ Storage::url($condition->wig_image) }}" alt="Wig" class="img-thumbnail" style="max-height: 100px; border-radius: 4px;">
+                                                    </a>
+                                                    <span class="text-xs text-muted">Wig</span>
+                                                </div>
+                                            @endif
+                                            @if($condition->acc_image)
+                                                <div class="mr-3 mb-2 text-center">
+                                                    <a href="{{ Storage::url($condition->acc_image) }}" target="_blank" class="d-block">
+                                                        <img src="{{ Storage::url($condition->acc_image) }}" alt="Aksesoris" class="img-thumbnail" style="max-height: 100px; border-radius: 4px;">
+                                                    </a>
+                                                    <span class="text-xs text-muted">Aksesoris</span>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                     @if($condition->creator)
                                         <div class="timeline-footer">
@@ -112,23 +133,62 @@
                             <textarea name="notes" class="form-control" rows="2" placeholder="Contoh: Ada sobekan kecil di bagian lengan..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">Foto Bukti (Opsional)</label>
+                            <label for="image_edit">Foto Kostum Baru (Opsional)</label>
                             <div class="input-group mb-2">
                                 <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input" id="exampleInputFile" onchange="previewImageEdit(event)">
-                                    <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
+                                    <input type="file" name="image" class="custom-file-input" id="image_edit" onchange="previewImageEdit(event, 'imagePreviewEdit', 'imagePreviewContainerEdit')">
+                                    <label class="custom-file-label" for="image_edit">Pilih file</label>
                                 </div>
                             </div>
                             <div id="imagePreviewContainerEdit" style="display: none;">
-                                <div class="mt-2 text-muted small mb-1">Pratinjau Foto Baru:</div>
+                                <div class="mt-2 text-muted small mb-1">Pratinjau Foto Kostum Baru:</div>
                                 <div class="position-relative d-inline-block">
                                     <img id="imagePreviewEdit" src="#" alt="Pratinjau" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
-                                    <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreviewEdit()" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                    <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreviewEdit('image_edit', 'imagePreviewContainerEdit')" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="wig_image_edit">Foto Wig Baru (Opsional)</label>
+                            <div class="input-group mb-2">
+                                <div class="custom-file">
+                                    <input type="file" name="wig_image" class="custom-file-input" id="wig_image_edit" onchange="previewImageEdit(event, 'wigImagePreviewEdit', 'wigImagePreviewContainerEdit')">
+                                    <label class="custom-file-label" for="wig_image_edit">Pilih file</label>
+                                </div>
+                            </div>
+                            <div id="wigImagePreviewContainerEdit" style="display: none;">
+                                <div class="mt-2 text-muted small mb-1">Pratinjau Foto Wig Baru:</div>
+                                <div class="position-relative d-inline-block">
+                                    <img id="wigImagePreviewEdit" src="#" alt="Pratinjau Wig" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
+                                    <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreviewEdit('wig_image_edit', 'wigImagePreviewContainerEdit')" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="acc_image_edit">Foto Aksesoris Baru (Opsional)</label>
+                            <div class="input-group mb-2">
+                                <div class="custom-file">
+                                    <input type="file" name="acc_image" class="custom-file-input" id="acc_image_edit" onchange="previewImageEdit(event, 'accImagePreviewEdit', 'accImagePreviewContainerEdit')">
+                                    <label class="custom-file-label" for="acc_image_edit">Pilih file</label>
+                                </div>
+                            </div>
+                            <div id="accImagePreviewContainerEdit" style="display: none;">
+                                <div class="mt-2 text-muted small mb-1">Pratinjau Foto Aksesoris Baru:</div>
+                                <div class="position-relative d-inline-block">
+                                    <img id="accImagePreviewEdit" src="#" alt="Pratinjau Aksesoris" class="img-thumbnail" style="max-height: 200px; max-width: 100%; border-radius: 8px;">
+                                    <button type="button" class="btn btn-danger btn-xs position-absolute shadow-sm" onclick="removeImagePreviewEdit('acc_image_edit', 'accImagePreviewContainerEdit')" style="top: -10px; right: -10px; border-radius: 50%; width: 24px; height: 24px; padding: 0; line-height: 24px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-success float-right">Simpan Update Kondisi</button>
                     </form>
                 </div>
@@ -137,12 +197,12 @@
     </div>
 
     <script>
-        function previewImageEdit(event) {
+        function previewImageEdit(event, previewId, containerId) {
             const reader = new FileReader();
             reader.onload = function() {
-                const output = document.getElementById('imagePreviewEdit');
+                const output = document.getElementById(previewId);
                 output.src = reader.result;
-                document.getElementById('imagePreviewContainerEdit').style.display = 'block';
+                document.getElementById(containerId).style.display = 'block';
             };
             if (event.target.files[0]) {
                 reader.readAsDataURL(event.target.files[0]);
@@ -152,13 +212,13 @@
             }
         }
 
-        function removeImagePreviewEdit() {
-            const fileInput = document.getElementById('exampleInputFile');
+        function removeImagePreviewEdit(inputId, containerId) {
+            const fileInput = document.getElementById(inputId);
             if (fileInput) {
                 fileInput.value = '';
                 $(fileInput).siblings('.custom-file-label').html('Pilih file');
             }
-            document.getElementById('imagePreviewContainerEdit').style.display = 'none';
+            document.getElementById(containerId).style.display = 'none';
         }
     </script>
 @endsection

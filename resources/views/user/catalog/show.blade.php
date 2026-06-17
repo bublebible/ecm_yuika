@@ -1,9 +1,41 @@
 <x-app-layout>
     <div class="min-h-screen bg-pink-100 font-sans text-gray-900 py-12 px-6 lg:px-12">
         <div class="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row">
-            <!-- Left Side: Image -->
-            <div class="w-full md:w-1/2 relative bg-pink-50 h-[500px] md:h-auto">
-                <img src="{{ Storage::url($asset->latestCondition->image ?? 'default.jpg') }}" alt="{{ $asset->name }}" class="absolute inset-0 w-full h-full object-cover">
+            <!-- Left Side: Image & Interactive Gallery -->
+            <div class="w-full md:w-1/2 flex flex-col bg-pink-50 p-6 justify-center">
+                <!-- Large Main Image Viewport -->
+                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-inner bg-pink-100/50">
+                    <img id="mainGalleryImage" src="{{ Storage::url($asset->latestCondition->image ?? 'default.jpg') }}" alt="{{ $asset->name }}" class="absolute inset-0 w-full h-full object-cover transition-all duration-300">
+                </div>
+                
+                <!-- Thumbnails Selector -->
+                @if($asset->latestCondition && ($asset->latestCondition->image || $asset->latestCondition->wig_image || $asset->latestCondition->acc_image))
+                    <div class="mt-6 grid grid-cols-3 gap-4">
+                        @if($asset->latestCondition->image)
+                            <button onclick="changeGalleryImage('{{ Storage::url($asset->latestCondition->image) }}', this)" 
+                                    class="gallery-thumb-btn active-thumb relative aspect-square rounded-xl overflow-hidden border-4 border-pink-500 focus:outline-none transition-all shadow-md transform hover:scale-105">
+                                <img src="{{ Storage::url($asset->latestCondition->image) }}" class="absolute inset-0 w-full h-full object-cover">
+                                <div class="absolute inset-x-0 bottom-0 bg-black/60 text-white text-[10px] font-black uppercase text-center py-1 tracking-wider">Kostum</div>
+                            </button>
+                        @endif
+
+                        @if($asset->latestCondition->wig_image)
+                            <button onclick="changeGalleryImage('{{ Storage::url($asset->latestCondition->wig_image) }}', this)" 
+                                    class="gallery-thumb-btn relative aspect-square rounded-xl overflow-hidden border-4 border-transparent hover:border-pink-300 focus:outline-none transition-all shadow-md transform hover:scale-105">
+                                <img src="{{ Storage::url($asset->latestCondition->wig_image) }}" class="absolute inset-0 w-full h-full object-cover">
+                                <div class="absolute inset-x-0 bottom-0 bg-black/60 text-white text-[10px] font-black uppercase text-center py-1 tracking-wider">Wig</div>
+                            </button>
+                        @endif
+
+                        @if($asset->latestCondition->acc_image)
+                            <button onclick="changeGalleryImage('{{ Storage::url($asset->latestCondition->acc_image) }}', this)" 
+                                    class="gallery-thumb-btn relative aspect-square rounded-xl overflow-hidden border-4 border-transparent hover:border-pink-300 focus:outline-none transition-all shadow-md transform hover:scale-105">
+                                <img src="{{ Storage::url($asset->latestCondition->acc_image) }}" class="absolute inset-0 w-full h-full object-cover">
+                                <div class="absolute inset-x-0 bottom-0 bg-black/60 text-white text-[10px] font-black uppercase text-center py-1 tracking-wider">Aksesoris</div>
+                            </button>
+                        @endif
+                    </div>
+                @endif
             </div>
 
             <!-- Right Side: Details -->
@@ -55,4 +87,25 @@
             </div>
         </div>
     </div>
+    <script>
+        function changeGalleryImage(url, button) {
+            const mainImg = document.getElementById('mainGalleryImage');
+            
+            // Apply a quick fade transition
+            mainImg.style.opacity = '0.3';
+            
+            setTimeout(() => {
+                mainImg.src = url;
+                mainImg.style.opacity = '1';
+            }, 100);
+
+            // Update border states
+            document.querySelectorAll('.gallery-thumb-btn').forEach(btn => {
+                btn.classList.remove('border-pink-500', 'active-thumb');
+                btn.classList.add('border-transparent');
+            });
+            button.classList.remove('border-transparent');
+            button.classList.add('border-pink-500', 'active-thumb');
+        }
+    </script>
 </x-app-layout>
