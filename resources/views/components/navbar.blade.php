@@ -33,7 +33,10 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-3">
                 <!-- Desktop Cart Icon with badge -->
-                @php $cartCount = count(Session::get('cart', [])); @endphp
+                @php
+                    $cart = Session::get('cart');
+                    $cartCount = is_array($cart) ? count($cart) : 0;
+                @endphp
                 <a href="{{ route('user.cart.index') }}" class="relative text-gray-500 hover:text-pink-600 transition p-2 mr-2" title="Keranjang">
                     <i class="fas fa-shopping-bag text-xl"></i>
                     @if($cartCount > 0)

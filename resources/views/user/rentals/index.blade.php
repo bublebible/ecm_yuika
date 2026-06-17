@@ -82,7 +82,7 @@
                                                 @if($rental->status === 'pending')
                                                     <a href="{{ route('user.rentals.edit', $rental) }}"
                                                        class="text-blue-600 hover:text-blue-900 text-xs font-medium">
-                                                        <i class="fas fa-id-card mr-1"></i>Upload KTP
+                                                        <i class="fas fa-info-circle mr-1"></i>Detail
                                                     </a>
                                                 @elseif(in_array($rental->status, ['approved', 'active']))
                                                     <a href="{{ route('user.rentals.edit', $rental) }}"

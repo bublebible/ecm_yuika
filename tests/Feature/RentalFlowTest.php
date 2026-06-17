@@ -49,27 +49,6 @@ class RentalFlowTest extends TestCase
         $this->assertDatabaseHas('rentals', ['user_id' => $user->id, 'status' => 'pending']);
         $rental = Rental::first();
 
-        // 4. User Uploads Identity
-        Storage::fake('public');
-        $file = UploadedFile::fake()->image('ktp.jpg');
-        
-        $response = $this->actingAs($user)->put(route('user.rentals.update', $rental), [
-            'identity_card' => $file,
-        ]);
-        
-        $this->assertDatabaseHas('documents', ['rental_id' => $rental->id, 'type' => 'identity_card']);
-
-        // 5. Admin Validates Document
-        $doc = $rental->documents()->first();
-        $response = $this->actingAs($admin)->put(route('admin.rentals.update', $rental), [
-            'validate_doc' => 1,
-            'doc_id' => $doc->id,
-            'doc_status' => 'valid',
-            'admin_note' => 'OK',
-        ]);
-        
-        $this->assertDatabaseHas('documents', ['id' => $doc->id, 'status' => 'valid']);
-
         // 6. Admin Approves Rental
         $response = $this->actingAs($admin)->put(route('admin.rentals.update', $rental), [
             'approve_rental' => 1,

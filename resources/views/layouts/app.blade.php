@@ -119,7 +119,10 @@
                            class="relative h-14 w-14 flex items-center justify-center rounded-full bg-pink-600 shadow-lg text-white hover:bg-pink-700 transition">
                             <i class="fas fa-shopping-bag text-xl"></i>
                             {{-- Cart count badge --}}
-                            @php $cartCount = count(Session::get('cart', [])); @endphp
+                            @php
+                                $cart = Session::get('cart');
+                                $cartCount = is_array($cart) ? count($cart) : 0;
+                            @endphp
                             @if($cartCount > 0)
                                 <span id="cartBadgeMobile"
                                       class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-yellow-400 text-gray-900 text-[10px] font-extrabold ring-2 ring-white badge-bounce">

@@ -81,7 +81,7 @@
                         </div>
                         <div class="mt-4">
                             <h6 class="text-muted mb-1">Total Asset Value (Est)</h6>
-                            <h2 class="font-weight-bold text-dark">${{ number_format($totalAssets * 150000 / 15000, 2) }}</h2> 
+                            <h2 class="font-weight-bold text-dark">Rp {{ number_format($totalAssets * 150000, 0, ',', '.') }}</h2> 
                             <!-- Fake calculation for demo visuals, assuming ~Rp150k avg value -->
                         </div>
                     </div>

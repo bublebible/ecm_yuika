@@ -87,7 +87,7 @@ class CartController extends Controller
 
         $cart = Session::get('cart');
 
-        if (!$cart || count($cart) == 0) {
+        if (!is_array($cart) || count($cart) == 0) {
             return redirect()->route('user.cart.index')->with('error', 'Keranjang kosong.');
         }
 

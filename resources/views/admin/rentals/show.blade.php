@@ -25,6 +25,26 @@
                     <hr>
                     <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
                     <p class="text-muted">{{ $rental->user->address ?? '-' }}</p>
+                    <hr>
+                    <strong><i class="fas fa-id-card mr-1"></i> Status KTP Akun</strong>
+                    <p class="text-muted mb-1">
+                        @php
+                            $ktpStatusBadge = match($rental->user->ktp_status ?? 'unverified') {
+                                'verified'  => 'badge-success',
+                                'pending'   => 'badge-warning',
+                                'rejected'  => 'badge-danger',
+                                default     => 'badge-secondary',
+                            };
+                        @endphp
+                        <span class="badge {{ $ktpStatusBadge }}">{{ ucfirst($rental->user->ktp_status ?? 'unverified') }}</span>
+                    </p>
+                    @if($rental->user->ktp_image)
+                        <div class="mt-2">
+                            <a href="{{ Storage::url($rental->user->ktp_image) }}" target="_blank" class="btn btn-xs btn-outline-primary">
+                                <i class="fas fa-eye"></i> Lihat Foto KTP Profil
+                            </a>
+                        </div>
+                    @endif
 
                     <h4 class="mt-4 mb-2">Detail Sewa</h4>
                     <ul class="list-group list-group-unbordered mb-3">

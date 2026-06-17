@@ -22,29 +22,13 @@
 
                     @if($rental->status == 'pending')
                         <div class="border-t pt-4">
-                            <h4 class="font-bold mb-2">Upload Identitas (KTP/KTM)</h4>
-                            <form action="{{ route('user.rentals.update', $rental) }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <input type="file" name="identity_card" onchange="previewUserImage(event, 'identityCardPreviewContainer', 'identityCardPreview')" class="block w-full text-sm text-gray-500
-                                  file:mr-4 file:py-2 file:px-4
-                                  file:rounded-full file:border-0
-                                  file:text-sm file:font-semibold
-                                  file:bg-indigo-50 file:text-indigo-700
-                                  hover:file:bg-indigo-100" required>
-                                
-                                <div id="identityCardPreviewContainer" class="mt-3 hidden">
-                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Pratinjau Foto KTP:</p>
-                                    <div class="relative inline-block">
-                                        <img id="identityCardPreview" src="#" alt="Pratinjau KTP" class="h-32 w-auto rounded-lg object-cover border border-gray-200">
-                                        <button type="button" onclick="removeUserPreview('identity_card', 'identityCardPreviewContainer')" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] hover:bg-red-600 transition shadow">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
+                            <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl text-sm flex items-start gap-3 shadow-sm">
+                                <i class="fas fa-clock mt-0.5 text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-base">Menunggu Persetujuan Admin</p>
+                                    <p class="text-xs mt-1">Pesanan Anda telah berhasil dibuat. Mohon menunggu admin memverifikasi dan menyetujui penyewaan Anda.</p>
                                 </div>
-
-                                <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Upload</button>
-                            </form>
+                            </div>
                         </div>
                     @endif
 

@@ -93,19 +93,6 @@ class RentalController extends Controller
             abort(403);
         }
 
-        if ($request->hasFile('identity_card')) {
-            $request->validate(['identity_card' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048']);
-            $path = $request->file('identity_card')->store('documents', 'public');
-            
-            $rental->documents()->create([
-                'type' => 'identity_card',
-                'file_path' => $path,
-                'status' => 'pending',
-            ]);
-            
-            return back()->with('success', 'Identitas berhasil diupload, menunggu validasi admin.');
-        }
-
         if ($request->hasFile('return_proof')) {
             $request->validate(['return_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048']);
             $path = $request->file('return_proof')->store('documents', 'public');

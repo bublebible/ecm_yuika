@@ -15,7 +15,7 @@
                 </div>
             @endif
 
-            @if($cart && count($cart) > 0)
+            @if(is_array($cart) && count($cart) > 0)
                 <div class="space-y-4">
                     @php $pricePerDay = 0; @endphp
                     @foreach($cart as $id => $details)
