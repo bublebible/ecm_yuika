@@ -46,7 +46,6 @@
   </div>
 
   @if($popularAssets->isNotEmpty())
-    <!-- Carousel Container (Relative for absolute position routing) -->
     <div id="most-rented-carousel" class="relative w-full h-[580px] overflow-hidden p-10 rounded-xl bg-pink-50 shadow-inner flex items-center justify-center">
       
       @foreach($popularAssets as $asset)
@@ -57,38 +56,33 @@
           $isHidden = !$isLeft && !$isCenter && !$isRight;
         @endphp
         
-        <!-- Foto Kostum Carousel Item -->
-        <div class="carousel-item absolute transition-all duration-500 ease-in-out overflow-hidden flex items-center border-4 
+        <div class="carousel-item absolute transition-all duration-500 ease-in-out overflow-hidden flex flex-col justify-end border-4 
           @if($isCenter)
-            left-[50%] -translate-x-1/2 w-[34%] aspect-[3/4.5] z-20 scale-105 opacity-100 border-pink-400 shadow-2xl rounded-3xl
+            left-[50%] -translate-x-1/2 w-[28%] h-[460px] z-20 scale-105 opacity-100 border-pink-400 shadow-2xl rounded-3xl
           @elseif($isLeft)
-            left-[18%] -translate-x-1/2 w-[26%] aspect-[3/4] z-10 scale-95 opacity-80 border-transparent shadow-lg rounded-2xl cursor-pointer
+            left-[18%] -translate-x-1/2 w-[22%] h-[400px] z-10 scale-95 opacity-80 border-transparent shadow-lg rounded-2xl cursor-pointer
           @elseif($isRight)
-            left-[82%] -translate-x-1/2 w-[26%] aspect-[3/4] z-10 scale-95 opacity-80 border-transparent shadow-lg rounded-2xl cursor-pointer
+            left-[82%] -translate-x-1/2 w-[22%] h-[400px] z-10 scale-95 opacity-80 border-transparent shadow-lg rounded-2xl cursor-pointer
           @else
-            left-[100%] -translate-x-1/2 w-[26%] aspect-[3/4] z-0 scale-75 opacity-0 border-transparent shadow-none rounded-2xl pointer-events-none
+            left-[100%] -translate-x-1/2 w-[22%] h-[400px] z-0 scale-75 opacity-0 border-transparent shadow-none rounded-2xl pointer-events-none
           @endif
         ">
-          <!-- Efek Glow Pink Tipis -->
           <div class="glow-overlay absolute -inset-2 bg-pink-100 transition rounded-3xl z-10 {{ $isCenter ? 'opacity-20' : 'opacity-0' }}"></div>
           
           <img src="{{ Storage::url($asset->latestCondition->image ?? 'default.jpg') }}" alt="{{ $asset->name }}" class="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-500 hover:scale-105 {{ $asset->stock_qty <= 0 ? 'grayscale opacity-75' : '' }}">
           
           @if($asset->stock_qty <= 0)
-          <!-- Badge Out of Stock -->
           <span class="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full z-20 shadow-md uppercase tracking-wider">
               Out of Stock
           </span>
           @endif
           
-          <!-- Gradient Overlay -->
           <div class="gradient-overlay absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t z-10 transition-all duration-500 {{ $isCenter ? 'from-black/90 to-transparent' : 'from-black/80 to-transparent' }}"></div>
           
-          <!-- Teks & Tombol di atas foto -->
-          <div class="text-container relative z-20 w-full mt-auto flex flex-col items-center transition-all duration-500 {{ $isCenter ? 'p-8' : 'p-6' }}">
-            <h4 class="asset-title font-bold text-white self-start uppercase transition-all duration-500 {{ $isCenter ? 'text-2xl' : 'text-xl' }}">{{ $asset->name }}</h4>
-            <p class="asset-category font-medium mb-1 self-start uppercase transition-all duration-500 {{ $isCenter ? 'text-gray-100 text-base' : 'text-gray-200 text-xs' }}">{{ $asset->category->name ?? 'Series' }}</p>
-            <a href="{{ route('user.catalog.show', $asset->id) }}" class="detail-btn block text-center mt-5 w-full bg-red-600 text-white font-bold transition-all duration-500 {{ $isCenter ? 'py-3 rounded-xl text-sm shadow-lg' : 'py-2.5 rounded-lg text-xs shadow-md' }}">DETAIL</a>
+          <div class="text-container relative z-20 w-full mt-auto flex flex-col items-center transition-all duration-500 {{ $isCenter ? 'p-6 pb-6' : 'p-4 pb-4' }}">
+            <h4 class="asset-title font-bold text-white self-start uppercase transition-all duration-500 {{ $isCenter ? 'text-xl' : 'text-lg' }}">{{ $asset->name }}</h4>
+            <p class="asset-category font-medium mb-1 self-start uppercase transition-all duration-500 {{ $isCenter ? 'text-gray-100 text-sm' : 'text-gray-200 text-xs' }}">{{ $asset->category->name ?? 'Series' }}</p>
+            <a href="{{ route('user.catalog.show', $asset->id) }}" class="detail-btn block text-center mt-4 w-full bg-red-600 text-white font-bold transition-all duration-500 {{ $isCenter ? 'py-2.5 rounded-xl text-xs shadow-lg' : 'py-2 rounded-lg text-[11px] shadow-md' }}">DETAIL</a>
           </div>
         </div>
       @endforeach
@@ -98,7 +92,6 @@
     <p class="text-center text-gray-500 italic py-10 w-full">No popular costumes available yet.</p>
   @endif
 
-  <!-- Carousel Buttons -->
   <button id="carousel-prev-btn" class="absolute left-10 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/70 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-pink-600 text-xl hover:bg-white transition z-20">
     <i class="fas fa-chevron-left"></i>
   </button>
@@ -213,7 +206,7 @@
     <i class="fab fa-instagram text-xl"></i> @YUIKA.RENTCOS
   </div>
   <div class="flex items-center gap-2">
-    <i class="fab fa-tiktok text-xl"></i> YUMICOS
+    <i class="fab fa-tiktok text-xl"></i> YUIMICOS
   </div>
 </footer>
 
@@ -229,25 +222,25 @@
 
     function updateCarousel() {
       items.forEach((item, idx) => {
-        // Reset classes
-        item.className = 'carousel-item absolute transition-all duration-500 ease-in-out overflow-hidden flex items-center border-4';
+        // Reset classes dasar
+        item.className = 'carousel-item absolute transition-all duration-500 ease-in-out overflow-hidden flex flex-col justify-end border-4';
 
         // Center Slot
         if (idx === currentIndex) {
-          item.classList.add('left-[50%]', '-translate-x-1/2', 'w-[34%]', 'aspect-[3/4.5]', 'z-20', 'scale-105', 'opacity-100', 'border-pink-400', 'shadow-2xl', 'rounded-3xl');
+          item.classList.add('left-[50%]', '-translate-x-1/2', 'w-[28%]', 'h-[460px]', 'z-20', 'scale-105', 'opacity-100', 'border-pink-400', 'shadow-2xl', 'rounded-3xl');
           setCardStyle(item, true);
         }
         // Left Slot
         else if (idx === (currentIndex - 1 + items.length) % items.length) {
-          item.classList.add('left-[18%]', '-translate-x-1/2', 'w-[26%]', 'aspect-[3/4]', 'z-10', 'scale-95', 'opacity-80', 'border-transparent', 'shadow-lg', 'rounded-2xl', 'cursor-pointer');
+          item.classList.add('left-[18%]', '-translate-x-1/2', 'w-[22%]', 'h-[400px]', 'z-10', 'scale-95', 'opacity-80', 'border-transparent', 'shadow-lg', 'rounded-2xl', 'cursor-pointer');
           setCardStyle(item, false);
         }
         // Right Slot
         else if (idx === (currentIndex + 1) % items.length) {
-          item.classList.add('left-[82%]', '-translate-x-1/2', 'w-[26%]', 'aspect-[3/4]', 'z-10', 'scale-95', 'opacity-80', 'border-transparent', 'shadow-lg', 'rounded-2xl', 'cursor-pointer');
+          item.classList.add('left-[82%]', '-translate-x-1/2', 'w-[22%]', 'h-[400px]', 'z-10', 'scale-95', 'opacity-80', 'border-transparent', 'shadow-lg', 'rounded-2xl', 'cursor-pointer');
           setCardStyle(item, false);
         }
-        // Hidden Slots (decide left or right hide for transition direction)
+        // Hidden Slots
         else {
           const leftIdx = (currentIndex - 1 + items.length) % items.length;
           const rightIdx = (currentIndex + 1) % items.length;
@@ -260,9 +253,9 @@
           }
 
           if (isLeftHidden) {
-            item.classList.add('left-[0%]', '-translate-x-1/2', 'w-[26%]', 'aspect-[3/4]', 'z-0', 'scale-75', 'opacity-0', 'border-transparent', 'shadow-none', 'rounded-2xl', 'pointer-events-none');
+            item.classList.add('left-[0%]', '-translate-x-1/2', 'w-[22%]', 'h-[400px]', 'z-0', 'scale-75', 'opacity-0', 'border-transparent', 'shadow-none', 'rounded-2xl', 'pointer-events-none');
           } else {
-            item.classList.add('left-[100%]', '-translate-x-1/2', 'w-[26%]', 'aspect-[3/4]', 'z-0', 'scale-75', 'opacity-0', 'border-transparent', 'shadow-none', 'rounded-2xl', 'pointer-events-none');
+            item.classList.add('left-[100%]', '-translate-x-1/2', 'w-[22%]', 'h-[400px]', 'z-0', 'scale-75', 'opacity-0', 'border-transparent', 'shadow-none', 'rounded-2xl', 'pointer-events-none');
           }
           setCardStyle(item, false);
         }
@@ -298,11 +291,9 @@
       const textContainer = item.querySelector('.text-container');
       if (textContainer) {
         if (isCenter) {
-          textContainer.classList.remove('p-6');
-          textContainer.classList.add('p-8');
+          textContainer.className = 'text-container relative z-20 w-full mt-auto flex flex-col items-center transition-all duration-500 p-6 pb-6';
         } else {
-          textContainer.classList.remove('p-8');
-          textContainer.classList.add('p-6');
+          textContainer.className = 'text-container relative z-20 w-full mt-auto flex flex-col items-center transition-all duration-500 p-4 pb-4';
         }
       }
 
@@ -310,11 +301,9 @@
       const title = item.querySelector('.asset-title');
       if (title) {
         if (isCenter) {
-          title.classList.remove('text-xl');
-          title.classList.add('text-2xl');
+          title.className = 'asset-title font-bold text-white self-start uppercase transition-all duration-500 text-xl';
         } else {
-          title.classList.remove('text-2xl');
-          title.classList.add('text-xl');
+          title.className = 'asset-title font-bold text-white self-start uppercase transition-all duration-500 text-lg';
         }
       }
 
@@ -322,11 +311,9 @@
       const category = item.querySelector('.asset-category');
       if (category) {
         if (isCenter) {
-          category.classList.remove('text-gray-200', 'text-xs');
-          category.classList.add('text-gray-100', 'text-base');
+          category.className = 'asset-category font-medium mb-1 self-start uppercase transition-all duration-500 text-gray-200 text-sm';
         } else {
-          category.classList.remove('text-gray-100', 'text-base');
-          category.classList.add('text-gray-200', 'text-xs');
+          category.className = 'asset-category font-medium mb-1 self-start uppercase transition-all duration-500 text-gray-300 text-xs';
         }
       }
 
@@ -334,11 +321,9 @@
       const btn = item.querySelector('.detail-btn');
       if (btn) {
         if (isCenter) {
-          btn.classList.remove('py-2.5', 'rounded-lg', 'text-xs', 'shadow-md');
-          btn.classList.add('py-3', 'rounded-xl', 'text-sm', 'shadow-lg');
+          btn.className = 'detail-btn block text-center mt-4 w-full bg-red-600 text-white font-bold transition-all duration-500 py-2.5 rounded-xl text-xs shadow-lg';
         } else {
-          btn.classList.remove('py-3', 'rounded-xl', 'text-sm', 'shadow-lg');
-          btn.classList.add('py-2.5', 'rounded-lg', 'text-xs', 'shadow-md');
+          btn.className = 'detail-btn block text-center mt-4 w-full bg-red-600 text-white font-bold transition-all duration-500 py-2 rounded-lg text-[11px] shadow-md';
         }
       }
     }

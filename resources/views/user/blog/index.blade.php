@@ -18,12 +18,7 @@
                         <!-- Image Container with Rounded Corners (Persis Gambar) -->
                         <div class="relative aspect-square mb-6">
                             @if($post->image)
-                                <img src="{{ asset('storage/conditions/sukunacat.jpg') }}" 
-                                     class="w-full h-full object-cover rounded-[2.5rem] shadow-sm group-hover:shadow-lg transition-all duration-300" 
-                                     alt="{{ $post->title }}">
-                            @else
-                                <div class="w-full h-full bg-gray-200 rounded-[2.5rem] flex items-center justify-center text-gray-400">
-                                    <img src="{{ asset('storage/conditions/sukunacat.jpg') }}" 
+                                <img src="{{ Storage::url($post->image) }}" 
                                      class="w-full h-full object-cover rounded-[2.5rem] shadow-sm group-hover:shadow-lg transition-all duration-300" 
                                      alt="{{ $post->title }}">
                                 </div>
