@@ -32,10 +32,12 @@ class KtpVerificationController extends Controller
 
     public function verify(User $user)
     {
-        $user->update([
+        \Log::info('Verifying KTP for user: ' . $user->id . ' - current status: ' . $user->ktp_status);
+        $result = $user->update([
             'ktp_status' => 'verified',
             'ktp_rejection_reason' => null
         ]);
+        \Log::info('Verification result: ' . ($result ? 'true' : 'false') . ' - new status: ' . $user->ktp_status . ' - fresh status: ' . $user->fresh()->ktp_status);
 
         return back()->with('success', "KTP milik {$user->name} berhasil diverifikasi.");
     }

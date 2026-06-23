@@ -41,6 +41,7 @@
                             <th>Kategori</th>
                             <th>Stok</th>
                             <th>Kondisi</th>
+                            <th>Status Tampilan</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -82,6 +83,13 @@
                                         <small class="text-muted d-block">Riwayat Ke-{{ $asset->latestCondition->version }}</small>
                                     @else
                                         -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($asset->is_visible)
+                                        <span class="badge badge-success"><i class="fas fa-eye"></i> Tampil</span>
+                                    @else
+                                        <span class="badge badge-secondary"><i class="fas fa-eye-slash"></i> Sembunyi</span>
                                     @endif
                                 </td>
                                 <td class="text-center">

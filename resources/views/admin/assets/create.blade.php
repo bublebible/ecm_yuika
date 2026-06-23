@@ -39,6 +39,12 @@
                                     <label for="price_per_day">Harga Sewa / Hari (Rp)</label>
                                     <input type="number" name="price_per_day" class="form-control" id="price_per_day" placeholder="0" required>
                                 </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="is_visible" class="form-check-input" id="is_visible" value="1" checked>
+                                        <label class="form-check-label" for="is_visible"><strong>Tampilkan di Katalog (Dapat Disewa)</strong></label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

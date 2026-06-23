@@ -12,7 +12,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Asset::with(['latestCondition', 'category']);
+        $query = Asset::with(['latestCondition', 'category'])->where('is_visible', true);
 
         // Check if category filter is active
         if ($request->has('category') && $request->category != '') {
@@ -25,12 +25,17 @@ class CatalogController extends Controller
         }
 
         $assets = $query->get();
-        $categories = Category::withCount('assets')->get();
+        $categories = Category::withCount(['assets' => function ($q) {
+            $q->where('is_visible', true);
+        }])->get();
         return view('user.catalog.index', compact('assets', 'categories'));
     }
 
     public function show(Asset $asset)
     {
+        if (!$asset->is_visible) {
+            abort(404);
+        }
         $asset->load(['latestCondition', 'category', 'conditions']);
         return view('user.catalog.show', compact('asset'));
     }

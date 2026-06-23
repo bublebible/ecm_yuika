@@ -17,6 +17,7 @@ class Asset extends Model
         'description',
         'price_per_day',
         'stock_qty',
+        'is_visible',
     ];
 
     public function category()

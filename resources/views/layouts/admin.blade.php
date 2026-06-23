@@ -178,22 +178,74 @@
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <!-- ChartJS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Floating Toast Notification for Admin -->
+  <div id="adminMsgToast" class="position-fixed" style="top: 20px; right: 20px; z-index: 9999; width: 320px; display: none;">
+      <div class="card card-outline card-pink shadow-lg mb-0" style="border-radius: 12px; overflow: hidden; border-top: 3px solid #e64a85 !important;">
+          <div class="card-body p-3 d-flex align-items-center">
+              <div class="bg-pink text-white rounded-circle d-flex align-items-center justify-content-center mr-3 shadow-sm" style="width: 40px; height: 40px; flex-shrink: 0; background-color: #e64a85;">
+                  <i class="fas fa-comment-dots"></i>
+              </div>
+              <div class="flex-grow-1 min-w-0">
+                  <strong class="text-dark d-block text-sm" style="font-size: 13px;">Pesan Baru! 💬</strong>
+                  <span id="adminToastText" class="text-muted text-xs d-block text-truncate" style="font-size: 11px; max-width: 220px;">Customer mengirim pesan</span>
+              </div>
+              <button type="button" onclick="dismissAdminToast()" class="close ml-auto" style="font-size: 16px; color: #aaa; border: none; background: none; outline: none; margin-top: -15px;">
+                  &times;
+              </button>
+          </div>
+          <a href="{{ route('admin.messages.index') }}" class="btn btn-xs btn-block text-pink font-weight-bold py-2" style="background-color: #fff0f5; color: #e64a85; border-radius: 0; border-top: 1px solid rgba(230, 74, 133, 0.1); font-size: 12px;">
+              Lihat Chat →
+          </a>
+      </div>
+  </div>
+
 <script>
+  let lastAdminUnreadCount = null;
+  let adminToastTimeout = null;
+  const isAdminChatPage = {{ request()->routeIs('admin.messages.index') ? 'true' : 'false' }};
+
+  function showAdminToast(count, latestMsg) {
+    if (isAdminChatPage) return; // don't show toast if already on the chat page
+    const toast = $('#adminMsgToast');
+    const text = $('#adminToastText');
+    if (latestMsg) {
+      text.html(`<strong>${latestMsg.sender_name}:</strong> ${latestMsg.message}`);
+    } else {
+      text.text(`Ada ${count} pesan masuk belum dibaca`);
+    }
+    toast.fadeIn(300);
+    clearTimeout(adminToastTimeout);
+    adminToastTimeout = setTimeout(dismissAdminToast, 5000);
+  }
+
+  function dismissAdminToast() {
+    $('#adminMsgToast').fadeOut(300);
+  }
+
   function updateSidebarUnreadCount() {
     $.get("{{ route('admin.messages.unread') }}", function(data) {
       const badge = $('#admin-unread-badge');
-      if (data && data.count > 0) {
-        badge.text(data.count).show();
+      const count = data.count ?? 0;
+      
+      if (count > 0) {
+        badge.text(count).show();
       } else {
         badge.hide();
       }
+
+      if (lastAdminUnreadCount !== null && count > lastAdminUnreadCount) {
+        showAdminToast(count, data.latest);
+      }
+      lastAdminUnreadCount = count;
     });
   }
+
   $(document).ready(function() {
     updateSidebarUnreadCount();
     // Poll unread messages count every 5 seconds
     setInterval(updateSidebarUnreadCount, 5000);
   });
 </script>
+@stack('scripts')
 </body>
 </html>

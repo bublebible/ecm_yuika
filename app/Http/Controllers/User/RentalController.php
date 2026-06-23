@@ -29,7 +29,10 @@ class RentalController extends Controller
 
         $asset = null;
         if ($request->has('asset_id')) {
-            $asset = Asset::find($request->asset_id);
+            $asset = Asset::where('is_visible', true)->find($request->asset_id);
+            if (!$asset) {
+                return redirect()->route('user.catalog.index')->with('error', 'Produk tidak ditemukan atau tidak tersedia.');
+            }
         }
         return view('user.rentals.create', compact('asset'));
     }
@@ -47,7 +50,10 @@ class RentalController extends Controller
             'qty' => 'required|integer|min:1',
         ]);
 
-        $asset = Asset::find($request->asset_id);
+        $asset = Asset::where('is_visible', true)->find($request->asset_id);
+        if (!$asset) {
+            return redirect()->route('user.catalog.index')->with('error', 'Produk tidak tersedia untuk disewa.');
+        }
         
         // Simple stock check (naive)
         if ($asset->stock_qty < $request->qty) {

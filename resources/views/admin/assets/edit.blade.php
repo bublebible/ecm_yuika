@@ -42,6 +42,12 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" name="is_visible" class="form-check-input" id="is_visible" value="1" {{ $asset->is_visible ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_visible"><strong>Tampilkan di Katalog (Dapat Disewa)</strong></label>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

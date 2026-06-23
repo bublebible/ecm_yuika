@@ -21,7 +21,16 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan masuk (login) terlebih dahulu untuk menambahkan kostum ke keranjang.');
+        }
+
         $asset = Asset::findOrFail($id);
+
+        if (!$asset->is_visible) {
+            return redirect()->back()->with('error', 'Kostum ini tidak tersedia untuk disewa.');
+        }
+
         $cart = Session::get('cart', []);
 
         if(isset($cart[$id])) {
@@ -37,7 +46,7 @@ class CartController extends Controller
                 "name" => $asset->name,
                 "quantity" => 1,
                 "price" => $asset->price_per_day,
-                "image" => $asset->main_image_path,
+                "image" => $asset->latestCondition->image ?? null,
                 "duration" => 3 // Default duration
             ];
         }
@@ -72,6 +81,7 @@ class CartController extends Controller
             }
             session()->flash('success', 'Product removed successfully');
         }
+        return redirect()->back();
     }
     
     public function checkout(Request $request)

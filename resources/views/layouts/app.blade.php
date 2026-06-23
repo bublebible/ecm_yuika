@@ -211,7 +211,7 @@
 
         <script>
             // ─── State ────────────────────────────────────────────────────
-            let lastUnreadCount = 0;
+            let lastUnreadCount = null;
             let toastTimeout    = null;
             const isOnChatPage  = {{ request()->routeIs('user.messages.*') ? 'true' : 'false' }};
 
@@ -232,13 +232,17 @@
             }
 
             // ─── Show toast popup ─────────────────────────────────────────
-            function showToast(count) {
+            function showToast(count, latestMsg) {
                 if (isOnChatPage) return; // sudah di halaman chat, jangan popup
                 const toast = document.getElementById('msgToast');
                 const text  = document.getElementById('toastText');
-                text.textContent = count > 1
-                    ? `Kamu punya ${count} pesan belum dibaca`
-                    : 'Admin mengirim pesan baru';
+                if (latestMsg) {
+                    text.innerHTML = `<strong>${latestMsg.sender_name}:</strong> ${latestMsg.message}`;
+                } else {
+                    text.textContent = count > 1
+                        ? `Kamu punya ${count} pesan belum dibaca`
+                        : 'Admin mengirim pesan baru';
+                }
                 toast.classList.remove('hidden');
                 // Auto dismiss after 5 seconds
                 clearTimeout(toastTimeout);
@@ -262,8 +266,8 @@
                     updateBadges(count);
 
                     // Only show toast when count increases
-                    if (count > lastUnreadCount && lastUnreadCount !== null) {
-                        showToast(count);
+                    if (lastUnreadCount !== null && count > lastUnreadCount) {
+                        showToast(count, data.latest);
                     }
                     lastUnreadCount = count;
                 } catch (e) {

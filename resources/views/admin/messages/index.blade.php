@@ -454,39 +454,87 @@
 
     function pollUserList() {
         $.get('/admin/messages', function(users) {
-            users.forEach(u => {
-                // Update last message & time
-                const timeEl = document.getElementById(`user-time-${u.id}`);
-                const msgEl = document.getElementById(`user-msg-${u.id}`);
-                const unreadEl = document.getElementById(`user-unread-${u.id}`);
+            const listEl = document.getElementById('user-list');
+            if (!listEl) return;
 
-                if (timeEl) timeEl.textContent = u.last_message_time;
-                if (msgEl) msgEl.textContent = u.last_message;
+            // Check if current active user is still in the list
+            if (activeUserId) {
+                const isStillPresent = users.some(u => u.id === activeUserId);
+                if (!isStillPresent) {
+                    activeUserId = null;
+                    activeUserName = '';
+                    const box = document.getElementById('chat-messages-box');
+                    if (box) box.innerHTML = '<div class="text-center text-muted p-4">No active conversations.</div>';
+                }
+            }
 
-                if (unreadEl) {
-                    if (u.id === activeUserId) {
-                        unreadEl.classList.add('d-none');
-                        unreadEl.textContent = '0';
-                        localUnreadCounts[u.id] = 0;
-                    } else {
-                        if (u.unread_count > 0) {
-                            unreadEl.classList.remove('d-none');
-                            unreadEl.textContent = u.unread_count;
+            if (users.length === 0) {
+                listEl.innerHTML = '<div class="p-3 text-center text-muted">No active conversations.</div>';
+                activeUserId = null;
+                activeUserName = '';
+                document.getElementById('chat-header-name').textContent = 'No Active Chat';
+                const endChatBtn = document.getElementById('end-chat-btn');
+                if (endChatBtn) endChatBtn.classList.add('d-none');
+                const box = document.getElementById('chat-messages-box');
+                if (box) box.innerHTML = '<div class="text-center text-muted p-4">No active conversations.</div>';
+                return;
+            }
 
-                            // Trigger toast notification if there's a new message
-                            const prevCount = localUnreadCounts[u.id] || 0;
-                            if (u.unread_count > prevCount) {
-                                showToastNotification(u.name, u.last_message);
-                                playNotificationSound();
-                            }
-                        } else {
-                            unreadEl.classList.add('d-none');
-                            unreadEl.textContent = '0';
-                        }
-                        localUnreadCounts[u.id] = u.unread_count;
+            let html = '';
+            users.forEach((u, index) => {
+                const initial = u.name.substring(0, 1).toUpperCase();
+                const bgClass = (u.id % 2 === 0) ? 'bg-purple' : 'bg-pink';
+                const isActive = (u.id === activeUserId) || (!activeUserId && index === 0);
+                
+                // If activeUserId is null and it's the first user, set activeUserId
+                if (isActive && !activeUserId) {
+                    activeUserId = u.id;
+                    activeUserName = u.name;
+                    // Also update header name and load messages
+                    document.getElementById('chat-header-name').textContent = u.name;
+                    const endChatBtn = document.getElementById('end-chat-btn');
+                    if (endChatBtn) endChatBtn.classList.remove('d-none');
+                    loadAndRenderMessages();
+                }
+
+                const activeClass = isActive ? 'active' : '';
+                const unreadClass = (u.unread_count > 0 && u.id !== activeUserId) ? '' : 'd-none';
+
+                // Escape name for onclick
+                const escapedName = u.name.replace(/'/g, "\\'");
+
+                html += `
+                    <a href="javascript:void(0)" onclick="selectUser(${u.id}, '${escapedName}')" id="user-item-${u.id}" class="list-group-item list-group-item-action border-0 px-3 py-3 select-user-item ${activeClass}">
+                        <div class="media">
+                            <div class="d-flex mr-3 align-items-center justify-content-center ${bgClass} text-white font-weight-bold rounded-circle shadow-sm" style="width: 45px; height: 45px; flex-shrink: 0;">
+                                ${initial}
+                            </div>
+                            <div class="media-body text-truncate">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <h6 class="mb-1 font-weight-bold text-dark text-sm truncate-text">${u.name}</h6>
+                                    <small class="text-muted text-[10px]" id="user-time-${u.id}">${u.last_message_time}</small>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="mb-0 text-muted text-xs text-truncate font-medium" id="user-msg-${u.id}" style="max-width: 80%;">${u.last_message}</p>
+                                    <span class="badge badge-pink text-white ml-2 ${unreadClass}" id="user-unread-${u.id}" style="background-color: #e64a85; font-size: 10px;">${u.unread_count}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `;
+
+                // Handle Toast Notification check
+                if (u.id !== activeUserId) {
+                    const prevCount = localUnreadCounts[u.id] || 0;
+                    if (u.unread_count > prevCount) {
+                        showToastNotification(u.name, u.last_message);
+                        playNotificationSound();
                     }
                 }
+                localUnreadCounts[u.id] = u.unread_count;
             });
+
+            listEl.innerHTML = html;
         });
     }
 

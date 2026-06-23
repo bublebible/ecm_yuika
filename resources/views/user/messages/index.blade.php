@@ -1,34 +1,40 @@
 <x-app-layout>
-    <div class="min-h-screen bg-pink-50/50 font-sans text-gray-900 py-6 px-4 md:py-12 md:px-12 flex items-center justify-center">
+    <div
+        class="min-h-screen bg-pink-50/50 font-sans text-gray-900 py-6 px-4 md:py-12 md:px-12 flex items-center justify-center">
         <!-- Main Chat Wrapper -->
-        <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-pink-100 overflow-hidden flex h-[650px] relative">
-            
+        <div
+            class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-pink-100 overflow-hidden flex h-[650px] relative">
+
             <!-- Sidebar Panel: Conversations List -->
-            <div id="chat-sidebar" class="w-full md:w-80 border-r border-pink-100 flex flex-col h-full bg-white z-10 transition-all duration-300">
+            <div id="chat-sidebar"
+                class="w-full md:w-80 border-r border-pink-100 flex flex-col h-full bg-white z-10 transition-all duration-300">
                 <!-- Sidebar Header -->
                 <div class="p-6 border-b border-pink-50 flex items-center justify-between">
                     <h2 class="text-3xl font-black text-pink-600 tracking-tight">MESSAGES</h2>
-                    <span class="bg-pink-100 text-pink-600 text-xs font-bold px-2.5 py-1 rounded-full">2 Active</span>
                 </div>
-                
+
                 <!-- Search Bar -->
                 <div class="px-6 py-4">
                     <div class="relative">
-                        <input type="text" placeholder="Search chats..." class="w-full pl-10 pr-4 py-2.5 bg-pink-50/50 border border-pink-100/50 rounded-2xl text-sm focus:ring-2 focus:ring-pink-400 focus:border-transparent text-gray-700 placeholder-gray-400 transition-all">
+                        <input type="text" placeholder="Search chats..."
+                            class="w-full pl-10 pr-4 py-2.5 bg-pink-50/50 border border-pink-100/50 rounded-2xl text-sm focus:ring-2 focus:ring-pink-400 focus:border-transparent text-gray-700 placeholder-gray-400 transition-all">
                         <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 text-sm"></i>
                     </div>
                 </div>
 
                 <!-- Conversations Scrollable Area -->
                 <div class="flex-1 overflow-y-auto px-4 pb-6 space-y-2 no-scrollbar">
-                    
+
                     <!-- Chat Item: Admin -->
-                    <div onclick="selectChat('admin')" id="chat-item-admin" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-pink-50/30 transition-all cursor-pointer border border-transparent">
+                    <div onclick="selectChat('admin')" id="chat-item-admin"
+                        class="flex items-center gap-4 p-4 rounded-2xl hover:bg-pink-50/30 transition-all cursor-pointer border border-transparent">
                         <div class="relative flex-shrink-0">
-                            <div class="h-12 w-12 bg-pink-500 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg shadow-md shadow-pink-200">
+                            <div
+                                class="h-12 w-12 bg-pink-500 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg shadow-md shadow-pink-200">
                                 Y
                             </div>
-                            <span class="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+                            <span
+                                class="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-green-500 border-2 border-white rounded-full"></span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-baseline mb-1">
@@ -44,18 +50,9 @@
                     </div>
 
                     <!-- Chat Item: System -->
-                    <div onclick="selectChat('system')" id="chat-item-system" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-pink-50/30 transition-all cursor-pointer border border-transparent">
+                    <div onclick="selectChat('system')" id="chat-item-system"
+                        class="flex items-center gap-4 p-4 rounded-2xl hover:bg-pink-50/30 transition-all cursor-pointer border border-transparent">
                         <div class="relative flex-shrink-0">
-                            <div class="h-12 w-12 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-600 font-extrabold text-lg">
-                                S
-                            </div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-baseline mb-1">
-                                <h3 class="font-bold text-gray-800 text-sm truncate">System Notification</h3>
-                                <span class="text-[10px] font-semibold text-gray-400">Yesterday</span>
-                            </div>
-                            <p class="text-xs text-gray-500 truncate">Rental #4459 has been completed...</p>
                         </div>
                     </div>
 
@@ -64,33 +61,40 @@
 
             <!-- Active Chat Window -->
             <div id="chat-window" class="flex-1 flex flex-col h-full bg-pink-50/10 z-0">
-                
+
                 <!-- Chat Window Header -->
                 <div class="p-6 border-b border-pink-100 bg-white flex items-center justify-between shadow-sm">
                     <div class="flex items-center gap-4">
                         <!-- Mobile Back Button -->
-                        <button onclick="toggleMobileSidebar(true)" class="md:hidden text-pink-600 text-lg mr-2 p-1 hover:bg-pink-50 rounded-xl transition">
+                        <button onclick="toggleMobileSidebar(true)"
+                            class="md:hidden text-pink-600 text-lg mr-2 p-1 hover:bg-pink-50 rounded-xl transition">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        
+
                         <div class="relative">
-                            <div id="active-avatar" class="h-12 w-12 bg-pink-500 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg shadow-md shadow-pink-200">
+                            <div id="active-avatar"
+                                class="h-12 w-12 bg-pink-500 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg shadow-md shadow-pink-200">
                                 Y
                             </div>
-                            <span id="active-status-dot" class="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+                            <span id="active-status-dot"
+                                class="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-green-500 border-2 border-white rounded-full"></span>
                         </div>
                         <div>
-                            <h3 id="active-chat-name" class="font-extrabold text-gray-800 tracking-tight">Yuika Rentcos Admin</h3>
-                            <p id="active-chat-status" class="text-xs text-pink-600 font-semibold uppercase tracking-wider">Online</p>
+                            <h3 id="active-chat-name" class="font-extrabold text-gray-800 tracking-tight">Yuika Rentcos
+                                Admin</h3>
+                            <p id="active-chat-status"
+                                class="text-xs text-pink-600 font-semibold uppercase tracking-wider">Online</p>
                         </div>
                     </div>
 
                     <!-- Header Options -->
                     <div class="flex items-center gap-3">
-                        <button class="w-10 h-10 bg-pink-50 hover:bg-pink-100 text-pink-600 rounded-xl transition flex items-center justify-center">
+                        <button
+                            class="w-10 h-10 bg-pink-50 hover:bg-pink-100 text-pink-600 rounded-xl transition flex items-center justify-center">
                             <i class="fas fa-phone-alt text-sm"></i>
                         </button>
-                        <button class="w-10 h-10 bg-pink-50 hover:bg-pink-100 text-pink-600 rounded-xl transition flex items-center justify-center">
+                        <button
+                            class="w-10 h-10 bg-pink-50 hover:bg-pink-100 text-pink-600 rounded-xl transition flex items-center justify-center">
                             <i class="fas fa-info-circle text-sm"></i>
                         </button>
                     </div>
@@ -104,7 +108,8 @@
                 <!-- Chat Input Panel -->
                 <div class="p-6 bg-white border-t border-pink-100 relative">
                     <!-- File Attachment Preview Bar -->
-                    <div id="file-preview-container" class="hidden items-center gap-3 p-3 bg-pink-50/50 rounded-2xl mb-3 border border-pink-100/50">
+                    <div id="file-preview-container"
+                        class="hidden items-center gap-3 p-3 bg-pink-50/50 rounded-2xl mb-3 border border-pink-100/50">
                         <div class="h-10 w-10 bg-pink-500 rounded-xl flex items-center justify-center text-white">
                             <i class="fas fa-file-alt text-lg"></i>
                         </div>
@@ -112,76 +117,108 @@
                             <p id="file-preview-name" class="text-xs font-bold text-gray-800 truncate">filename.pdf</p>
                             <p id="file-preview-size" class="text-[10px] text-gray-400 font-semibold">1.2 MB</p>
                         </div>
-                        <button type="button" onclick="clearFileAttachment()" class="text-gray-400 hover:text-pink-600 p-1">
+                        <button type="button" onclick="clearFileAttachment()"
+                            class="text-gray-400 hover:text-pink-600 p-1">
                             <i class="fas fa-times text-sm"></i>
                         </button>
                     </div>
 
                     <!-- Chatbot Quick Reply Menu -->
-                    <div id="chatbot-chips-container" class="flex gap-2 overflow-x-auto pb-3 mb-2 no-scrollbar scroll-smooth">
-                        <button type="button" onclick="triggerChatbot('rent_flow')" class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
+                    <div id="chatbot-chips-container"
+                        class="flex gap-2 overflow-x-auto pb-3 mb-2 no-scrollbar scroll-smooth">
+                        <button type="button" onclick="triggerChatbot('rent_flow')"
+                            class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
                             <i class="fas fa-question-circle"></i> Cara Pinjam
                         </button>
-                        <button type="button" onclick="triggerChatbot('rental_status')" class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
+                        <button type="button" onclick="triggerChatbot('rental_status')"
+                            class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
                             <i class="fas fa-box"></i> Status Sewa
                         </button>
-                        <button type="button" onclick="triggerChatbot('pricing')" class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
+                        <button type="button" onclick="triggerChatbot('pricing')"
+                            class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
                             <i class="fas fa-dollar-sign"></i> Biaya & Denda
                         </button>
-                        <button type="button" onclick="triggerChatbot('location')" class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
+                        <button type="button" onclick="triggerChatbot('location')"
+                            class="chatbot-chip px-4 py-2 text-xs font-bold text-pink-600 bg-white border border-pink-200 hover:border-pink-500 rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm hover:shadow-md hover:bg-pink-50/20 active:scale-95">
                             <i class="fas fa-map-marker-alt"></i> Lokasi Toko
                         </button>
                     </div>
 
                     <form id="chat-form" onsubmit="sendMessage(event)" class="flex items-center gap-4">
                         <!-- Attach File Button -->
-                        <button type="button" onclick="triggerFileInput()" class="w-12 h-12 bg-pink-50 hover:bg-pink-100 text-pink-500 rounded-2xl transition flex items-center justify-center flex-shrink-0">
+                        <button type="button" onclick="triggerFileInput()"
+                            class="w-12 h-12 bg-pink-50 hover:bg-pink-100 text-pink-500 rounded-2xl transition flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-paperclip text-lg"></i>
                         </button>
                         <input type="file" id="chat-file-input" class="hidden" onchange="handleFileSelected(event)">
 
                         <!-- Input Box -->
                         <div class="relative flex-1">
-                            <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" class="w-full pl-5 pr-12 py-3.5 bg-pink-50/30 border border-pink-100 rounded-2xl focus:ring-2 focus:ring-pink-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 transition-all">
-                            
-                            <button type="button" id="emoji-trigger" onclick="toggleEmojiPicker(event)" class="absolute right-4 top-1/2 -translate-y-1/2 text-pink-400 hover:text-pink-600 transition">
+                            <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off"
+                                class="w-full pl-5 pr-12 py-3.5 bg-pink-50/30 border border-pink-100 rounded-2xl focus:ring-2 focus:ring-pink-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 transition-all">
+
+                            <button type="button" id="emoji-trigger" onclick="toggleEmojiPicker(event)"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-pink-400 hover:text-pink-600 transition">
                                 <i class="far fa-smile text-lg"></i>
                             </button>
 
-                             <!-- Emoji Picker Popover (Gboard-style) -->
-                             <div id="emoji-picker" class="hidden absolute bottom-16 right-0 bg-white border border-pink-100 shadow-2xl rounded-3xl p-4 z-50 w-72 flex flex-col transition-all duration-200" style="height: 320px;">
-                                 <!-- Search Box -->
-                                 <div class="relative mb-3 flex-shrink-0">
-                                     <input type="text" id="emoji-search" placeholder="Search emojis..." oninput="filterEmojis(this.value)" class="w-full pl-8 pr-4 py-2 bg-gray-50 border border-gray-100 rounded-2xl text-xs focus:ring-2 focus:ring-pink-400 focus:border-transparent text-gray-700 placeholder-gray-400 transition-all">
-                                     <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[10px]"></i>
-                                 </div>
+                            <!-- Emoji Picker Popover (Gboard-style) -->
+                            <div id="emoji-picker"
+                                class="hidden absolute bottom-16 right-0 bg-white border border-pink-100 shadow-2xl rounded-3xl p-4 z-50 w-72 flex flex-col transition-all duration-200"
+                                style="height: 320px;">
+                                <!-- Search Box -->
+                                <div class="relative mb-3 flex-shrink-0">
+                                    <input type="text" id="emoji-search" placeholder="Search emojis..."
+                                        oninput="filterEmojis(this.value)"
+                                        class="w-full pl-8 pr-4 py-2 bg-gray-50 border border-gray-100 rounded-2xl text-xs focus:ring-2 focus:ring-pink-400 focus:border-transparent text-gray-700 placeholder-gray-400 transition-all">
+                                    <i
+                                        class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[10px]"></i>
+                                </div>
 
-                                 <!-- Emoji Grid Scroll Area -->
-                                 <div id="emoji-grid-container" class="flex-1 overflow-y-auto pr-1 no-scrollbar space-y-4">
-                                     <!-- Dynamic categories and emojis will render here -->
-                                 </div>
+                                <!-- Emoji Grid Scroll Area -->
+                                <div id="emoji-grid-container"
+                                    class="flex-1 overflow-y-auto pr-1 no-scrollbar space-y-4">
+                                    <!-- Dynamic categories and emojis will render here -->
+                                </div>
 
-                                 <!-- Category Tabs -->
-                                 <div class="flex justify-between items-center border-t border-gray-100 pt-3 mt-2 flex-shrink-0 text-gray-400">
-                                     <button type="button" onclick="switchEmojiCategory('smileys')" class="emoji-cat-btn text-pink-600 transition" title="Smileys"><i class="far fa-laugh"></i></button>
-                                     <button type="button" onclick="switchEmojiCategory('animals')" class="emoji-cat-btn hover:text-pink-600 transition" title="Animals"><i class="fas fa-cat"></i></button>
-                                     <button type="button" onclick="switchEmojiCategory('food')" class="emoji-cat-btn hover:text-pink-600 transition" title="Food"><i class="fas fa-hamburger"></i></button>
-                                     <button type="button" onclick="switchEmojiCategory('activities')" class="emoji-cat-btn hover:text-pink-600 transition" title="Activities"><i class="fas fa-gamepad"></i></button>
-                                     <button type="button" onclick="switchEmojiCategory('travel')" class="emoji-cat-btn hover:text-pink-600 transition" title="Travel"><i class="fas fa-plane"></i></button>
-                                     <button type="button" onclick="switchEmojiCategory('objects')" class="emoji-cat-btn hover:text-pink-600 transition" title="Objects"><i class="fas fa-laptop"></i></button>
-                                     <button type="button" onclick="switchEmojiCategory('symbols')" class="emoji-cat-btn hover:text-pink-600 transition" title="Symbols"><i class="fas fa-heart"></i></button>
-                                 </div>
-                             </div>
+                                <!-- Category Tabs -->
+                                <div
+                                    class="flex justify-between items-center border-t border-gray-100 pt-3 mt-2 flex-shrink-0 text-gray-400">
+                                    <button type="button" onclick="switchEmojiCategory('smileys')"
+                                        class="emoji-cat-btn text-pink-600 transition" title="Smileys"><i
+                                            class="far fa-laugh"></i></button>
+                                    <button type="button" onclick="switchEmojiCategory('animals')"
+                                        class="emoji-cat-btn hover:text-pink-600 transition" title="Animals"><i
+                                            class="fas fa-cat"></i></button>
+                                    <button type="button" onclick="switchEmojiCategory('food')"
+                                        class="emoji-cat-btn hover:text-pink-600 transition" title="Food"><i
+                                            class="fas fa-hamburger"></i></button>
+                                    <button type="button" onclick="switchEmojiCategory('activities')"
+                                        class="emoji-cat-btn hover:text-pink-600 transition" title="Activities"><i
+                                            class="fas fa-gamepad"></i></button>
+                                    <button type="button" onclick="switchEmojiCategory('travel')"
+                                        class="emoji-cat-btn hover:text-pink-600 transition" title="Travel"><i
+                                            class="fas fa-plane"></i></button>
+                                    <button type="button" onclick="switchEmojiCategory('objects')"
+                                        class="emoji-cat-btn hover:text-pink-600 transition" title="Objects"><i
+                                            class="fas fa-laptop"></i></button>
+                                    <button type="button" onclick="switchEmojiCategory('symbols')"
+                                        class="emoji-cat-btn hover:text-pink-600 transition" title="Symbols"><i
+                                            class="fas fa-heart"></i></button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Send Button -->
-                        <button type="submit" id="chat-send-btn" class="w-12 h-12 bg-pink-600 hover:bg-pink-700 text-white rounded-2xl transition flex items-center justify-center shadow-lg shadow-pink-200 flex-shrink-0">
+                        <button type="submit" id="chat-send-btn"
+                            class="w-12 h-12 bg-pink-600 hover:bg-pink-700 text-white rounded-2xl transition flex items-center justify-center shadow-lg shadow-pink-200 flex-shrink-0">
                             <i class="fas fa-paper-plane text-base"></i>
                         </button>
                     </form>
-                    
+
                     <!-- Notification Panel (when system chat is selected) -->
-                    <div id="chat-system-info" class="hidden text-center text-xs font-semibold text-gray-400 py-3 bg-gray-50 border border-gray-100 rounded-2xl uppercase tracking-wider">
+                    <div id="chat-system-info"
+                        class="hidden text-center text-xs font-semibold text-gray-400 py-3 bg-gray-50 border border-gray-100 rounded-2xl uppercase tracking-wider">
                         You cannot reply to system notifications
                     </div>
                 </div>
@@ -197,14 +234,24 @@
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
+
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
         @keyframes typing-bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
         }
+
         .typing-dot {
             animation: typing-bounce 1s infinite ease-in-out;
         }
@@ -235,7 +282,7 @@
                 gain1.connect(context.destination);
                 osc1.start();
                 osc1.stop(context.currentTime + 0.15);
-                
+
                 setTimeout(() => {
                     const osc2 = context.createOscillator();
                     const gain2 = context.createGain();
@@ -255,11 +302,11 @@
 
         function selectChat(chatId) {
             currentActiveChat = chatId;
-            
+
             // 1. Toggle Sidebar Active Highlights
             const adminItem = document.getElementById('chat-item-admin');
             const systemItem = document.getElementById('chat-item-system');
-            
+
             if (chatId === 'admin') {
                 adminItem.className = "flex items-center gap-4 p-4 rounded-2xl bg-pink-100/40 border border-pink-100 transition-all cursor-pointer shadow-sm";
                 systemItem.className = "flex items-center gap-4 p-4 rounded-2xl hover:bg-pink-50/30 transition-all cursor-pointer border border-transparent";
@@ -306,7 +353,7 @@
 
             // 4. Render message bubbles
             loadAndRenderMessages();
-            
+
             // 5. Hide sidebar on mobile view when active chat selected
             toggleMobileSidebar(false);
         }
@@ -334,7 +381,7 @@
                             time: timeStr
                         };
                     });
-                    
+
                     // Play sound on new incoming message
                     if (lastMessageCount !== null && messages.length > lastMessageCount) {
                         const lastMsg = messages[messages.length - 1];
@@ -380,7 +427,7 @@
                         const lastMsg = messages[messages.length - 1];
                         const lastTime = new Date(lastMsg.created_at);
                         const lastTimeStr = lastTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                        
+
                         const timeEl = document.getElementById('admin-chat-time');
                         const msgEl = document.getElementById('admin-chat-last-msg');
                         if (timeEl) timeEl.textContent = lastTimeStr;
@@ -392,7 +439,7 @@
 
         function renderBubbles(messages) {
             const container = document.getElementById('chat-messages-container');
-            
+
             // Keep track of scroll position before rendering to prevent aggressive jumps
             const isScrolledToBottom = container.scrollHeight - container.clientHeight <= container.scrollTop + 50;
 
@@ -400,7 +447,7 @@
 
             messages.forEach(msg => {
                 const bubble = document.createElement('div');
-                
+
                 if (msg.sender === 'user') {
                     // User Message (Right Side)
                     bubble.className = "flex justify-end items-end gap-2.5";
@@ -447,7 +494,7 @@
                         </div>
                     `;
                 }
-                
+
                 container.appendChild(bubble);
             });
 
@@ -468,7 +515,7 @@
             event.preventDefault();
             const input = document.getElementById('chat-input');
             let messageText = input.value.trim();
-            
+
             if (selectedFile && !messageText) {
                 messageText = `📎 [Attached File: ${selectedFile.name}]`;
             } else if (selectedFile && messageText) {
@@ -490,20 +537,20 @@
                 },
                 body: JSON.stringify({ message: messageText })
             })
-            .then(res => res.json())
-            .then(message => {
-                loadAndRenderMessages();
-                // Trigger scroll to bottom on new message
-                setTimeout(scrollToBottom, 100);
-            })
-            .catch(err => console.error("Error sending message:", err));
+                .then(res => res.json())
+                .then(message => {
+                    loadAndRenderMessages();
+                    // Trigger scroll to bottom on new message
+                    setTimeout(scrollToBottom, 100);
+                })
+                .catch(err => console.error("Error sending message:", err));
         }
 
         // Mobile responsive sidebar toggle
         function toggleMobileSidebar(showSidebar) {
             const sidebar = document.getElementById('chat-sidebar');
             const chatWindow = document.getElementById('chat-window');
-            
+
             if (window.innerWidth < 768) {
                 if (showSidebar) {
                     sidebar.classList.remove('hidden');
@@ -648,10 +695,10 @@
                 <div class="emoji-category-section">
                     <h4 class="text-[10px] uppercase font-bold text-gray-400 mb-2 tracking-wider">Search Results</h4>
                     <div class="grid grid-cols-6 gap-2 text-xl select-none">
-                        ${matchedEmojis.length > 0 ? 
-                            matchedEmojis.map(e => `<span class="cursor-pointer text-center hover:scale-125 hover:bg-pink-50/50 active:scale-95 p-1 rounded-lg transition duration-150" onclick="insertEmoji('${e}')">${e}</span>`).join('') 
-                            : '<div class="col-span-6 text-center text-xs text-gray-400 py-4">No matching emojis found</div>'
-                        }
+                        ${matchedEmojis.length > 0 ?
+                    matchedEmojis.map(e => `<span class="cursor-pointer text-center hover:scale-125 hover:bg-pink-50/50 active:scale-95 p-1 rounded-lg transition duration-150" onclick="insertEmoji('${e}')">${e}</span>`).join('')
+                    : '<div class="col-span-6 text-center text-xs text-gray-400 py-4">No matching emojis found</div>'
+                }
                     </div>
                 </div>
             `;
@@ -700,7 +747,7 @@
             selectedFile = null;
             const fileInput = document.getElementById('chat-file-input');
             const containerEl = document.getElementById('file-preview-container');
-            
+
             if (fileInput) fileInput.value = '';
             if (containerEl) {
                 containerEl.classList.add('hidden');
@@ -787,40 +834,40 @@
                 },
                 body: JSON.stringify({ action: action })
             })
-            .then(res => res.json())
-            .then(data => {
-                const elapsed = Date.now() - startTime;
-                const delay = Math.max(0, 1000 - elapsed);
-                setTimeout(() => {
-                    // Remove typing bubble
+                .then(res => res.json())
+                .then(data => {
+                    const elapsed = Date.now() - startTime;
+                    const delay = Math.max(0, 1000 - elapsed);
+                    setTimeout(() => {
+                        // Remove typing bubble
+                        const typingEl = document.getElementById('chatbot-typing-bubble');
+                        if (typingEl) typingEl.remove();
+
+                        // Refresh chat history from server to update database state
+                        loadAndRenderMessages();
+
+                        // Scroll to bottom
+                        setTimeout(scrollToBottom, 100);
+
+                        // Re-enable chips
+                        document.querySelectorAll('.chatbot-chip').forEach(btn => {
+                            btn.removeAttribute('disabled');
+                            btn.classList.remove('opacity-50', 'pointer-events-none');
+                        });
+                    }, delay);
+                })
+                .catch(err => {
+                    console.error("Chatbot error:", err);
+                    // Remove typing bubble & user temp bubble on error
                     const typingEl = document.getElementById('chatbot-typing-bubble');
                     if (typingEl) typingEl.remove();
-
-                    // Refresh chat history from server to update database state
-                    loadAndRenderMessages();
-
-                    // Scroll to bottom
-                    setTimeout(scrollToBottom, 100);
 
                     // Re-enable chips
                     document.querySelectorAll('.chatbot-chip').forEach(btn => {
                         btn.removeAttribute('disabled');
                         btn.classList.remove('opacity-50', 'pointer-events-none');
                     });
-                }, delay);
-            })
-            .catch(err => {
-                console.error("Chatbot error:", err);
-                // Remove typing bubble & user temp bubble on error
-                const typingEl = document.getElementById('chatbot-typing-bubble');
-                if (typingEl) typingEl.remove();
-                
-                // Re-enable chips
-                document.querySelectorAll('.chatbot-chip').forEach(btn => {
-                    btn.removeAttribute('disabled');
-                    btn.classList.remove('opacity-50', 'pointer-events-none');
                 });
-            });
         }
 
         // Initialize state on page load
@@ -846,7 +893,7 @@
                     }
                 });
             }
-            
+
             // Poll for new messages every 3 seconds
             chatPollInterval = setInterval(() => {
                 if (currentActiveChat === 'admin') {

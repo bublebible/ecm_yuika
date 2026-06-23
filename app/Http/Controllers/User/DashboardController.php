@@ -12,10 +12,10 @@ class DashboardController extends Controller
     public function index()
     {
         // New Arrivals: Latest 5 assets
-        $newArrivals = Asset::with(['latestCondition', 'category'])->latest()->take(5)->get();
+        $newArrivals = Asset::with(['latestCondition', 'category'])->where('is_visible', true)->latest()->take(5)->get();
 
         // Popular: Random 4 for now (or based on rental count if available)
-        $popularAssets = Asset::with(['latestCondition', 'category'])->inRandomOrder()->take(4)->get();
+        $popularAssets = Asset::with(['latestCondition', 'category'])->where('is_visible', true)->inRandomOrder()->take(4)->get();
 
         // Approved testimonials with user eager loaded (latest 6)
         $testimonials = Testimonial::with('user')

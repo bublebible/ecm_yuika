@@ -113,7 +113,7 @@ class MessageController extends Controller
         $admin  = User::where('role', 'admin')->first();
 
         if (!$admin) {
-            return response()->json(['count' => 0]);
+            return response()->json(['count' => 0, 'latest' => null]);
         }
 
         $count = Message::where('sender_id', $admin->id)
@@ -121,7 +121,20 @@ class MessageController extends Controller
             ->where('is_read', false)
             ->count();
 
-        return response()->json(['count' => $count]);
+        $latest = Message::where('sender_id', $admin->id)
+            ->where('receiver_id', $userId)
+            ->where('is_read', false)
+            ->latest()
+            ->first();
+
+        return response()->json([
+            'count' => $count,
+            'latest' => $latest ? [
+                'sender_name' => 'Admin',
+                'message' => $latest->message,
+                'id' => $latest->id,
+            ] : null
+        ]);
     }
 
 
@@ -134,7 +147,20 @@ class MessageController extends Controller
         // Update admin online cache status
         Cache::put("admin-online", true, now()->addSeconds(35));
 
-        $users = User::where('role', '!=', 'admin')->get()->map(function($user) use ($adminId) {
+        // Get list of unique customer IDs that have message history with the admin
+        $chatUserIds = Message::where('sender_id', $adminId)
+            ->orWhere('receiver_id', $adminId)
+            ->get()
+            ->flatMap(function($message) use ($adminId) {
+                return [$message->sender_id, $message->receiver_id];
+            })
+            ->unique()
+            ->reject(function($id) use ($adminId) {
+                return $id == $adminId;
+            })
+            ->toArray();
+
+        $users = User::whereIn('id', $chatUserIds)->get()->map(function($user) use ($adminId) {
             $lastMessage = Message::where(function($q) use ($user, $adminId) {
                 $q->where('sender_id', $user->id)->where('receiver_id', $adminId);
             })->orWhere(function($q) use ($user, $adminId) {
@@ -143,9 +169,10 @@ class MessageController extends Controller
 
             $user->last_message = $lastMessage ? $lastMessage->message : 'No messages yet';
             $user->last_message_time = $lastMessage ? $lastMessage->created_at->format('h:i A') : '';
+            $user->last_message_timestamp = $lastMessage ? $lastMessage->created_at->timestamp : 0;
             $user->unread_count = Message::where('sender_id', $user->id)->where('receiver_id', $adminId)->where('is_read', false)->count();
             return $user;
-        });
+        })->sortByDesc('last_message_timestamp')->values();
 
         if ($request->ajax()) {
             return response()->json($users);
@@ -215,7 +242,21 @@ class MessageController extends Controller
     {
         $adminId = Auth::id();
         $count = Message::where('receiver_id', $adminId)->where('is_read', false)->count();
-        return response()->json(['count' => $count]);
+
+        $latest = Message::where('receiver_id', $adminId)
+            ->where('is_read', false)
+            ->with('sender')
+            ->latest()
+            ->first();
+
+        return response()->json([
+            'count' => $count,
+            'latest' => $latest ? [
+                'sender_name' => $latest->sender->name,
+                'message' => $latest->message,
+                'id' => $latest->id,
+            ] : null
+        ]);
     }
 
     /**

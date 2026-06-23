@@ -44,9 +44,12 @@ class AssetController extends Controller
             'image' => 'nullable|image|max:2048',
             'wig_image' => 'nullable|image|max:2048',
             'acc_image' => 'nullable|image|max:2048',
+            'is_visible' => 'nullable|boolean',
         ]);
 
-        $asset = Asset::create($request->only('name', 'code', 'category_id', 'description', 'price_per_day', 'stock_qty'));
+        $assetData = $request->only('name', 'code', 'category_id', 'description', 'price_per_day', 'stock_qty');
+        $assetData['is_visible'] = $request->has('is_visible');
+        $asset = Asset::create($assetData);
 
         $conditionData = [
             'version' => 1,
@@ -89,7 +92,9 @@ class AssetController extends Controller
                 'price_per_day' => 'required|numeric',
                 'stock_qty' => 'required|integer',
             ]);
-            $asset->update($request->all());
+            $data = $request->all();
+            $data['is_visible'] = $request->has('is_visible');
+            $asset->update($data);
             return back()->with('success', 'Informasi aset berhasil diperbarui.');
         }
 

@@ -210,10 +210,10 @@
             var rentalTrendChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Placeholder labels
+                    labels: {!! json_encode($days) !!}, 
                     datasets: [{
-                        label: 'Active Rentals',
-                        data: [5, 12, 19, 15, 25, 22, 30], // Placeholder data simulating a curve
+                        label: 'Rental Dibuat',
+                        data: {!! json_encode($rentalCounts) !!}, 
                         backgroundColor: gradient,
                         borderColor: '#ec4899',
                         borderWidth: 3,
