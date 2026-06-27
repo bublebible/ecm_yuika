@@ -14,35 +14,34 @@
         <div class="max-w-7xl mx-auto pb-24 px-6 sm:px-8 lg:px-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 @forelse($posts as $post)
-                    <div class="bg-white overflow-hidden group">
+                    <div class="bg-white overflow-hidden group flex flex-col h-full">
                         <!-- Image Container with Rounded Corners (Persis Gambar) -->
-                        <div class="relative aspect-square mb-6">
-                            @if($post->image)
-                                <img src="{{ Storage::url($post->image) }}" 
-                                     class="w-full h-full object-cover rounded-[2.5rem] shadow-sm group-hover:shadow-lg transition-all duration-300" 
-                                     alt="{{ $post->title }}">
-                                </div>
-                            @endif
+                        <div class="relative w-full aspect-square overflow-hidden rounded-[2.5rem] shadow-sm group-hover:shadow-lg transition-all duration-300 mb-6">
+                            <img src="{{ $post->image ? Storage::url($post->image) : Storage::url('default.jpg') }}" 
+                                 class="absolute inset-0 w-full h-full object-cover" 
+                                 alt="{{ $post->title }}">
                         </div>
 
                         <!-- Content Section -->
-                        <div class="space-y-3">
-                            <!-- Title (Uppercase Pink) -->
-                            <h3 class="font-black text-2xl text-pink-600 leading-tight uppercase tracking-tight">
-                                <a href="{{ route('user.blog.show', $post->slug) }}" class="hover:opacity-80">
-                                    {{ $post->title }}
-                                </a>
-                            </h3>
-                            
-                            <!-- Date (Gray) -->
-                            <div class="text-lg text-gray-500 font-medium italic">
-                                {{ $post->created_at->format('j F Y') }}
-                            </div>
+                        <div class="space-y-3 flex-1 flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <!-- Title (Uppercase Pink) -->
+                                <h3 class="font-black text-2xl text-pink-600 leading-tight uppercase tracking-tight">
+                                    <a href="{{ route('user.blog.show', $post->slug) }}" class="hover:opacity-80">
+                                        {{ $post->title }}
+                                    </a>
+                                </h3>
+                                
+                                <!-- Date (Gray) -->
+                                <div class="text-lg text-gray-500 font-medium italic">
+                                    {{ $post->created_at->format('j F Y') }}
+                                </div>
 
-                            <!-- Excerpt -->
-                            <p class="text-gray-600 text-lg leading-relaxed line-clamp-2">
-                                {{ Str::limit(strip_tags($post->content), 80) }}
-                            </p>
+                                <!-- Excerpt -->
+                                <p class="text-gray-600 text-lg leading-relaxed line-clamp-2">
+                                    {{ Str::limit(strip_tags($post->content), 80) }}
+                                </p>
+                            </div>
 
                             <!-- Read More Link (Blue/Indigo Bold) -->
                             <div class="pt-2">
