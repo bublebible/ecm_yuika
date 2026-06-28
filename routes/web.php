@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/dashboard', function () {
+    if (auth()->check() && auth()->user()->isAdmin()) {
+        return redirect()->route('admin.dashboard');
+    }
     return redirect()->route('dashboard');
 });
 
@@ -70,6 +73,7 @@ Route::middleware('auth')->group(function () {
         
         // Reports
         Route::get('/reports', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/export', [App\Http\Controllers\Admin\ReportController::class, 'export'])->name('reports.export');
         
         // Content Manage
         Route::resource('content', App\Http\Controllers\Admin\ContentController::class)->parameters(['content' => 'content']);

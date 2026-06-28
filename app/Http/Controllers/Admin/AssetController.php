@@ -45,6 +45,23 @@ class AssetController extends Controller
             'wig_image' => 'nullable|image|max:2048',
             'acc_image' => 'nullable|image|max:2048',
             'is_visible' => 'nullable|boolean',
+        ], [
+            'name.required' => 'Nama kostum wajib diisi.',
+            'code.required' => 'Kode kostum wajib diisi.',
+            'code.unique' => 'Kode kostum ini sudah digunakan. Silakan gunakan kode unik yang lain (tidak boleh kembar).',
+            'category_id.required' => 'Kategori wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'price_per_day.required' => 'Harga sewa per hari wajib diisi.',
+            'price_per_day.numeric' => 'Harga sewa per hari harus berupa angka.',
+            'stock_qty.required' => 'Stok awal wajib diisi.',
+            'stock_qty.integer' => 'Stok awal harus berupa angka bulat.',
+            'condition_status.required' => 'Kondisi awal wajib dipilih.',
+            'image.image' => 'File foto kostum harus berupa gambar (jpeg, png, jpg, gif, svg).',
+            'image.max' => 'Ukuran foto kostum tidak boleh melebihi 2MB.',
+            'wig_image.image' => 'File foto wig harus berupa gambar (jpeg, png, jpg, gif, svg).',
+            'wig_image.max' => 'Ukuran foto wig tidak boleh melebihi 2MB.',
+            'acc_image.image' => 'File foto aksesoris harus berupa gambar (jpeg, png, jpg, gif, svg).',
+            'acc_image.max' => 'Ukuran foto aksesoris tidak boleh melebihi 2MB.',
         ]);
 
         $assetData = $request->only('name', 'code', 'category_id', 'description', 'price_per_day', 'stock_qty');
@@ -91,6 +108,14 @@ class AssetController extends Controller
                 'category_id' => 'required|exists:categories,id',
                 'price_per_day' => 'required|numeric',
                 'stock_qty' => 'required|integer',
+            ], [
+                'name.required' => 'Nama kostum wajib diisi.',
+                'category_id.required' => 'Kategori wajib dipilih.',
+                'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+                'price_per_day.required' => 'Harga sewa per hari wajib diisi.',
+                'price_per_day.numeric' => 'Harga sewa per hari harus berupa angka.',
+                'stock_qty.required' => 'Stok wajib diisi.',
+                'stock_qty.integer' => 'Stok harus berupa angka bulat.',
             ]);
             $data = $request->all();
             $data['is_visible'] = $request->has('is_visible');
@@ -106,6 +131,14 @@ class AssetController extends Controller
                 'image' => 'nullable|image|max:2048',
                 'wig_image' => 'nullable|image|max:2048',
                 'acc_image' => 'nullable|image|max:2048',
+            ], [
+                'status.required' => 'Status kondisi fisik wajib dipilih.',
+                'image.image' => 'File foto kostum baru harus berupa gambar (jpeg, png, jpg, gif, svg).',
+                'image.max' => 'Ukuran foto kostum baru tidak boleh melebihi 2MB.',
+                'wig_image.image' => 'File foto wig baru harus berupa gambar (jpeg, png, jpg, gif, svg).',
+                'wig_image.max' => 'Ukuran foto wig baru tidak boleh melebihi 2MB.',
+                'acc_image.image' => 'File foto aksesoris baru harus berupa gambar (jpeg, png, jpg, gif, svg).',
+                'acc_image.max' => 'Ukuran foto aksesoris baru tidak boleh melebihi 2MB.',
             ]);
 
             $latestVersion = $asset->conditions()->max('version') ?? 0;

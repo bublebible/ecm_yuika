@@ -20,33 +20,50 @@
                     <input type="hidden" name="update_info" value="1">
                     <div class="card-body">
                         <div class="form-group">
-                            <label>Nama Aset</label>
-                            <input type="text" name="name" value="{{ $asset->name }}" class="form-control" required>
+                            <label>Nama Kostum <span class="text-danger">*</span></label>
+                            <input type="text" name="name" value="{{ old('name', $asset->name) }}" class="form-control @error('name') is-invalid @enderror" required>
+                            <small class="form-text text-muted">Contoh: <strong>Hatsune Miku Vocaloid Maid Ver.</strong></small>
+                            @error('name')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Stok</label>
-                            <input type="number" name="stock_qty" value="{{ $asset->stock_qty }}" class="form-control" required>
+                            <label>Stok <span class="text-danger">*</span></label>
+                            <input type="number" name="stock_qty" value="{{ old('stock_qty', $asset->stock_qty) }}" class="form-control @error('stock_qty') is-invalid @enderror" required>
+                            <small class="form-text text-muted">Contoh: <strong>2</strong>. Masukkan jumlah total persediaan kostum.</small>
+                            @error('stock_qty')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Harga Sewa</label>
-                            <input type="number" name="price_per_day" value="{{ $asset->price_per_day }}" class="form-control" required>
+                            <label>Harga Sewa / Hari (Rp) <span class="text-danger">*</span></label>
+                            <input type="number" name="price_per_day" value="{{ old('price_per_day', $asset->price_per_day) }}" class="form-control @error('price_per_day') is-invalid @enderror" required>
+                            <small class="form-text text-muted">Contoh: <strong>120000</strong>. Masukkan angka nominal saja tanpa titik atau koma.</small>
+                            @error('price_per_day')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Kategori</label>
-                            <select name="category_id" class="form-control" required>
+                            <label>Kategori <span class="text-danger">*</span></label>
+                            <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                                 <option value="">-- Pilih Kategori --</option>
                                 @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ $asset->category_id == $cat->id ? 'selected' : '' }}>
+                                    <option value="{{ $cat->id }}" {{ old('category_id', $asset->category_id) == $cat->id ? 'selected' : '' }}>
                                         {{ $cat->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            <small class="form-text text-muted">Pilih kategori kelompok kostum yang sesuai.</small>
+                            @error('category_id')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <div class="form-check">
-                                <input type="checkbox" name="is_visible" class="form-check-input" id="is_visible" value="1" {{ $asset->is_visible ? 'checked' : '' }}>
+                                <input type="checkbox" name="is_visible" class="form-check-input" id="is_visible" value="1" {{ session()->has('_old_input') ? (old('is_visible') ? 'checked' : '') : ($asset->is_visible ? 'checked' : '') }}>
                                 <label class="form-check-label" for="is_visible"><strong>Tampilkan di Katalog (Dapat Disewa)</strong></label>
                             </div>
+                            <small class="form-text text-muted text-xs">Centang agar kostum langsung tayang di galeri penyewaan pelanggan.</small>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -79,27 +96,30 @@
                                         @endif
                                         <div class="d-flex flex-wrap">
                                             @if($condition->image)
-                                                <div class="mr-3 mb-2 text-center">
+                                                <div class="mr-3 mb-2 text-center" style="max-width: 110px;">
                                                     <a href="{{ Storage::url($condition->image) }}" target="_blank" class="d-block">
                                                         <img src="{{ Storage::url($condition->image) }}" alt="Kostum" class="img-thumbnail" style="max-height: 100px; border-radius: 4px;">
                                                     </a>
-                                                    <span class="text-xs text-muted">Kostum</span>
+                                                    <span class="text-xs text-muted d-block font-weight-bold">Kostum</span>
+                                                    <span class="text-xs text-muted text-break d-block">({{ basename($condition->image) }})</span>
                                                 </div>
                                             @endif
                                             @if($condition->wig_image)
-                                                <div class="mr-3 mb-2 text-center">
+                                                <div class="mr-3 mb-2 text-center" style="max-width: 110px;">
                                                     <a href="{{ Storage::url($condition->wig_image) }}" target="_blank" class="d-block">
                                                         <img src="{{ Storage::url($condition->wig_image) }}" alt="Wig" class="img-thumbnail" style="max-height: 100px; border-radius: 4px;">
                                                     </a>
-                                                    <span class="text-xs text-muted">Wig</span>
+                                                    <span class="text-xs text-muted d-block font-weight-bold">Wig</span>
+                                                    <span class="text-xs text-muted text-break d-block">({{ basename($condition->wig_image) }})</span>
                                                 </div>
                                             @endif
                                             @if($condition->acc_image)
-                                                <div class="mr-3 mb-2 text-center">
+                                                <div class="mr-3 mb-2 text-center" style="max-width: 110px;">
                                                     <a href="{{ Storage::url($condition->acc_image) }}" target="_blank" class="d-block">
                                                         <img src="{{ Storage::url($condition->acc_image) }}" alt="Aksesoris" class="img-thumbnail" style="max-height: 100px; border-radius: 4px;">
                                                     </a>
-                                                    <span class="text-xs text-muted">Aksesoris</span>
+                                                    <span class="text-xs text-muted d-block font-weight-bold">Aksesoris</span>
+                                                    <span class="text-xs text-muted text-break d-block">({{ basename($condition->acc_image) }})</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -125,27 +145,49 @@
                         @method('PUT')
                         <input type="hidden" name="new_version" value="1">
                         <div class="form-group">
-                            <label>Status Fisik Saat Ini</label>
-                            <select name="status" class="form-control custom-select">
-                                <option value="Good">Good (Baik)</option>
-                                <option value="Minor Damage">Minor Damage (Rusak Ringan)</option>
-                                <option value="Damaged">Damaged (Rusak Berat)</option>
-                                <option value="Lost">Lost (Hilang)</option>
-                                <option value="Repaired">Repaired (Sudah Diperbaiki)</option>
+                            <label>Status Fisik Saat Ini <span class="text-danger">*</span></label>
+                            <select name="status" class="form-control custom-select @error('status') is-invalid @enderror">
+                                <option value="Good" {{ old('status', $asset->latestCondition->status ?? '') == 'Good' ? 'selected' : '' }}>Good (Baik)</option>
+                                <option value="Minor Damage" {{ old('status', $asset->latestCondition->status ?? '') == 'Minor Damage' ? 'selected' : '' }}>Minor Damage (Rusak Ringan)</option>
+                                <option value="Damaged" {{ old('status', $asset->latestCondition->status ?? '') == 'Damaged' ? 'selected' : '' }}>Damaged (Rusak Berat)</option>
+                                <option value="Lost" {{ old('status', $asset->latestCondition->status ?? '') == 'Lost' ? 'selected' : '' }}>Lost (Hilang)</option>
+                                <option value="Repaired" {{ old('status', $asset->latestCondition->status ?? '') == 'Repaired' ? 'selected' : '' }}>Repaired (Sudah Diperbaiki)</option>
                             </select>
+                            <small class="form-text text-muted">Pilih status kondisi fisik kostum terbaru.</small>
+                            @error('status')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Catatan Kerusakan/Perbaikan</label>
-                            <textarea name="notes" class="form-control" rows="2" placeholder="Contoh: Ada sobekan kecil di bagian lengan..."></textarea>
+                            <label>Catatan Kerusakan/Perbaikan <span class="text-muted">(Opsional)</span></label>
+                            <textarea name="notes" class="form-control @error('notes') is-invalid @enderror" rows="2" placeholder="Contoh: Ada sedikit sobekan kecil di lengan kanan, bando patah...">{{ old('notes') }}</textarea>
+                            <small class="form-text text-muted">Contoh: <strong>Kancing baju lepas satu bagian atas, wig agak kusut di bagian bawah.</strong></small>
+                            @error('notes')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label for="image_edit">Foto Kostum Baru (Opsional)</label>
-                            <div class="input-group mb-2">
+                            <label for="image_edit">Foto Kostum Baru <span class="text-muted">(Opsional)</span></label>
+                            @if($asset->latestCondition && $asset->latestCondition->image)
+                                <div class="small text-muted mb-1">
+                                    <strong>Foto Kostum Aktif:</strong> 
+                                    <a href="{{ Storage::url($asset->latestCondition->image) }}" target="_blank" class="text-info text-decoration-none font-weight-bold">
+                                        <i class="fas fa-image mr-1"></i>{{ basename($asset->latestCondition->image) }}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="small text-muted mb-1"><strong>Foto Kostum Aktif:</strong> Belum ada foto kostum</div>
+                            @endif
+                            <div class="input-group mb-1">
                                 <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input" id="image_edit" onchange="previewImageEdit(event, 'imagePreviewEdit', 'imagePreviewContainerEdit')">
-                                    <label class="custom-file-label" for="image_edit">Pilih file</label>
+                                    <input type="file" name="image" class="custom-file-input @error('image') is-invalid @enderror" id="image_edit" onchange="previewImageEdit(event, 'imagePreviewEdit', 'imagePreviewContainerEdit')">
+                                    <label class="custom-file-label" for="image_edit">Pilih file baru</label>
                                 </div>
                             </div>
+                            <small class="form-text text-muted d-block mb-2">Format gambar (.jpg, .jpeg, .png). Maksimal ukuran file <strong>2MB</strong>.</small>
+                            @error('image')
+                                <span class="text-danger small d-block mb-2"><strong>{{ $message }}</strong></span>
+                            @enderror
                             <div id="imagePreviewContainerEdit" style="display: none;">
                                 <div class="mt-2 text-muted small mb-1">Pratinjau Foto Kostum Baru:</div>
                                 <div class="position-relative d-inline-block">
@@ -158,13 +200,27 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="wig_image_edit">Foto Wig Baru (Opsional)</label>
-                            <div class="input-group mb-2">
+                            <label for="wig_image_edit">Foto Wig Baru <span class="text-muted">(Opsional)</span></label>
+                            @if($asset->latestCondition && $asset->latestCondition->wig_image)
+                                <div class="small text-muted mb-1">
+                                    <strong>Foto Wig Aktif:</strong> 
+                                    <a href="{{ Storage::url($asset->latestCondition->wig_image) }}" target="_blank" class="text-info text-decoration-none font-weight-bold">
+                                        <i class="fas fa-image mr-1"></i>{{ basename($asset->latestCondition->wig_image) }}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="small text-muted mb-1"><strong>Foto Wig Aktif:</strong> Belum ada foto wig</div>
+                            @endif
+                            <div class="input-group mb-1">
                                 <div class="custom-file">
-                                    <input type="file" name="wig_image" class="custom-file-input" id="wig_image_edit" onchange="previewImageEdit(event, 'wigImagePreviewEdit', 'wigImagePreviewContainerEdit')">
-                                    <label class="custom-file-label" for="wig_image_edit">Pilih file</label>
+                                    <input type="file" name="wig_image" class="custom-file-input @error('wig_image') is-invalid @enderror" id="wig_image_edit" onchange="previewImageEdit(event, 'wigImagePreviewEdit', 'wigImagePreviewContainerEdit')">
+                                    <label class="custom-file-label" for="wig_image_edit">Pilih file baru</label>
                                 </div>
                             </div>
+                            <small class="form-text text-muted d-block mb-2">Format gambar (.jpg, .jpeg, .png). Maksimal ukuran file <strong>2MB</strong>.</small>
+                            @error('wig_image')
+                                <span class="text-danger small d-block mb-2"><strong>{{ $message }}</strong></span>
+                            @enderror
                             <div id="wigImagePreviewContainerEdit" style="display: none;">
                                 <div class="mt-2 text-muted small mb-1">Pratinjau Foto Wig Baru:</div>
                                 <div class="position-relative d-inline-block">
@@ -177,13 +233,27 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="acc_image_edit">Foto Aksesoris Baru (Opsional)</label>
-                            <div class="input-group mb-2">
+                            <label for="acc_image_edit">Foto Aksesoris Baru <span class="text-muted">(Opsional)</span></label>
+                            @if($asset->latestCondition && $asset->latestCondition->acc_image)
+                                <div class="small text-muted mb-1">
+                                    <strong>Foto Aksesoris Aktif:</strong> 
+                                    <a href="{{ Storage::url($asset->latestCondition->acc_image) }}" target="_blank" class="text-info text-decoration-none font-weight-bold">
+                                        <i class="fas fa-image mr-1"></i>{{ basename($asset->latestCondition->acc_image) }}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="small text-muted mb-1"><strong>Foto Aksesoris Aktif:</strong> Belum ada foto aksesoris</div>
+                            @endif
+                            <div class="input-group mb-1">
                                 <div class="custom-file">
-                                    <input type="file" name="acc_image" class="custom-file-input" id="acc_image_edit" onchange="previewImageEdit(event, 'accImagePreviewEdit', 'accImagePreviewContainerEdit')">
-                                    <label class="custom-file-label" for="acc_image_edit">Pilih file</label>
+                                    <input type="file" name="acc_image" class="custom-file-input @error('acc_image') is-invalid @enderror" id="acc_image_edit" onchange="previewImageEdit(event, 'accImagePreviewEdit', 'accImagePreviewContainerEdit')">
+                                    <label class="custom-file-label" for="acc_image_edit">Pilih file baru</label>
                                 </div>
                             </div>
+                            <small class="form-text text-muted d-block mb-2">Format gambar (.jpg, .jpeg, .png). Maksimal ukuran file <strong>2MB</strong>.</small>
+                            @error('acc_image')
+                                <span class="text-danger small d-block mb-2"><strong>{{ $message }}</strong></span>
+                            @enderror
                             <div id="accImagePreviewContainerEdit" style="display: none;">
                                 <div class="mt-2 text-muted small mb-1">Pratinjau Foto Aksesoris Baru:</div>
                                 <div class="position-relative d-inline-block">

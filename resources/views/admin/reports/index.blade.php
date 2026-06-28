@@ -72,15 +72,56 @@
         .text-pink-modern {
             color: #db2777;
         }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .content-wrapper {
+                background-color: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            /* Hide sidebar, topbar, filters, and print buttons when printing */
+            .main-sidebar, .main-header, form, .no-print, .main-footer, footer, .d-flex.justify-content-between.align-items-center.mb-3 {
+                display: none !important;
+            }
+            .card-modern {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                margin-bottom: 20px !important;
+                padding: 15px !important;
+                border-radius: 10px !important;
+            }
+            .transaction-card {
+                box-shadow: none !important;
+                border: 1px solid #eee !important;
+                border-radius: 8px !important;
+                margin-bottom: 8px !important;
+                page-break-inside: avoid;
+            }
+        }
     </style>
 
     <div class="pt-2">
         <!-- Header -->
-        <div class="d-flex align-items-center mb-4 pl-1">
-            <a href="{{ url()->previous() }}" class="btn btn-link text-dark p-0 mr-3">
-                <i class="fas fa-arrow-left fa-lg"></i>
-            </a>
-            <h4 class="font-weight-bold mb-0 text-dark">Performance Report</h4>
+        <div class="d-flex align-items-center justify-content-between mb-4 pl-1 flex-wrap">
+            <div class="d-flex align-items-center mb-2">
+                <a href="{{ url()->previous() }}" class="btn btn-link text-dark p-0 mr-3 no-print">
+                    <i class="fas fa-arrow-left fa-lg"></i>
+                </a>
+                <h4 class="font-weight-bold mb-0 text-dark">Performance Report</h4>
+            </div>
+            <div class="d-flex mb-2 no-print">
+                <a href="{{ route('admin.reports.export', ['start_date' => $startDate, 'end_date' => $endDate]) }}" class="btn btn-success rounded-pill mr-2 shadow-sm px-4">
+                    <i class="fas fa-file-excel mr-1"></i> Ekspor Excel (XLSX)
+                </a>
+                <button onclick="window.print()" class="btn btn-primary rounded-pill shadow-sm px-4">
+                    <i class="fas fa-print mr-1"></i> Cetak / PDF
+                </button>
+            </div>
         </div>
 
         <!-- Filter Section -->
