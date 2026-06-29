@@ -55,8 +55,41 @@
                             <b>Total</b> <span class="float-right">Rp {{ number_format($rental->total_price, 0, ',', '.') }}</span>
                         </li>
                         <li class="list-group-item">
-                            <b>Status</b> <span class="float-right badge badge-info">{{ ucfirst($rental->status) }}</span>
+                            <b>Status Sewa</b> <span class="float-right badge badge-info">{{ ucfirst($rental->status) }}</span>
                         </li>
+                        <li class="list-group-item">
+                            <b>Status Pembayaran</b>
+                            @php
+                                $paymentBadgesShow = [
+                                    'unpaid' => 'badge-danger',
+                                    'pending' => 'badge-warning',
+                                    'paid' => 'badge-success',
+                                    'failed' => 'badge-danger',
+                                    'cancelled' => 'badge-secondary'
+                                ];
+                                $payBadgeClassShow = $paymentBadgesShow[$rental->payment_status] ?? 'badge-secondary';
+                                
+                                $paymentStatusTextsShow = [
+                                    'unpaid' => 'Belum Bayar',
+                                    'pending' => 'Pending / Menunggu',
+                                    'paid' => 'Sudah Bayar',
+                                    'failed' => 'Gagal',
+                                    'cancelled' => 'Batal'
+                                ];
+                                $paymentStatusTextShow = $paymentStatusTextsShow[$rental->payment_status] ?? ucfirst($rental->payment_status);
+                            @endphp
+                            <span class="float-right badge {{ $payBadgeClassShow }}">
+                                @if($rental->payment_status === 'paid')
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                @endif
+                                {{ $paymentStatusTextShow }}
+                            </span>
+                        </li>
+                        @if($rental->paid_at)
+                            <li class="list-group-item">
+                                <b>Waktu Pembayaran</b> <span class="float-right text-muted">{{ $rental->paid_at->format('d/m/Y H:i') }}</span>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- ACTIONS -->

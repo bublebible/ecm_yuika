@@ -208,8 +208,11 @@
                             </small>
                         </div>
                     </div>
-                    <div>
+                    <div class="text-right">
                         <h6 class="font-weight-bold text-pink-modern mb-0">+Rp {{ number_format($rental->total_price, 0, ',', '.') }}</h6>
+                        <span class="badge badge-{{ $rental->payment_status === 'paid' ? 'success' : ($rental->payment_status === 'pending' ? 'warning' : 'danger') }} text-xs">
+                            {{ $rental->payment_status === 'paid' ? 'Sudah Bayar' : ($rental->payment_status === 'pending' ? 'Pending' : 'Belum Bayar') }}
+                        </span>
                     </div>
                 </div>
             @empty

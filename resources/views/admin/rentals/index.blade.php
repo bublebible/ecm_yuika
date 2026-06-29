@@ -30,7 +30,8 @@
                                 <th>Penyewa</th>
                                 <th>Aset Disewa</th>
                                 <th>Tanggal Sewa</th>
-                                <th>Status</th>
+                                <th>Status Sewa</th>
+                                <th>Status Bayar</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -65,6 +66,33 @@
                                         <span class="badge badge-{{ $badgeClass }}">{{ ucfirst($rental->status) }}</span>
                                     </td>
                                     <td>
+                                        @php
+                                            $paymentBadges = [
+                                                'unpaid' => 'danger',
+                                                'pending' => 'warning',
+                                                'paid' => 'success',
+                                                'failed' => 'danger',
+                                                'cancelled' => 'secondary'
+                                            ];
+                                            $payBadgeClass = $paymentBadges[$rental->payment_status] ?? 'secondary';
+                                            
+                                            $paymentStatusTexts = [
+                                                'unpaid' => 'Belum Bayar',
+                                                'pending' => 'Pending',
+                                                'paid' => 'Sudah Bayar',
+                                                'failed' => 'Gagal',
+                                                'cancelled' => 'Batal'
+                                            ];
+                                            $paymentStatusText = $paymentStatusTexts[$rental->payment_status] ?? ucfirst($rental->payment_status);
+                                        @endphp
+                                        <span class="badge badge-{{ $payBadgeClass }}">
+                                            @if($rental->payment_status === 'paid')
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                            @endif
+                                            {{ $paymentStatusText }}
+                                        </span>
+                                    </td>
+                                    <td>
                                         <a href="{{ route('admin.rentals.show', $rental) }}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-eye"></i> Detail & Validasi
                                         </a>
@@ -72,7 +100,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">Tidak ada data penyewaan.</td>
+                                    <td colspan="7" class="text-center">Tidak ada data penyewaan.</td>
                                 </tr>
                             @endforelse
                         </tbody>

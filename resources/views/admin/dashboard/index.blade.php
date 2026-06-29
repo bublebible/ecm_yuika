@@ -175,9 +175,22 @@
                                             </h6>
                                             <small class="text-muted text-xs">{{ $rental->created_at->diffForHumans() }}</small>
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-right align-middle">
                                             <span class="badge {{ $rental->status == 'active' ? 'badge-soft-success' : ($rental->status == 'pending' ? 'badge-soft-pink' : 'badge-light') }} rounded-pill px-3 py-2">
-                                                {{ ucfirst($rental->status) }}
+                                                Sewa: {{ ucfirst($rental->status) }}
+                                            </span>
+                                            <span class="badge {{ $rental->payment_status == 'paid' ? 'badge-soft-success' : ($rental->payment_status == 'pending' ? 'badge-warning text-dark' : 'badge-soft-pink') }} rounded-pill px-3 py-2 ml-1">
+                                                @php
+                                                    $payTexts = [
+                                                        'paid' => 'Sudah Bayar',
+                                                        'pending' => 'Pending',
+                                                        'unpaid' => 'Belum Bayar',
+                                                        'failed' => 'Gagal',
+                                                        'cancelled' => 'Batal',
+                                                    ];
+                                                    $payText = $payTexts[$rental->payment_status] ?? ucfirst($rental->payment_status);
+                                                @endphp
+                                                Bayar: {{ $payText }}
                                             </span>
                                         </td>
                                     </tr>
